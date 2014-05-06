@@ -24,6 +24,8 @@ namespace Connect.WCF.Channels
             ConnectionRateMonitor monitor = new ConnectionRateMonitor();
             var binding = new NetTcpBinding { Security = { Mode = SecurityMode.None } };
             var listener = binding.Start(_address);
+            Console.WriteLine("Listening on " + listener.Uri);
+
             listener.GetChannels()
                 .SubscribeOn(System.Reactive.Concurrency.ThreadPoolScheduler.Instance)
                 .Subscribe(c =>

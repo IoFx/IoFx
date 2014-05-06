@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using Connect.Http;
 using Connect.Sockets;
 using Connect.WCF.Channels;
 
@@ -74,6 +75,11 @@ namespace Connect
 
             }
 
+            if (clients == null)
+            {
+                throw new NotImplementedException();
+            }
+
             return clients.Start();
         }
 
@@ -89,9 +95,15 @@ namespace Connect
                 case ConnectionType.wcf:
                     server = new TcpChannelServer(arguments.CreateNetTcpAddress());
                     break;
-
+                case ConnectionType.http:
+                    server = new HttpListenerServer("http://+:" + arguments.Port + "/");
+                    break;
             }
 
+            if (server == null)
+            {
+                throw new NotImplementedException();
+            }
             //arguments.Server = Dns.GetHostName();
 
             return server.StartServer();

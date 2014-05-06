@@ -67,7 +67,9 @@
     <Compile Include="Connections\IListener.cs" />
     <Compile Include="Framing\Frame.cs" />
     <Compile Include="Framing\FramingExtension.cs" />
+    <Compile Include="Http\HttpContextAcceptor.cs" />
     <Compile Include="Http\HttpListenerExtensions.cs" />
+    <Compile Include="Http\HttpObservable.cs" />
     <Compile Include="IDisposableObserver.cs" />
     <Compile Include="Runtime\AwaitableThrottle.cs" />
     <Compile Include="Runtime\BufferManager.cs" />

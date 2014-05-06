@@ -3,11 +3,11 @@ using CmdLine;
 
 namespace Connect
 {
-
     public enum ConnectionType
     {
         socket,
-        wcf
+        wcf,
+        http
     }
 
     [CommandLineArguments(Program = "Connect", Title = "Connection Limit Test", Description = "Test for connection limit")]

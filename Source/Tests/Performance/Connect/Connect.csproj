@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\HttpListenerServer.cs" />
     <Compile Include="Sockets\ClientManager.cs" />
     <Compile Include="ConnectArgs.cs" />
     <Compile Include="IClientManager.cs" />
