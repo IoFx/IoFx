@@ -5,7 +5,7 @@
         public T Unit { get; set; }
         public IoPipeline<T> Parent { get; set; }
 
-        public T Consume(T output)
+        public T Publish(T output)
         {
             Parent.Publish(output);
             return output;

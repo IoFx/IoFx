@@ -86,6 +86,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Http\Tests\" />
     <Folder Include="Sockets\Net\" />
   </ItemGroup>
   <ItemGroup>

@@ -35,7 +35,7 @@
         public static IDisposable Consume(this IObservable<IoUnit<Message>> responses)
         {
             // Subscription involves sending the response back. 
-            return responses.Subscribe(r => r.Consume(r.Unit));
+            return responses.Subscribe(r => r.Publish(r.Unit));
         }
 
         public static IDisposable Consume(this IObservable<Task<IoUnit<Message>>> responses)
@@ -46,7 +46,7 @@
 
                 //TODO: Exception handling
                 var item = await task;
-                item.Consume(item.Unit);
+                item.Publish(item.Unit);
             });
         }
     }

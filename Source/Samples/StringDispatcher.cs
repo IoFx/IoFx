@@ -20,9 +20,7 @@ namespace Samples
                         .ToPipeline(charToByte);
 
 
-            Func<byte, byte> operation = input => (byte)(input + (byte)1);
-            
-
+            Func<byte, byte> operation = input => (byte)(input + (byte)1);            
 
             transportRequests.Subscribe(e => Console.WriteLine(e));
             Console.ReadLine();

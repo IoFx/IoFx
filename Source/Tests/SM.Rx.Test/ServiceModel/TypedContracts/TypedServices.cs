@@ -1,4 +1,7 @@
-﻿namespace SM.Rx.Test.ServiceModel.TypedContracts
+﻿using System.IoFx.ServiceModel;
+using System.Reactive.Linq;
+
+namespace SM.Rx.Test.ServiceModel.TypedContracts
 {
     using System;
     using System.ServiceModel;

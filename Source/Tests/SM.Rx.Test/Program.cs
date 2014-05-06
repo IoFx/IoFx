@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System.IoFx.ServiceModel;
+using System.Reactive.Linq;
+using System.ServiceModel;
 using System.ServiceModel.Channels;
 using SM.Rx.Test.ServiceModel.TypedContracts;
 
@@ -37,8 +39,8 @@ namespace System.IoFx.Test
                  r =>
                  {
                      var input = r.Unit.GetBody<string>();
-                     r.Consume(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
-                     r.Consume(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
+                     r.Publish(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
+                     r.Publish(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
                  });
         }
 

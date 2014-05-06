@@ -1,13 +1,16 @@
-﻿namespace SM.Rx.Test
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SM.Rx.Test.ServiceModel.TypedContracts;
-    using System;
-    using System.Diagnostics;
-    using System.Reactive.Concurrency;
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
+﻿using System.IoFx;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SM.Rx.Test.ServiceModel.TypedContracts;
+using System;
+using System.Diagnostics;
+using System.IoFx.ServiceModel;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
+namespace SM.Rx.Test
+{
     [TestClass]
     public class ChannelModelTests
     {
@@ -37,10 +40,12 @@
                         var responses = channel.Select(  message =>
                         {
                             var input  = message.GetBody<string>();
-                            return Message.CreateMessage(version, "", "Echo:" + input);
+                            return Message.CreateMessage(version, "", "Echo:" + input);   
                         });
 
-                        channel.Consume(responses);
+                        responses.Subscribe(channel);
+
+                        //channel.Consume(responses);
 
                         (from message in channel
                          let input = message.GetBody<string>()

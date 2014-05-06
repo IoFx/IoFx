@@ -63,13 +63,9 @@ namespace System.IoFx
         {
             return outputs.Subscribe(composer.Outputs);
         }
-    }
 
-
-    public static class IoPipeline
-    {
         public static IObservable<IoUnit<TOut>> ToPipeline<TIn, TOut>(this IObservable<IoUnit<TIn>> producer,
-                                                                Func<TIn, TOut> convertor)
+            Func<TIn, TOut> convertor)
         {
             var transformation = producer.Select(i => new IoUnit<TOut>()
             {

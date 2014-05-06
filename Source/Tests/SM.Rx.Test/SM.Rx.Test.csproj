@@ -90,10 +90,6 @@
       <Project>{2bdd55c5-dc1c-4a7f-a468-2dd7de067542}</Project>
       <Name>System.IoFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\System.ServiceModel.IoFx\System.IoFx.ServiceModel.csproj">
-      <Project>{912eca53-567b-41fa-80fc-ae19875d00c8}</Project>
-      <Name>System.IoFx.ServiceModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
