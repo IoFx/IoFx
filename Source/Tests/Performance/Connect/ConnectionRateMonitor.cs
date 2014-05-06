@@ -6,8 +6,11 @@ namespace Connect
 {
     public class ConnectionRateMonitor
     {
-        int _connectionCount = 0;
-        int _messageCount = 0;
+        private int _connectionCount = 0;
+        private int _messageCount = 0;
+        private int _backlog = 0;
+        const double Interval = 5;
+        private double _rate;
 
         public void OnConnect()
         {
@@ -19,23 +22,48 @@ namespace Connect
             Interlocked.Decrement(ref _connectionCount);
         }
 
-        public void OnMessage()
+        public double OnMessage()
         {
-            Interlocked.Increment(ref _messageCount);
+            return Interlocked.Increment(ref _messageCount) / Interval;
+        }
+
+        public void OnMessageStart()
+        {
+            Interlocked.Increment(ref _backlog);
+        }
+
+        public int OnMessageEnd()
+        {
+            return Interlocked.Decrement(ref _backlog);
+        }
+
+        public double Rate
+        {
+            get { return _rate; }
         }
 
         public IDisposable Start()
         {
-            return Observable.Interval(TimeSpan.FromSeconds(5)).TimeInterval()
+
+            return Observable.Interval(TimeSpan.FromSeconds(Interval)).TimeInterval()
                 .Subscribe(_ =>
                 {
-                    double rate = Interlocked.Exchange(ref _messageCount, 0) / 5.0;
+                    _rate = Interlocked.Exchange(ref _messageCount, 0) / Interval;
                     var current = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("server: Active: ");
                     Console.Write(_connectionCount);
                     Console.Write("\tMsg/sec: ");
-                    Console.WriteLine(rate);
+                    Console.Write(_rate);
+
+                    if (_backlog > 0)
+                    {
+                        Console.Write("\t\tBacklog: ");
+                        Console.Write(_backlog);
+                    }
+
+                    Console.WriteLine();
+
                     Console.ForegroundColor = current;
                 });
         }

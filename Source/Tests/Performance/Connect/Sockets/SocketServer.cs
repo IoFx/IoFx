@@ -11,10 +11,10 @@ namespace Connect.Sockets
             _port = port;
         }
 
-        public void StartServer()
+        public IDisposable StartServer()
         {
             var sockets = SocketObservable.AcceptTcpStream(_port);
-            ConnectionRateMonitor monitor = new ConnectionRateMonitor();
+            var monitor = new ConnectionRateMonitor();
 
             sockets.Subscribe(s =>
             {
@@ -27,6 +27,8 @@ namespace Connect.Sockets
             });
 
             monitor.Start();
+
+            return sockets;
         }      
     }
 }

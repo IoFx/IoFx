@@ -1,7 +1,8 @@
+using System;
 namespace Connect
 {
     public interface IServer
     {
-        void StartServer();
+        IDisposable StartServer();
     }
 }

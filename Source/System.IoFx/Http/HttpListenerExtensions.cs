@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IoFx.Connections;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
@@ -31,5 +32,25 @@ namespace System.IoFx.Http
                 return (IDisposable)null;
             });
         }
+
+
+        class HttpListenerEx : IListener<HttpListenerContext>
+        {
+            public Task Start()
+            {
+                throw new NotImplementedException();
+            }
+
+            public IDisposable Subscribe(IObserver<HttpListenerContext> observer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Dispose()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
     }
 }

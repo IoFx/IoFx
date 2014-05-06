@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using System.Reactive.Disposables;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using CmdLine;
@@ -21,23 +22,32 @@ namespace Connect
             {
                 Console.WriteLine("PID:" + Process.GetCurrentProcess().Id);
                 var arguments = CommandLine.Parse<ConnectArgs>();
+                IDisposable resources = Disposable.Empty;
+
                 if (System.String.Compare(arguments.Mode, "server", System.StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    StartServer(arguments);
-                    
+                    var r1 = StartServer(arguments);
+                    resources = Disposable.Create(r1.Dispose);
+
                 }
                 else if (String.Compare(arguments.Mode, "client", true) == 0)
                 {
-                    StartClients(arguments);                 
+                    var r1 = StartClients(arguments);
+                    resources = Disposable.Create(r1.Dispose);
                 }
                 else
                 {
-                    StartServer(arguments);     
-                    
-                    StartClients(arguments);            
+                    var r1 = StartServer(arguments);
+                    var r2 = StartClients(arguments);
+                    resources = Disposable.Create(() =>
+                    {
+                        r1.Dispose();
+                        r2.Dispose();
+                    });
                 }
 
                 CommandLine.Pause();
+                resources.Dispose();
             }
             catch (CommandLineException exception)
             {
@@ -46,35 +56,28 @@ namespace Connect
             }
         }
 
-        private static void StartClients(ConnectArgs arguments)
+        private static IDisposable StartClients(ConnectArgs arguments)
         {
             IClientManager clients = null;
-
-            if (arguments.Type == ConnectionType.socket)
-            {
-                clients = new SocketClientManager(arguments);
-            }
-
 
             switch (arguments.Type)
             {
                 case ConnectionType.socket:
                     clients = new SocketClientManager(arguments);
                     break;
-                case ConnectionType.wcf:                    
-                    clients = new ChannelManager(arguments.ConnectionLimit, 
-                                                arguments.MessageRate, 
-                                                new NetTcpBinding(){ Security = {Mode = SecurityMode.None }},
-                                                arguments.CreateNetTcpAddress()
-                                                );
+                case ConnectionType.wcf:
+                    clients = new DuplexChannelManager(arguments.ConnectionLimit,
+                                                        arguments.MessageRate,
+                                                        new NetTcpBinding() { Security = { Mode = SecurityMode.None } },
+                                                        arguments.CreateNetTcpAddress());
                     break;
 
             }
 
-            clients.Start();
+            return clients.Start();
         }
 
-        private static void StartServer(ConnectArgs arguments)
+        private static IDisposable StartServer(ConnectArgs arguments)
         {
             IServer server = null;
 
@@ -88,10 +91,10 @@ namespace Connect
                     break;
 
             }
-            
+
             //arguments.Server = Dns.GetHostName();
 
-            server.StartServer();
+            return server.StartServer();
         }
 
 
@@ -104,6 +107,6 @@ namespace Connect
 
             ThreadPool.SetMinThreads(500, 1000);
         }
-        
+
     }
 }

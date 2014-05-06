@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CmdLine">
-      <HintPath>..\packages\CmdLine.1.0.7.509\lib\net40-Client\CmdLine.dll</HintPath>
+      <HintPath>..\..\..\packages\CmdLine.1.0.7.509\lib\net40-Client\CmdLine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -77,7 +77,7 @@
     <Compile Include="ConnectionRateMonitor.cs" />
     <Compile Include="Sockets\SocketClient.cs" />
     <Compile Include="Sockets\SocketServer.cs" />
-    <Compile Include="WCF\Channels\ChannelManager.cs" />
+    <Compile Include="WCF\Channels\DuplexChannelManager.cs" />
     <Compile Include="WCF\Channels\TcpChannelServer.cs" />
   </ItemGroup>
   <ItemGroup>

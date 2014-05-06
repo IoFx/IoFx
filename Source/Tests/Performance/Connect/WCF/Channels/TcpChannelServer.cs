@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IoFx.ServiceModel;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -11,15 +12,14 @@ namespace Connect.WCF.Channels
 {
     class TcpChannelServer : IServer
     {
-        private string _address;
-
+        private readonly string _address;
 
         public TcpChannelServer(string address)
         {
             _address = address;
         }
 
-        public void StartServer()
+        public IDisposable StartServer()
         {
             ConnectionRateMonitor monitor = new ConnectionRateMonitor();
             var binding = new NetTcpBinding { Security = { Mode = SecurityMode.None } };
@@ -37,6 +37,8 @@ namespace Connect.WCF.Channels
                 });
 
             monitor.Start();
+
+            return Disposable.Create(listener.Abort);
         }
     }
 }
