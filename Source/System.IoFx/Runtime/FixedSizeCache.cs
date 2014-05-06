@@ -6,7 +6,7 @@ namespace System.IoFx.Runtime
     {
         private readonly ConcurrentQueue<T> _cache;
         private readonly Func<T> _createFunc;
-        private int _maxCount;
+        private readonly int _maxCount;
 
         public FixedSizeCache(int maxCount, Func<T> create)
         {

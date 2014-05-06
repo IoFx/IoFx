@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IoFx.Connections;
+﻿using System.IoFx.Connections;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace System.IoFx.Http
 {
@@ -29,9 +25,10 @@ namespace System.IoFx.Http
         static HttpListener CreateListener(string[] prefixes)
         {
             var listener = new HttpListener();
-            foreach (var prefix in prefixes)
+
+            for (int i = 0; i < prefixes.Length; i++)
             {
-                listener.Prefixes.Add(prefix);
+                listener.Prefixes.Add(prefixes[i]);
             }
 
             return listener;

@@ -1,5 +1,4 @@
 ﻿using System.IoFx.Connections;
-using System.Net;
 using System.Net.Sockets;
 
 namespace System.IoFx.Sockets

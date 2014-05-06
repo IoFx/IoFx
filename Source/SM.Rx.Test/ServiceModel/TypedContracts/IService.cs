@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.ServiceModel.IoFx;
 using System.Threading.Tasks;
 using System.Xml;
 

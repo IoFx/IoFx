@@ -1,6 +1,4 @@
-﻿using System.IoFx.Connections;
-
-namespace System.IoFx.Framing
+﻿namespace System.IoFx.Framing
 {
     public static class FramingExtensions
     {

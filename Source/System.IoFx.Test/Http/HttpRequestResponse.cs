@@ -1,12 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IoFx.Http;
 using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Runtime.Remoting.Contexts;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace System.IoFx.Test.Http

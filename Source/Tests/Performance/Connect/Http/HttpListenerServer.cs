@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IoFx.Connections;
 using System.IoFx.Http;
-using System.Linq;
 using System.Net;
 using System.Reactive.Disposables;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Connect.Http
@@ -12,8 +10,8 @@ namespace Connect.Http
     class HttpListenerServer : IServer
     {
         ConnectionRateMonitor monitor = new ConnectionRateMonitor();
-        private System.IoFx.Connections.IListener<System.Net.HttpListenerContext> _contexts;
-        private byte[] _buffer;
+        private readonly IListener<System.Net.HttpListenerContext> _contexts;
+        private readonly byte[] _buffer;
         public HttpListenerServer(string prefix)
         {
             _contexts = HttpObservable.GetContexts(prefix);
@@ -21,7 +19,6 @@ namespace Connect.Http
             _buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
             Console.WriteLine("Listening on " + prefix);
         }
-
 
         public IDisposable StartServer()
         {
@@ -36,7 +33,6 @@ namespace Connect.Http
             monitor.Start();
             return Disposable.Create(_contexts.Dispose);
         }
-
 
         private static async Task RespondWithHelloWorld(HttpListenerContext context, byte[] buffer)
         {

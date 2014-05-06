@@ -1,6 +1,4 @@
 ﻿using System.IoFx.Sockets;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

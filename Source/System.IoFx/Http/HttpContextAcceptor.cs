@@ -23,7 +23,7 @@ namespace System.IoFx.Http
 
         private async Task<IDisposable> ContextReceiveLoop(IObserver<HttpListenerContext> observer)
         {
-            Exception complException = null;
+            Exception completionException = null;
 
             try
             {
@@ -41,26 +41,29 @@ namespace System.IoFx.Http
                     observer.OnNext(context);
                 }
             }
-            catch (Exception ex)
+            catch (HttpListenerException ex)
             {
                 //TODO: handle http exceptions gracefully
-                complException = ex;
+                completionException = ex;
+            }
+            catch (Exception ex)
+            {
+                completionException = ex;
             }
             finally
             {
-                if (complException == null)
+                if (completionException == null)
                 {
                     observer.OnCompleted();
                 }
                 else
                 {
-                    observer.OnError(complException);
+                    observer.OnError(completionException);
                 }
             }
 
             return Disposable.Create(this.Dispose);
         }
-
 
         public Task Start()
         {

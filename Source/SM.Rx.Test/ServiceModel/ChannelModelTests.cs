@@ -1,16 +1,10 @@
-﻿
-using System.IoFx.ServiceModel;
-using System.ServiceModel.IoFx;
-
-namespace SM.Rx.Test
+﻿namespace SM.Rx.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SM.Rx.Test.ServiceModel.TypedContracts;
     using System;
     using System.Diagnostics;
-    using System.IoFx;
     using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
 

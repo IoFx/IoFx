@@ -1,8 +1,6 @@
 ﻿namespace SM.Rx.Test.ServiceModel.TypedContracts
 {
     using System;
-    using System.IoFx.ServiceModel;
-    using System.Reactive.Linq;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;

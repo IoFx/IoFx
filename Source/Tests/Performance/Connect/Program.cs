@@ -1,11 +1,8 @@
-﻿using System.CodeDom;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using CmdLine;
 using System;
 using System.Diagnostics;
-using System.Net;
 using System.Threading;
 using Connect.Http;
 using Connect.Sockets;

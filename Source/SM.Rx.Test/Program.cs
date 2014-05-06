@@ -1,7 +1,5 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.Reactive.Linq;
-using System.IoFx.ServiceModel;
 using SM.Rx.Test.ServiceModel.TypedContracts;
 
 namespace System.IoFx.Test
