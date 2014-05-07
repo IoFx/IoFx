@@ -77,16 +77,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConnectionRateMonitor.cs" />
     <Compile Include="Sockets\SocketClient.cs" />
+    <Compile Include="Sockets\socket.cs" />
     <Compile Include="Sockets\SocketServer.cs" />
+    <Compile Include="TestScenario.cs" />
     <Compile Include="WCF\Channels\DuplexChannelManager.cs" />
+    <Compile Include="WCF\Channels\NetTcpDC.cs" />
     <Compile Include="WCF\Channels\TcpChannelServer.cs" />
+    <Compile Include="WCF\Channels\WCF.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Http\Tests\client.ubr" />
+    <None Include="Http\Tests\Readme.md" />
+    <None Include="Http\Tests\run.cmd" />
+    <None Include="Http\Tests\settings.ubr" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Http\Tests\" />
     <Folder Include="Sockets\Net\" />
   </ItemGroup>
   <ItemGroup>

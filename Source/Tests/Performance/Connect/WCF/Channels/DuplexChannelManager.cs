@@ -20,13 +20,13 @@ namespace Connect.WCF.Channels
         private MessageBuffer _messageBuffer;
         private volatile bool _isDisposed;
 
-        public DuplexChannelManager(int connections, int messageRate, Binding binding, string address)
+        public DuplexChannelManager(int connections, int messageRate, Binding binding, string address, MessageBuffer messageBuffer = null)
         {
             _connections = connections;
             _rate = messageRate;
             _factory = binding.BuildChannelFactory<IDuplexSessionChannel>();
             _address = new EndpointAddress(address);
-            _messageBuffer = Message.CreateMessage(binding.MessageVersion, "TestAction", new byte[1024]).CreateBufferedCopy(int.MaxValue);
+            _messageBuffer = messageBuffer ??  Message.CreateMessage(binding.MessageVersion, "TestAction", new byte[1024]).CreateBufferedCopy(int.MaxValue); ;
             _factory.Open();
         }
 
@@ -70,7 +70,7 @@ namespace Connect.WCF.Channels
                     Action action = () =>
                     {
                         //Console.WriteLine("Thread ID" + System.Threading.Thread.CurrentThread.ManagedThreadId);
-                        while (Interlocked.Decrement(ref pending) > 0)
+                        while (Interlocked.Decrement(ref pending) >= 0)
                         {
                             var channel = GetNextChannel();
                             monitor.OnMessageStart();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using CmdLine;
 
 namespace Connect
@@ -7,7 +8,8 @@ namespace Connect
     {
         socket,
         wcf,
-        http
+        http,
+        none
     }
 
     [CommandLineArguments(Program = "Connect", Title = "Connection Limit Test", Description = "Test for connection limit")]
@@ -19,7 +21,7 @@ namespace Connect
         [CommandLineParameter(Command = "mode", ParameterIndex = 1, Required = false, Description = "Specified either client mode or server mode.")]
         public string Mode { get; set; }
 
-        [CommandLineParameter(Command = "server", Default = "localhost", Required = false, Description = "Server to connect to")]
+        [CommandLineParameter(Command = "server", Default = "localhost", Required = false, Description = "Server to connect to.")]
         public string Server { get; set; }
 
 
@@ -33,10 +35,19 @@ namespace Connect
         public int MessageRate { get; set; }
 
         [CommandLineParameter(Command = "type", Required = false, Default = "socket", Description = "connection type.")]
-        public string ConnectionType { get; set; }
+        public string Scenario { get; set; }
 
         public ConnectionType Type {
-            get { return (ConnectionType)Enum.Parse(typeof(ConnectionType), ConnectionType, true); }
+            get
+            {
+                ConnectionType result;
+                if (Enum.TryParse(Scenario, true, out result))
+                {
+                    return result;
+                }
+
+                return ConnectionType.none;
+            }
         }
     }
 
@@ -45,6 +56,11 @@ namespace Connect
         public static string CreateNetTcpAddress(this ConnectArgs args)
         {
             return "net.tcp://" + args.Server + ":" + args.Port;
+        }
+
+        public static bool IsServer(this ConnectArgs args)
+        {
+            return String.Compare("server", args.Mode, true, CultureInfo.InvariantCulture) == 0;
         }
     }
 }

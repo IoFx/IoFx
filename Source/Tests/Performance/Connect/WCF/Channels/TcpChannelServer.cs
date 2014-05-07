@@ -17,7 +17,7 @@ namespace Connect.WCF.Channels
 
         public IDisposable StartServer()
         {
-            ConnectionRateMonitor monitor = new ConnectionRateMonitor();
+            var monitor = new ConnectionRateMonitor();
             var binding = new NetTcpBinding { Security = { Mode = SecurityMode.None } };
             var listener = binding.Start(_address);
             Console.WriteLine("Listening on " + listener.Uri);

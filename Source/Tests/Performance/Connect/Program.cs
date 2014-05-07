@@ -22,30 +22,10 @@ namespace Connect
                 var arguments = CommandLine.Parse<ConnectArgs>();
                 IDisposable resources = Disposable.Empty;
 
-                if (System.String.Compare(arguments.Mode, "server", System.StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    var r1 = StartServer(arguments);
-                    resources = Disposable.Create(r1.Dispose);
-
-                }
-                else if (String.Compare(arguments.Mode, "client", true) == 0)
-                {
-                    var r1 = StartClients(arguments);
-                    resources = Disposable.Create(r1.Dispose);
-                }
-                else
-                {
-                    var r1 = StartServer(arguments);
-                    var r2 = StartClients(arguments);
-                    resources = Disposable.Create(() =>
-                    {
-                        r1.Dispose();
-                        r2.Dispose();
-                    });
-                }
-
+                var scenario = TestScenario.Create(arguments);
+                scenario.Run();
                 CommandLine.Pause();
-                resources.Dispose();
+                scenario.Dispose();
             }
             catch (CommandLineException exception)
             {
@@ -53,59 +33,6 @@ namespace Connect
                 Console.WriteLine(exception.ArgumentHelp.GetHelpText(Console.BufferWidth));
             }
         }
-
-        private static IDisposable StartClients(ConnectArgs arguments)
-        {
-            IClientManager clients = null;
-
-            switch (arguments.Type)
-            {
-                case ConnectionType.socket:
-                    clients = new SocketClientManager(arguments);
-                    break;
-                case ConnectionType.wcf:
-                    clients = new DuplexChannelManager(arguments.ConnectionLimit,
-                                                        arguments.MessageRate,
-                                                        new NetTcpBinding() { Security = { Mode = SecurityMode.None } },
-                                                        arguments.CreateNetTcpAddress());
-                    break;
-
-            }
-
-            if (clients == null)
-            {
-                throw new NotImplementedException();
-            }
-
-            return clients.Start();
-        }
-
-        private static IDisposable StartServer(ConnectArgs arguments)
-        {
-            IServer server = null;
-
-            switch (arguments.Type)
-            {
-                case ConnectionType.socket:
-                    server = new SocketServer(arguments.Port);
-                    break;
-                case ConnectionType.wcf:
-                    server = new TcpChannelServer(arguments.CreateNetTcpAddress());
-                    break;
-                case ConnectionType.http:
-                    server = new HttpListenerServer("http://+:" + arguments.Port + "/");
-                    break;
-            }
-
-            if (server == null)
-            {
-                throw new NotImplementedException();
-            }
-            //arguments.Server = Dns.GetHostName();
-
-            return server.StartServer();
-        }
-
 
         private static void SetupThreadPool()
         {
@@ -116,6 +43,5 @@ namespace Connect
 
             ThreadPool.SetMinThreads(500, 1000);
         }
-
     }
 }
