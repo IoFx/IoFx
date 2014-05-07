@@ -1,4 +1,5 @@
 using System.IoFx.Connections;
+using System.IoFx.Tracing;
 using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
@@ -14,7 +15,7 @@ namespace System.IoFx.Sockets
         private int _disposed;
         private readonly SocketFactory _socketAwaitableFactory;
         private Func<Socket> _createListenerFunc;
-        private SocketAwaitable _awaitable;
+        private SocketAwaitableEventArgs _awaitable;
 
         public SocketListener(Func<Socket> createFunc, SocketFactory awaitableFactory)
         {
@@ -32,13 +33,15 @@ namespace System.IoFx.Sockets
             if (Interlocked.CompareExchange(ref _createListenerFunc, null, create) != null)
             {
                 try
-                {
-                    _listenerSocket = create();
+                {                    
+                    _listenerSocket = create();                    
+                    Events.Trace.CreateSocketListener(_listenerSocket.LocalEndPoint.ToString());
                     _awaitable = _socketAwaitableFactory.GetSocketAwaitable();
                     _startTcs.SetResult(_listenerSocket);
                 }
                 catch (Exception ex)
                 {
+                    Events.Trace.Failure("Error creating socket listener." + ex.ToString());
                     _startTcs.SetException(ex);
                     throw;
                 }

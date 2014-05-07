@@ -7,7 +7,7 @@ namespace System.IoFx.Connections
         Task Start();
     }
 
-    public interface IListener<out TObservable> : IListener, IDisposableObserver<TObservable>
+    public interface IListener<out TObservable> : IListener, IDisposableObservable<TObservable>
     {
         
     }

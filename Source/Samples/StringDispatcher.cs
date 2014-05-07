@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IoFx;
+using System.IoFx.Connections;
 using System.Reactive;
 using System.Reactive.Linq;
 
@@ -13,11 +14,11 @@ namespace Samples
             Func<char, byte> charToByte = c => (byte)(int)c;
 
             var transportRequests = "ABCDEFG".ToCharArray().ToObservable<char>();
-            var transportSink = Observer.Create<IoUnit<char>>(c => Console.WriteLine("Received : " + c.Unit));
+            var transportSink = Observer.Create<Context<char>>(c => Console.WriteLine("Received : " + c.Unit));
 
             var units = transportRequests
-                        .ToIoUnits()
-                        .ToPipeline(charToByte);
+                        .ToContexts()
+                        .ToConnection(charToByte);
 
 
             Func<byte, byte> operation = input => (byte)(input + (byte)1);            

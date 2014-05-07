@@ -1,9 +1,9 @@
-﻿namespace System.IoFx
+﻿namespace System.IoFx.Connections
 {
-    public struct IoUnit<T>
+    public struct Context<T>
     {
         public T Unit { get; set; }
-        public IoPipeline<T> Parent { get; set; }
+        public Connector<T> Parent { get; set; }
 
         public T Publish(T output)
         {

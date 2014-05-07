@@ -1,4 +1,6 @@
-﻿namespace System.IoFx.ServiceModel
+﻿using System.IoFx.Connections;
+
+namespace System.IoFx.ServiceModel
 {
     using System.Reactive.Linq;
     using System.IoFx;
@@ -7,12 +9,12 @@
 
     public static class ServiceModelExtensions
     {
-        public static IObservable<IoUnit<TPipelineType>> OnOperation<TPipelineType, TInput, TOuptput>(
-            this IObservable<IoUnit<TPipelineType>> iochannel,
-            Func<TPipelineType, bool> filter,
+        public static IObservable<Context<TConnectionType>> OnOperation<TConnectionType, TInput, TOuptput>(
+            this IObservable<Context<TConnectionType>> iochannel,
+            Func<TConnectionType, bool> filter,
             Func<TInput, TOuptput> operation,
-            Func<TPipelineType, TInput> decode,
-            Func<TOuptput, TPipelineType, TPipelineType> encode)
+            Func<TConnectionType, TInput> decode,
+            Func<TOuptput, TConnectionType, TConnectionType> encode)
         {
             var responses = iochannel
                 .Where(unit => filter(unit.Unit))
@@ -21,7 +23,7 @@
                         var input = decode(unit.Unit);
                         var output = operation(input);
                         var outputMsg = encode(output, unit.Unit);
-                        return new IoUnit<TPipelineType>()
+                        return new Context<TConnectionType>()
                         {
                             Unit = outputMsg,
                             Parent = unit.Parent
@@ -32,13 +34,13 @@
         }
 
          
-        public static IDisposable Consume(this IObservable<IoUnit<Message>> responses)
+        public static IDisposable Consume(this IObservable<Context<Message>> responses)
         {
             // Subscription involves sending the response back. 
             return responses.Subscribe(r => r.Publish(r.Unit));
         }
 
-        public static IDisposable Consume(this IObservable<Task<IoUnit<Message>>> responses)
+        public static IDisposable Consume(this IObservable<Task<Context<Message>>> responses)
         {
             // Subscription involves sending the response back. 
             return responses.Subscribe(async (task) =>

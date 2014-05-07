@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System.IoFx.Connections;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -155,7 +156,7 @@ namespace System.IoFx.ServiceModel
             return Observer.Create<Message>(channel.Send);
         }
 
-        public static IObservable<IoPipeline<Message>> OnConnect<TChannel>(
+        public static IObservable<Connector<Message>> OnConnect<TChannel>(
             this IChannelListener<TChannel> listener)
             where TChannel : class, IOutputChannel, IInputChannel
         {
@@ -172,24 +173,24 @@ namespace System.IoFx.ServiceModel
 
         public static void OnConnect<TChannel>(
             this IChannelListener<TChannel> listener,
-            Action<IoPipeline<Message>> onNext)
+            Action<Connector<Message>> onNext)
             where TChannel : class, IOutputChannel, IInputChannel
         {
             listener.OnConnect().Subscribe(onNext);
         }
 
-        public static IObservable<IoUnit<Message>> OnMessage(this IObservable<IoPipeline<Message>> channels)
+        public static IObservable<Context<Message>> OnMessage(this IObservable<Connector<Message>> channels)
         {
             return from c in channels
                    from m in c
-                   select new IoUnit<Message>
+                   select new Context<Message>
                    {
                        Unit = m,
                        Parent = c,
                    };
         }
 
-        public static IObservable<IoUnit<Message>> OnMessage(
+        public static IObservable<Context<Message>> OnMessage(
             this IChannelListener<IDuplexSessionChannel> listener)
         {
             return listener.OnConnect().OnMessage();
@@ -204,7 +205,7 @@ namespace System.IoFx.ServiceModel
             return new IoChannel<T, TChannel>(inputs, outputs, channel);
         }
 
-        class IoChannel<T, TChannel> : IoPipeline<T> where TChannel : class, IChannel
+        class IoChannel<T, TChannel> : Connector<T> where TChannel : class, IChannel
         {
             public IoChannel(IObservable<T> inputs, IObserver<T> outputs, TChannel channel)
                 : base(inputs, outputs)

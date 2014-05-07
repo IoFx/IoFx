@@ -19,7 +19,7 @@ namespace Connect.Sockets
             sockets.Subscribe(s =>
             {
                 monitor.OnConnect();
-                var receiver = s.CreateReceiver();
+                var receiver = s.GetData();
                 receiver.Subscribe(
                     d => monitor.OnMessage(),
                     ex => monitor.OnDisconnect(),

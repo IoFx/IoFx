@@ -1,54 +1,19 @@
-﻿using System.Collections.Concurrent;
-using System.IoFx.Runtime;
+﻿using System.IoFx.Runtime;
 using System.Net.Sockets;
 using System.Threading;
 
 namespace System.IoFx.Sockets
 {
-    internal class SocketFactory
-    {
-        public static readonly SocketFactory Factory = new SocketFactory();
-        private ConcurrentQueue<SocketAwaitable> _acceptAwaitableCache = new ConcurrentQueue<SocketAwaitable>();
-
-        private readonly BufferManager _bufferManager;
-
-        public SocketFactory()
-            : this(new BufferManager())
-        {
-            _bufferManager = new BufferManager();
-        }
-
-        public SocketFactory(BufferManager bufferManager)
-        {
-            _bufferManager = bufferManager;
-        }
-
-        public SocketAwaitable GetSocketAwaitable()
-        {           
-            return new SocketAwaitable(new SocketAsyncEventArgs());
-        }
-
-        public BufferManager Buffer 
-        {
-            get { return _bufferManager; }
-        }
-    }
-
-    public class SocketAwaitable : SocketAsyncEventArgs, IAwaiter
+    public class SocketAwaitableEventArgs : SocketAsyncEventArgs, IAwaiter
     {
         private readonly static Action Sentinel = () => { };
 
         private bool _wasCompleted;
-        private Action _continuation;
-        private readonly SocketAsyncEventArgs _eventArgs;
+        private Action _continuation;        
 
-        internal SocketAwaitable(SocketAsyncEventArgs eventArgs)
+        internal SocketAwaitableEventArgs()
         {
-            if (eventArgs == null)
-                throw new ArgumentNullException("eventArgs");
-
-            _wasCompleted = true;
-            _eventArgs = eventArgs;
+            _wasCompleted = true;            
         }
 
         protected override void OnCompleted(SocketAsyncEventArgs e)
@@ -79,7 +44,7 @@ namespace System.IoFx.Sockets
 
         #region Awaitable
 
-        public SocketAwaitable GetAwaiter() { return this; }
+        public SocketAwaitableEventArgs GetAwaiter() { return this; }
 
         public bool IsCompleted { get { return _wasCompleted; } }
 
@@ -95,8 +60,8 @@ namespace System.IoFx.Sockets
 
         public void GetResult()
         {
-            if (_eventArgs.SocketError != SocketError.Success)
-                throw new SocketException((int)_eventArgs.SocketError);
+            if (this.SocketError != SocketError.Success)
+                throw new SocketException((int)this.SocketError);
         }
 
         #endregion

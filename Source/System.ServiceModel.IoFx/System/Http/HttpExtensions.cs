@@ -1,4 +1,6 @@
-﻿namespace System.IoFx.Http
+﻿using System.IoFx.Connections;
+
+namespace System.IoFx.Http
 {
     using System.Net;
     using System.Reactive.Linq;
@@ -19,7 +21,7 @@
         }
     }
 
-    class HttpContextMessage : IoPipeline<Stream, Stream>
+    class HttpContextMessage : Connector<Stream, Stream>
     {
         public HttpContextMessage(IObservable<Stream> producer, IObserver<Stream> consumer) : 
             base(producer, consumer)

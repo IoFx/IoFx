@@ -1,4 +1,4 @@
-﻿namespace System.IoFx
+﻿namespace System.IoFx.Connections
 {
     /// <summary>
     /// A composer is used to bridge a pair of IoChannels
@@ -11,14 +11,14 @@
     /// <typeparam name="TInputs"></typeparam>
     public class Composer<TOutputs, TInputs>
     {
-        public Composer(IoPipeline<TOutputs> requests, IoPipeline<TInputs> responses)
+        public Composer(Connector<TOutputs> requests, Connector<TInputs> responses)
         {
             this.Outputs = requests;
             this.Inputs = responses;
         }
 
-        public IoPipeline<TOutputs> Outputs { get; private set; }
+        public Connector<TOutputs> Outputs { get; private set; }
 
-        public IoPipeline<TInputs> Inputs { get; private set; }
+        public Connector<TInputs> Inputs { get; private set; }
     }
 }

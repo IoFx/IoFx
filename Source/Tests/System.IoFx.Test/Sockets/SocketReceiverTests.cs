@@ -19,7 +19,7 @@ namespace System.IoFx.Test.Sockets
                 int count = 0;
                 sockets.Subscribe(s =>
                 {
-                    var data = s.CreateReceiver();
+                    var data = s.GetData();
                     data.Subscribe(
                         d => count += d.Count,
                         tcs.SetException,
@@ -60,7 +60,7 @@ namespace System.IoFx.Test.Sockets
                 int count = 0;
                 sockets.Subscribe(s =>
                 {
-                    var data = s.CreateReceiver();
+                    var data = s.GetData();
                     data.Do(d => count += d.Count)
                         .TakeWhile(_ => count <= totalSize)
                         .Subscribe(_ => { },

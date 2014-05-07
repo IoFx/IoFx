@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IoFx.Connections;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
@@ -71,7 +72,7 @@ namespace System.IoFx.Tests
             { }
         }
 
-        class InMemoryTransport : IoPipeline<byte[]>
+        class InMemoryTransport : Connector<byte[]>
         {
             public InMemoryTransport(IObservable<byte[]> outputs)
                 : base(outputs, new IoSink<byte[]>())
@@ -80,7 +81,7 @@ namespace System.IoFx.Tests
             }
         }
 
-        class IoSink<T> : IoPipeline<T>
+        class IoSink<T> : Connector<T>
         {
             public IoSink()
                 : this(new Subject<T>())

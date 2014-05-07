@@ -1,9 +1,13 @@
-﻿using Microsoft.Diagnostics.Tracing;
+﻿using System.ServiceModel;
+using Microsoft.Diagnostics.Tracing;
 
 namespace System.IoFx.Tracing
 {
-    sealed class Trace : EventSource
+    sealed class Events : EventSource
     {
+
+        public static Events Trace = new Events();
+
         public class Keywords
         {
             public const EventKeywords Page = (EventKeywords)1;
@@ -16,8 +20,7 @@ namespace System.IoFx.Tracing
         public void Failure(string message) { WriteEvent(1, message); }
 
 
-        [Event(2, Message = "Starting up.", Keywords = Keywords.Perf, Level = EventLevel.Informational)]
-        public void SocketStartup() { WriteEvent(2); }
-
+        [Event(2, Message = "Starting up.", Keywords = Keywords.Diagnostic, Level = EventLevel.Informational)]
+        public void CreateSocketListener(string address) { WriteEvent(2, address); }
     }
 }

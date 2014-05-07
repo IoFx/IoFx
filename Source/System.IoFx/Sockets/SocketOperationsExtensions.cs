@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
 {
-
     public static class SocketOperationsExtensions
     {
         private delegate bool SocketOperationDelegate(Socket socket, SocketAsyncEventArgs args);
@@ -14,7 +13,7 @@ namespace System.IoFx.Sockets
         private static readonly SocketOperationDelegate SendAsyncHandler = (s, e) => s.SendAsync(e);
 
         //TODO: Fix alloction per socket accept and remo task.
-        public static async Task<Socket> AcceptSocketAsync(this Socket listenSocket, SocketAwaitable awaitable)
+        public static async Task<Socket> AcceptSocketAsync(this Socket listenSocket, SocketAwaitableEventArgs awaitable)
         {
             await AcceptAsync(listenSocket, awaitable);
             var acceptSocket = awaitable.AcceptSocket;
@@ -22,27 +21,27 @@ namespace System.IoFx.Sockets
             return acceptSocket;
         }
 
-        public static SocketAwaitable AcceptAsync(this Socket socket, SocketAwaitable awaitable)
+        public static SocketAwaitableEventArgs AcceptAsync(this Socket socket, SocketAwaitableEventArgs awaitable)
         {
             return OperationAsync(socket, awaitable, AcceptAsyncHandler);
         }
         
-        public static SocketAwaitable ConnectSocketAsync(this Socket socket, SocketAwaitable awaitable)
+        public static SocketAwaitableEventArgs ConnectSocketAsync(this Socket socket, SocketAwaitableEventArgs awaitable)
         {
             return OperationAsync(socket, awaitable, ConnectAsyncHandler);
         }
 
-        public static SocketAwaitable ReceiveSocketAsync(this Socket socket, SocketAwaitable awaitable)
+        public static SocketAwaitableEventArgs ReceiveSocketAsync(this Socket socket, SocketAwaitableEventArgs awaitable)
         {
             return OperationAsync(socket, awaitable, ReceiveAsyncHandler);
         }
 
-        public static SocketAwaitable SendSocketAsync(this Socket socket, SocketAwaitable awaitable)
+        public static SocketAwaitableEventArgs SendSocketAsync(this Socket socket, SocketAwaitableEventArgs awaitable)
         {
             return OperationAsync(socket, awaitable, SendAsyncHandler);
         }
 
-        static SocketAwaitable OperationAsync(this Socket socket, SocketAwaitable awaitable, SocketOperationDelegate socketFunc)
+        static SocketAwaitableEventArgs OperationAsync(this Socket socket, SocketAwaitableEventArgs awaitable, SocketOperationDelegate socketFunc)
         {
             awaitable.StartOperation();
 

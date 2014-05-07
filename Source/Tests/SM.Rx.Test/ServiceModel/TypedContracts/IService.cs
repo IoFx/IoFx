@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.IoFx;
+using System.IoFx.Connections;
 using System.IoFx.ServiceModel;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
@@ -82,7 +83,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
         }
 
         public static IDisposable OnGetOrder(
-            this IObservable<IoUnit<Message>> iochannel,
+            this IObservable<Context<Message>> iochannel,
             Func<Customer, Order> operation)
         {
             var responses = iochannel.OnOperation(m => m.IsGetOrder(),
@@ -94,7 +95,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
         }
 
         public static IDisposable OnGetOrder(
-            this IObservable<IoUnit<Message>> iochannel, 
+            this IObservable<Context<Message>> iochannel, 
             Func<Customer, Task<Order>> operation)
         {
             var responses = iochannel
@@ -104,7 +105,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
                         var input = m.Unit.DecodeGetOrder();
                         var output = await operation(input);
                         var response = output.EncodeGetOrderResponse(m.Unit);
-                        return new IoUnit<Message>
+                        return new Context<Message>
                         {
                             Parent =  m.Parent,
                             Unit =  response

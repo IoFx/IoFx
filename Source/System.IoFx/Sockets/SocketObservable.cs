@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
@@ -12,14 +11,14 @@ namespace System.IoFx.Sockets
         public static IListener<Socket> AcceptTcpStream(int port)
         {
             Func<Socket> createFunc = () => StartTcpListenSocket(port);
-            return SocketListenerExtensions.OnAccept(createFunc);
+            return new SocketListener(createFunc, SocketFactory.Factory);
         }
 
-        public static IListener<IConnection<ArraySegment<byte>>> CreateTcpStreamListener(int port)
+        public static IListener<IConnector<ArraySegment<byte>>> CreateTcpStreamListener(int port)
         {
             Func<Socket> createFunc = () => StartTcpListenSocket(port);
-            var listener = SocketListenerExtensions.CreateListener(createFunc);
-            var connections = listener.Select(s => new SocketConnection(s));
+            var listener = new SocketListener(createFunc, SocketFactory.Factory);
+            var connections = listener.Select(SocketConnection.Create);
             return new StreamListener(listener, connections);
         }
 
@@ -38,13 +37,12 @@ namespace System.IoFx.Sockets
             return socket;
         }
 
-        private class StreamListener : IListener<IConnection<ArraySegment<byte>>>
+        private class StreamListener : IListener<IConnector<ArraySegment<byte>>>
         {
             private readonly IListener<Socket> _listener;
-            private readonly IObservable<IConnection<ArraySegment<byte>>> _connections;
+            private readonly IObservable<IConnector<ArraySegment<byte>>> _connections;
 
-            public StreamListener(IListener<Socket> listener,
-                IObservable<IConnection<ArraySegment<byte>>> connections)
+            public StreamListener(IListener<Socket> listener, IObservable<IConnector<ArraySegment<byte>>> connections)
             {
                 _listener = listener;
                 _connections = connections;
@@ -60,52 +58,12 @@ namespace System.IoFx.Sockets
                 _listener.Dispose();
             }
 
-            public IDisposable Subscribe(IObserver<IConnection<ArraySegment<byte>>> observer)
+            public IDisposable Subscribe(IObserver<IConnector<ArraySegment<byte>>> observer)
             {
                 return _connections.Subscribe(observer);
             }
         }
 
-        class SocketConnection : IConnection<ArraySegment<byte>>
-        {
-            private readonly Socket _socket;
-            private readonly IObservable<ArraySegment<byte>> _receiver;
-            private readonly IObserver<ArraySegment<byte>> _sender;
-            private int _disposed;
-
-            public SocketConnection(Socket receiveSocket)
-            {
-                _socket = receiveSocket;
-                _receiver = _socket.CreateReceiver();
-                _sender = _socket.CreateSender();
-            }
-
-            public IObserver<ArraySegment<byte>> Sender
-            {
-                get { return _sender; }
-            }
-
-            public IDisposable Subscribe(IObserver<ArraySegment<byte>> observer)
-            {
-                return _receiver.Subscribe(observer);
-            }
-
-            void Dispose(bool shutdown)
-            {
-                if (Interlocked.CompareExchange(ref _disposed, 1, 0) == 0)
-                {
-                    if (shutdown && _socket.Connected)
-                    {
-                        _socket.Shutdown(SocketShutdown.Send);
-                    }
-
-                    _socket.Close();
-                }
-            }
-            public void Dispose()
-            {
-                Dispose(true);
-            }
-        }
+    
     }
 }
