@@ -17,7 +17,11 @@ namespace System.IoFx.ServiceModel
 
         public static IObservable<Message> GetMessages<TChannel>(this TChannel channel) where TChannel : class, IInputChannel
         {
-            return new Receiver<TChannel>(channel);
+            Func<Task<Message>> receiveAsyncFunc = () => Task.Factory.FromAsync<Message>(
+                                                        channel.BeginReceive,
+                                                        channel.EndReceive, null);
+
+            return new Receiver<TChannel>(channel, receiveAsyncFunc);
         }
 
         internal class Acceptor<TChannel> : IDisposable, IObservable<TChannel> where TChannel : class, IChannel
@@ -84,12 +88,13 @@ namespace System.IoFx.ServiceModel
             }
         }
 
-        internal class Receiver<TChannel> : IDisposable, IObservable<Message> where TChannel : class, IInputChannel
+        internal class Receiver<TChannel> : IDisposable, IObservable<Message> where TChannel : class, IChannel
         {
             private readonly TChannel _channel;
             private readonly IObservable<Message> _observable;
+            private readonly Func<Task<Message>> _receiveAsyncFunc;
 
-            public Receiver(TChannel channel)
+            public Receiver(TChannel channel, Func<Task<Message>> receiveFunc)
             {
                 if (channel == null)
                 {
@@ -97,6 +102,7 @@ namespace System.IoFx.ServiceModel
                 }
 
                 _channel = channel;
+                _receiveAsyncFunc = receiveFunc;
                 Func<IObserver<Message>, Task<IDisposable>> loop = ReceiveLoop;
                 _observable = Observable.Create(loop);
             }
@@ -106,10 +112,6 @@ namespace System.IoFx.ServiceModel
 
                 try
                 {
-                    Func<Task<Message>> receiveAsyncFunc = () => Task.Factory.FromAsync<Message>(
-                                            _channel.BeginReceive,
-                                            _channel.EndReceive, null);
-
                     Func<Task> openAsyncFunc = () => Task.Factory.FromAsync(
                                                 _channel.BeginOpen,
                                                 _channel.EndOpen, null);
@@ -118,7 +120,7 @@ namespace System.IoFx.ServiceModel
 
                     while (true)
                     {
-                        Message message = await receiveAsyncFunc();
+                        var message = await _receiveAsyncFunc();
 
                         if (message == null)
                         {
@@ -132,7 +134,7 @@ namespace System.IoFx.ServiceModel
                     channelObserver.OnCompleted();
                 }
                 catch (Exception ex)
-                {                    
+                {
                     channelObserver.OnError(ex);
                 }
 
@@ -185,8 +187,8 @@ namespace System.IoFx.ServiceModel
                    from m in c
                    select new Context<Message>
                    {
-                       Unit = m,
-                       Parent = c,
+                       Data = m,
+                       Channel = c,
                    };
         }
 

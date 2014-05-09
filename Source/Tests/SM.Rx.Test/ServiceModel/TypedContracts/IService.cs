@@ -99,16 +99,16 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
             Func<Customer, Task<Order>> operation)
         {
             var responses = iochannel
-                .Where(m => m.Unit.IsGetOrder())
+                .Where(m => m.Data.IsGetOrder())
                 .Select(async (m) =>
                     {
-                        var input = m.Unit.DecodeGetOrder();
+                        var input = m.Data.DecodeGetOrder();
                         var output = await operation(input);
-                        var response = output.EncodeGetOrderResponse(m.Unit);
+                        var response = output.EncodeGetOrderResponse(m.Data);
                         return new Context<Message>
                         {
-                            Parent =  m.Parent,
-                            Unit =  response
+                            Channel =  m.Channel,
+                            Data =  response
                         };
                     });
 

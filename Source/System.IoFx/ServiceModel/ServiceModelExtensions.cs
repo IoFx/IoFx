@@ -17,16 +17,16 @@ namespace System.IoFx.ServiceModel
             Func<TOuptput, TConnectionType, TConnectionType> encode)
         {
             var responses = iochannel
-                .Where(unit => filter(unit.Unit))
+                .Where(unit => filter(unit.Data))
                 .Select(unit =>
                     {
-                        var input = decode(unit.Unit);
+                        var input = decode(unit.Data);
                         var output = operation(input);
-                        var outputMsg = encode(output, unit.Unit);
+                        var outputMsg = encode(output, unit.Data);
                         return new Context<TConnectionType>()
                         {
-                            Unit = outputMsg,
-                            Parent = unit.Parent
+                            Data = outputMsg,
+                            Channel = unit.Channel
                         };
                     });
 
@@ -37,7 +37,7 @@ namespace System.IoFx.ServiceModel
         public static IDisposable Consume(this IObservable<Context<Message>> responses)
         {
             // Subscription involves sending the response back. 
-            return responses.Subscribe(r => r.Publish(r.Unit));
+            return responses.Subscribe(r => r.Publish(r.Data));
         }
 
         public static IDisposable Consume(this IObservable<Task<Context<Message>>> responses)
@@ -48,7 +48,7 @@ namespace System.IoFx.ServiceModel
 
                 //TODO: Exception handling
                 var item = await task;
-                item.Publish(item.Unit);
+                item.Publish(item.Data);
             });
         }
     }

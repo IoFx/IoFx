@@ -5,7 +5,7 @@ namespace System.IoFx.ServiceModel
     public static class BindingExtensions
     {
         public static IChannelListener<IDuplexSessionChannel> Start(this Binding binding, string uri)
-        {
+        {            
             return binding.Start<IDuplexSessionChannel>(uri);
         }
 

@@ -2,12 +2,12 @@
 {
     public struct Context<T>
     {
-        public T Unit { get; set; }
-        public Connector<T> Parent { get; set; }
+        public T Data { get; set; }
+        public Connector<T> Channel { get; set; }
 
         public T Publish(T output)
         {
-            Parent.Publish(output);
+            Channel.Publish(output);
             return output;
         }
     }

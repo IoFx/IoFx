@@ -35,11 +35,11 @@ namespace System.IoFx.Test
                 .OnConnect()
                 .Do(c => Console.WriteLine("Channel accepted"))
                 .OnMessage()
-                .Do(m => Console.WriteLine("Received " + m.Unit.Headers.Action))
+                .Do(m => Console.WriteLine("Received " + m.Data.Headers.Action))
                 .Subscribe(
                  r =>
                  {
-                     var input = r.Unit.GetBody<string>();
+                     var input = r.Data.GetBody<string>();
                      r.Publish(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
                      r.Publish(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
                  });

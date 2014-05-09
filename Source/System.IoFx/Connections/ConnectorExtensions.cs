@@ -19,7 +19,7 @@ namespace System.IoFx.Connections
         {
             var transformation = producer.Select(i => new Context<TOut>()
             {
-                Unit = convertor(i.Unit)
+                Data = convertor(i.Data)
             });
 
             return transformation;
@@ -29,7 +29,7 @@ namespace System.IoFx.Connections
         {
             return elements.Select(e => new Context<TInput>()
             {
-                Unit = e
+                Data = e
             });
         }
     }

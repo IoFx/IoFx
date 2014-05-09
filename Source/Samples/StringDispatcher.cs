@@ -14,7 +14,7 @@ namespace Samples
             Func<char, byte> charToByte = c => (byte)(int)c;
 
             var transportRequests = "ABCDEFG".ToCharArray().ToObservable<char>();
-            var transportSink = Observer.Create<Context<char>>(c => Console.WriteLine("Received : " + c.Unit));
+            var transportSink = Observer.Create<Context<char>>(c => Console.WriteLine("Received : " + c.Data));
 
             var units = transportRequests
                         .ToContexts()
