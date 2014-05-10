@@ -69,7 +69,6 @@
     <Compile Include="Framing\Encoder.cs" />
     <Compile Include="Framing\IEncoder.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
-    <Compile Include="Http\HttpListenerExtensions.cs" />
     <Compile Include="Http\HttpObservable.cs" />
     <Compile Include="IDisposableObservable.cs" />
     <Compile Include="Runtime\AwaitableThrottle.cs" />
