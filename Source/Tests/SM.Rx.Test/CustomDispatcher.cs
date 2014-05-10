@@ -72,7 +72,7 @@ namespace System.IoFx.Tests
             { }
         }
 
-        class InMemoryTransport : Connector<byte[]>
+        class InMemoryTransport : Connection<byte[]>
         {
             public InMemoryTransport(IObservable<byte[]> outputs)
                 : base(outputs, new IoSink<byte[]>())
@@ -81,7 +81,7 @@ namespace System.IoFx.Tests
             }
         }
 
-        class IoSink<T> : Connector<T>
+        class IoSink<T> : Connection<T>
         {
             public IoSink()
                 : this(new Subject<T>())

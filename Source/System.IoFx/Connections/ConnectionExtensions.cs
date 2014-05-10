@@ -2,9 +2,9 @@
 
 namespace System.IoFx.Connections
 {
-    public static class ConnectorExtensions
+    public static class ConnectionExtensions
     {
-        public static IDisposable Consume<T>(this Connector<T> connection, IObservable<T> outputs)
+        public static IDisposable Consume<T>(this Connection<T> connection, IObservable<T> outputs)
         {
             return outputs.Subscribe(connection);
         }

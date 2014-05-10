@@ -63,10 +63,12 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connections\IConnector.cs" />
+    <Compile Include="Connections\IConnection.cs" />
     <Compile Include="Connections\IListener.cs" />
     <Compile Include="Framing\Frame.cs" />
-    <Compile Include="Framing\FramingExtension.cs" />
+    <Compile Include="Framing\SizeDelimitedReaderExtensions.cs" />
+    <Compile Include="Framing\Encoder.cs" />
+    <Compile Include="Framing\IEncoder.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
     <Compile Include="Http\HttpListenerExtensions.cs" />
     <Compile Include="Http\HttpObservable.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="ServiceModel\BindingExtensions.cs" />
     <Compile Include="ServiceModel\ChannelExtensions.cs" />
     <Compile Include="ServiceModel\ServiceModelExtensions.cs" />
+    <Compile Include="Connections\ConnectionAcceptor.cs" />
     <Compile Include="Sockets\SocketAwaitable.cs" />
     <Compile Include="Sockets\SocketConnection.cs" />
     <Compile Include="Sockets\SocketFactory.cs" />
@@ -90,11 +93,11 @@
     <Compile Include="Sockets\SocketSender.cs" />
     <Compile Include="Sockets\SocketSenderExtensions.cs" />
     <Compile Include="Connections\Composer.cs" />
-    <Compile Include="Connections\Connector.cs" />
-    <Compile Include="Connections\ConnectorExtensions.cs" />
+    <Compile Include="Connections\Connection.cs" />
+    <Compile Include="Connections\ConnectionExtensions.cs" />
     <Compile Include="Connections\Context.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Connections\DisposableConnector.cs" />
+    <Compile Include="Connections\DisposableConnection.cs" />
     <Compile Include="Tracing\Trace.cs" />
   </ItemGroup>
   <ItemGroup>

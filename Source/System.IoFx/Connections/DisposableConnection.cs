@@ -1,10 +1,10 @@
 namespace System.IoFx.Connections
 {
-    public class DisposableConnector<T> : Connector<T>, IDisposable
+    public class DisposableConnection<T> : Connection<T>, IDisposable
     {
         private readonly IDisposable _disposable;
 
-        public DisposableConnector(IObservable<T> producer,
+        public DisposableConnection(IObservable<T> producer,
                                     IObserver<T> consumer,
                                     IDisposable disposable)
             : base(producer, consumer)

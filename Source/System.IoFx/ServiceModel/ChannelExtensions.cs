@@ -158,7 +158,7 @@ namespace System.IoFx.ServiceModel
             return Observer.Create<Message>(channel.Send);
         }
 
-        public static IObservable<Connector<Message>> OnConnect<TChannel>(
+        public static IObservable<Connection<Message>> OnConnect<TChannel>(
             this IChannelListener<TChannel> listener)
             where TChannel : class, IOutputChannel, IInputChannel
         {
@@ -175,13 +175,13 @@ namespace System.IoFx.ServiceModel
 
         public static void OnConnect<TChannel>(
             this IChannelListener<TChannel> listener,
-            Action<Connector<Message>> onNext)
+            Action<Connection<Message>> onNext)
             where TChannel : class, IOutputChannel, IInputChannel
         {
             listener.OnConnect().Subscribe(onNext);
         }
 
-        public static IObservable<Context<Message>> OnMessage(this IObservable<Connector<Message>> channels)
+        public static IObservable<Context<Message>> OnMessage(this IObservable<Connection<Message>> channels)
         {
             return from c in channels
                    from m in c
@@ -207,7 +207,7 @@ namespace System.IoFx.ServiceModel
             return new IoChannel<T, TChannel>(inputs, outputs, channel);
         }
 
-        class IoChannel<T, TChannel> : Connector<T> where TChannel : class, IChannel
+        class IoChannel<T, TChannel> : Connection<T> where TChannel : class, IChannel
         {
             public IoChannel(IObservable<T> inputs, IObserver<T> outputs, TChannel channel)
                 : base(inputs, outputs)

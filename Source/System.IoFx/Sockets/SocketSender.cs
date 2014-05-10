@@ -33,7 +33,6 @@ namespace System.IoFx.Sockets
                 Dispose(false);
                 throw;
             }
-
         }
 
         void Dispose(bool shutdown)

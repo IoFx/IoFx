@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace System.IoFx.Sockets
 {
-    public class SocketAwaitableEventArgs : SocketAsyncEventArgs, IAwaiter
+    class SocketAwaitableEventArgs : SocketAsyncEventArgs, IAwaiter
     {
         private readonly static Action Sentinel = () => { };
 

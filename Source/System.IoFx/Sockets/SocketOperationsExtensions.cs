@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
 {
-    public static class SocketOperationsExtensions
+    static class SocketOperationsExtensions
     {
         private delegate bool SocketOperationDelegate(Socket socket, SocketAsyncEventArgs args);
 

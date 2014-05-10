@@ -11,14 +11,14 @@
     /// <typeparam name="TInputs"></typeparam>
     public class Composer<TOutputs, TInputs>
     {
-        public Composer(Connector<TOutputs> requests, Connector<TInputs> responses)
+        public Composer(Connection<TOutputs> requests, Connection<TInputs> responses)
         {
             this.Outputs = requests;
             this.Inputs = responses;
         }
 
-        public Connector<TOutputs> Outputs { get; private set; }
+        public Connection<TOutputs> Outputs { get; private set; }
 
-        public Connector<TInputs> Inputs { get; private set; }
+        public Connection<TInputs> Inputs { get; private set; }
     }
 }

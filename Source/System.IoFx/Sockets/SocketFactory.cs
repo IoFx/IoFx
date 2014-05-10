@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace System.IoFx.Sockets
 {
-    internal class SocketFactory
+    class SocketFactory
     {
         public static readonly SocketFactory Factory = new SocketFactory();
         private ConcurrentQueue<SocketAwaitableEventArgs> _acceptAwaitableCache = new ConcurrentQueue<SocketAwaitableEventArgs>();

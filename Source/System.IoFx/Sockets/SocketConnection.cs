@@ -10,12 +10,12 @@ namespace System.IoFx.Sockets
         private readonly Socket _socket;
         private int _disposed;
 
-        public static IConnector<ArraySegment<byte>> Create(Socket socket)
+        public static IConnection<ArraySegment<byte>> Create(Socket socket)
         {
             var receiver = socket.GetData();
             var sender = socket.CreateSender();
             var disposable = new SocketConnection(socket);
-            return new DisposableConnector<ArraySegment<byte>>(receiver, sender, disposable);            
+            return new DisposableConnection<ArraySegment<byte>>(receiver, sender, disposable);            
         }
         private SocketConnection(Socket receiveSocket)
         {

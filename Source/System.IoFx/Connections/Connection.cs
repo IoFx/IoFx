@@ -5,12 +5,12 @@
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
-    public class Connector<TResult, TResponse> : IConnector<TResult,TResponse>
+    public class Connection<TResult, TResponse> : IConnection<TResult,TResponse>
     {
         readonly IObservable<TResult> _producers;
         readonly IObserver<TResponse> _consumer;        
 
-        public Connector(IObservable<TResult> producer, IObserver<TResponse> consumer)
+        public Connection(IObservable<TResult> producer, IObserver<TResponse> consumer)
         {
             this._producers = producer;
             this._consumer = consumer;
@@ -45,9 +45,9 @@
         #endregion
     }
 
-    public class Connector<T> : Connector<T, T>, IConnector<T>
+    public class Connection<T> : Connection<T, T>, IConnection<T>
     {
-        public Connector(IObservable<T> producer, IObserver<T> consumer)
+        public Connection(IObservable<T> producer, IObserver<T> consumer)
             : base(producer, consumer)
         {
         }
