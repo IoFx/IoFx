@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// The Encoder provides a state machine for input parsing 
-    /// and can materialize results. The OnNext method is called when an input 
+    /// and enables materializing results. The OnNext method is called when an input 
     /// arrives and the parser can continue processing and 
     /// notify the observer when a unit of TResult can be produced. 
     /// </summary>
@@ -22,19 +22,18 @@
             return _inputs.Subscribe(item =>
             {
                 this.OnNext(item, observer);
-                observer.OnCompleted();
             },
             observer.OnError,
             observer.OnCompleted);
         }
 
         /// <summary>
-        /// 
+        /// Producers invoke the OnNext when an item is availabe for decoding
         /// </summary>
         /// <param name="item"></param>
         /// <param name="observer"></param>
         public virtual void OnNext(TInput item, IObserver<TResult> observer)
-        {            
+        {
             observer.OnNext(default(TResult));
         }
     }

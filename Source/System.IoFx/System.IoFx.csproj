@@ -65,8 +65,7 @@
   <ItemGroup>
     <Compile Include="Connections\IConnection.cs" />
     <Compile Include="Connections\IListener.cs" />
-    <Compile Include="Framing\Frame.cs" />
-    <Compile Include="Framing\SizeDelimitedReaderExtensions.cs" />
+    <Compile Include="Framing\LengthPrefixedFramingExtensions.cs" />
     <Compile Include="Framing\Encoder.cs" />
     <Compile Include="Framing\IEncoder.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
@@ -85,13 +84,13 @@
     <Compile Include="Sockets\SocketAwaitable.cs" />
     <Compile Include="Sockets\SocketConnection.cs" />
     <Compile Include="Sockets\SocketFactory.cs" />
+    <Compile Include="Sockets\SocketHelpers.cs" />
     <Compile Include="Sockets\SocketListener.cs" />
     <Compile Include="Sockets\SocketOperationsExtensions.cs" />
     <Compile Include="Sockets\SocketObservable.cs" />
     <Compile Include="Sockets\SocketReceiver.cs" />
     <Compile Include="Sockets\SocketReceiverExtensions.cs" />
     <Compile Include="Sockets\SocketSender.cs" />
-    <Compile Include="Sockets\SocketSenderExtensions.cs" />
     <Compile Include="Connections\Composer.cs" />
     <Compile Include="Connections\Connection.cs" />
     <Compile Include="Connections\ConnectionExtensions.cs" />

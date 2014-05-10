@@ -1,12 +1,45 @@
 ﻿using System.IoFx.Connections;
 using System.Net;
 using System.Net.Sockets;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
 {
     public static class SocketObservable
     {
+        public static async Task<IObserver<ArraySegment<byte>>> CreateTcpStreamSender(string hostname, int port)
+        {
+            var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            bool disposeSocket = false;
+            try
+            {
+                using (SocketAwaitableEventArgs args = new SocketAwaitableEventArgs())
+                {
+                    args.RemoteEndPoint = SocketHelpers.GetFirstIPEndPointFromHostName(hostname, port);
+                    await socket.ConnectSocketAsync(args);
+                }
+            }
+            catch (Exception)
+            {
+                disposeSocket = true;
+                throw;
+            }
+            finally
+            {
+                if (disposeSocket)
+                    socket.Dispose();
+            }
+
+            return socket.CreateSender();
+        }
+
+        public static IObserver<ArraySegment<byte>> CreateSender(this Socket socket)
+        {
+            return new SocketSender(socket);
+        }
+
         public static IListener<Socket> AcceptTcpStream(int port)
         {
             Func<Socket> createFunc = () => StartTcpListenSocket(port);
@@ -18,7 +51,7 @@ namespace System.IoFx.Sockets
             Func<Socket> createFunc = () => StartTcpListenSocket(port);
             var listener = new SocketListener(createFunc, SocketFactory.Factory);
             var connections = listener.Select(SocketConnection.Create);
-            return new ConnectionAcceptor<Socket,ArraySegment<byte>> (listener, connections);
+            return new ConnectionAcceptor<Socket, ArraySegment<byte>>(listener, connections);
         }
 
         private static Socket StartTcpListenSocket(
@@ -28,12 +61,12 @@ namespace System.IoFx.Sockets
             ProtocolType protocolType = ProtocolType.Tcp,
             int backlog = 1024)
         {
-            address = address ?? IPAddress.Loopback;
+            address = address ?? SocketHelpers.GetFirstIPEndPointFromHostName("localhost",port).Address;
             var socket = new Socket(socketType, protocolType);
             var endpoint = new IPEndPoint(address, port);
             socket.Bind(endpoint);
             socket.Listen(backlog);
             return socket;
-        }       
+        }
     }
 }
