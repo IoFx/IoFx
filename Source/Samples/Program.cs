@@ -11,8 +11,6 @@ namespace Samples
             //  StringDispatcher.SimpleCharToByteTest();
             var server = SimpleSocketServer.StartServer();
             Task t = null;
-            //t = SimpleSocketServer.SendData();
-            //t.Wait();
             int size = 1024 * 1024;
             Console.WriteLine("Sending: " + size);
             t = SimpleSocketServer.SendData(size, 5);
