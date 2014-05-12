@@ -31,10 +31,10 @@ namespace System.IoFx.Test.Sockets
 
                 for (int i = 0; i < clientCount; i++)
                 {
-                    SocketHelpers.Connect(port);
+                    SocketTestUtility.Connect(port);
                 }
 
-                tcs.Task.Wait(TimeSpan.FromSeconds(5));
+                tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Assert.IsTrue(count == clientCount);
             }
             finally

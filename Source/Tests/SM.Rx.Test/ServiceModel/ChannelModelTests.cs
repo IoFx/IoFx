@@ -53,12 +53,11 @@ namespace SM.Rx.Test
                          .Subscribe(channel);
                     });
 
-                SendMessages();
-                System.Threading.Thread.Sleep(1000000);
+                SendMessages();                
             }
             finally
             {
-                listener.Close();
+                listener.Abort();
             }
         }
 

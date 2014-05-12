@@ -26,15 +26,15 @@ namespace System.IoFx.Test.Sockets
                         () => tcs.SetResult(null));
                 });
 
-                var sender = SocketHelpers.Connect(port);
+                var sender = SocketTestUtility.Connect(port);
                 var bytes = 0;
 
                 for (int i = 0; i < 100; i++)
                 {
-                    bytes += SocketHelpers.Send(sender, "This is a test<EOF>");
+                    bytes += SocketTestUtility.Send(sender, "This is a test<EOF>");
                 }
                 sender.Close(5);
-                tcs.Task.Wait(TimeSpan.FromSeconds(5));
+                tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
                 Assert.IsTrue(count == bytes);
             }
@@ -68,7 +68,7 @@ namespace System.IoFx.Test.Sockets
                             () => tcs.SetResult(null));
                 });
 
-                var sender = SocketHelpers.Connect(port);
+                var sender = SocketTestUtility.Connect(port);
                 var bytes = 0;
 
                 do
@@ -77,7 +77,7 @@ namespace System.IoFx.Test.Sockets
                 } while (bytes < totalSize);
 
                 sender.Close(5);
-                tcs.Task.Wait();
+                tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
                 Assert.IsTrue(count == totalSize);
             }

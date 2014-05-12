@@ -64,7 +64,7 @@ namespace System.IoFx.Test.ServiceModel.Channels
                         count,
                         count / watch.Elapsed.TotalSeconds));
 
-                tcs.Task.Wait(TimeSpan.FromMinutes(1));
+                tcs.Task.Wait(Defaults.LongTestWaitTime);
                 watch.Stop();
                 var seconds = watch.Elapsed.TotalSeconds;
                 Console.WriteLine("Received {0} messages in {1} seconds : {2} messages/sec",

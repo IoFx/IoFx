@@ -1,4 +1,5 @@
 ﻿using System.IoFx.ServiceModel;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace SM.Rx.Test.ServiceModel.TypedContracts
@@ -22,7 +23,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
     }
 
 
-    #endregion Contracts 
+    #endregion Contracts
 
     public class TypedServices
     {
@@ -34,13 +35,15 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
             var binding = new NetTcpBinding() { };
             binding.Security.Mode = SecurityMode.None;
             var listener = binding.Start(Address);
-            return listener
+            listener
                     .OnMessage()
                     .OnGetOrder(c =>
                     {
                         Console.WriteLine(c.Name);
                         return new Order { Name = c.Name + ":Order" };
                     });
+
+            return Disposable.Create(listener.Abort);
         }
 
         public static IDisposable ChannelModelDispatcher()
@@ -58,11 +61,10 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
                                 var output = new Order { Name = c.Name + ":Order" };
                                 var response = output.EncodeGetOrderResponse(r.Data);
                                 r.Channel.Publish(response);
-                            },
-                            listener.Close
+                            }                            
                         );
 
-            return res;
+            return Disposable.Create(listener.Abort);
         }
 
         public static string Invoke(string val = "John Doe")
@@ -74,7 +76,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
 
             var binding = new NetTcpBinding { Security = { Mode = SecurityMode.None } };
             var factory = new ChannelFactory<IService>(binding, Address);
-            IService proxy = factory.CreateChannel();            
+            IService proxy = factory.CreateChannel();
             var response = proxy.GetOrder(customer);
             Console.WriteLine("Response received: " + response.Name);
             return response.Name;

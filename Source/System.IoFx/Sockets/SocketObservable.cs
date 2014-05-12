@@ -17,7 +17,7 @@ namespace System.IoFx.Sockets
             {
                 using (SocketAwaitableEventArgs args = new SocketAwaitableEventArgs())
                 {
-                    args.RemoteEndPoint = SocketHelpers.GetFirstIPEndPointFromHostName(hostname, port);
+                    args.RemoteEndPoint = SocketHelpers.GetFirstIpEndPointFromHostName(hostname, port);
                     await socket.ConnectSocketAsync(args);
                 }
             }
@@ -61,7 +61,7 @@ namespace System.IoFx.Sockets
             ProtocolType protocolType = ProtocolType.Tcp,
             int backlog = 1024)
         {
-            address = address ?? SocketHelpers.GetFirstIPEndPointFromHostName("localhost",port).Address;
+            address = address ?? SocketHelpers.GetFirstIpEndPointFromHostName("localhost",port).Address;
             var socket = new Socket(socketType, protocolType);
             var endpoint = new IPEndPoint(address, port);
             socket.Bind(endpoint);

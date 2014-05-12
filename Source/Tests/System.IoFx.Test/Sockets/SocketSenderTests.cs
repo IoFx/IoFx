@@ -26,12 +26,12 @@ namespace System.IoFx.Test.Sockets
                         () => tcs.SetResult(null));
                 });
 
-                var socket = SocketHelpers.Connect(port);
+                var socket = SocketTestUtility.Connect(port);
                 var sender = socket.CreateSender();
                 var bytes = Encoding.ASCII.GetBytes("This is a test<EOF>");
                 sender.OnNext(new ArraySegment<byte>(bytes, 0, bytes.Length));
                 sender.OnCompleted();
-                tcs.Task.Wait(TimeSpan.FromSeconds(5));
+                tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
                 Assert.IsTrue(count == bytes.Length);
             }

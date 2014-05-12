@@ -1,0 +1,117 @@
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.IoFx.Framing;
+using System.IoFx.Sockets;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace System.IoFx.Test.Sockets.Framing
+{
+    [TestClass]
+    public class LenghtPrefixed
+    {
+        [TestMethod]
+        public void AsciiEncoded4byteTest()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            Action<byte[]> t = buffer =>
+            {
+                try
+                {
+                    var result = Encoding.ASCII.GetString(buffer);
+                    Console.WriteLine("Received " + result);
+                    bool valid = CheckPayload(result.ToCharArray());
+                    tcs.SetResult(valid);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            };
+
+            using (var server = StartServer(t))
+            {
+                SendData(5, 1);
+                tcs.Task.Wait(Defaults.ShortTestWaitTime);
+            }
+
+            Assert.IsTrue(tcs.Task.Result);
+        }
+
+        public IDisposable StartServer(Action<byte[]> assert)
+        {
+
+            var listener = SocketObservable.CreateTcpStreamListener(5050);
+
+            return listener
+                .Subscribe(connection =>
+                {
+                    var contexts = connection
+                        .ToLengthPrefixed()
+                        .Subscribe(m =>
+                    {
+                        Console.WriteLine("Received {0} bytes", m.Data.Length);
+                        if (assert != null)
+                            assert(m.Data);
+                    },
+                    ex => Console.WriteLine(ex.Message),
+                    () => Console.WriteLine("Disconnected"));
+                });
+        }
+
+
+
+        public async static Task SendData(int size = 5, int repeat = 1)
+        {
+            byte[] preamble = BitConverter.GetBytes(size);
+            var data = Encoding.ASCII.GetBytes(GetChars(size));
+            Contract.Assert(preamble.Length == 4);
+
+            var buffer = new byte[size + preamble.Length];
+            Buffer.BlockCopy(preamble, 0, buffer, 0, preamble.Length);
+            Buffer.BlockCopy(data, 0, buffer, preamble.Length, data.Length);
+            var payload = new ArraySegment<byte>(buffer);
+            var sender = await SocketObservable.CreateTcpStreamSender("localhost", 5050);
+            for (int i = 0; i < repeat; i++)
+            {
+                sender.OnNext(payload);
+            }
+
+            sender.OnCompleted();
+        }
+
+
+        static char[] GetChars(int size)
+        {
+            var chars = Enumerable.Range(0, size)
+                .Select(i => (char)((i % 26) + 65))
+                .ToArray();
+            return chars;
+        }
+
+        /// <summary>
+        /// Function to check if the characters are in order. 
+        /// ABCDEF.....
+        /// </summary>
+        /// <returns></returns>
+        private static bool CheckPayload(char[] input)
+        {
+            if (input.Length > 1)
+            {
+                for (int i = 0; i < input.Length - 1; i++)
+                {
+                    int expected = ((input[i] - 65 + 1) % 26) + 65;
+                    if (input[i + 1] != expected)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+}

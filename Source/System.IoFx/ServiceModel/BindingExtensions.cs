@@ -6,7 +6,7 @@ namespace System.IoFx.ServiceModel
     {
         public static IChannelListener<IDuplexSessionChannel> Start(this Binding binding, string uri)
         {            
-            return binding.Start<IDuplexSessionChannel>(uri);
+            return binding.Start<IDuplexSessionChannel>(uri);            
         }
 
         public static IChannelListener<TChannel> Start<TChannel>(this Binding binding, string uri) where TChannel : class, IChannel

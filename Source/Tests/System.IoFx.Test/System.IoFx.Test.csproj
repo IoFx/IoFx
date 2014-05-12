@@ -71,8 +71,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Defaults.cs" />
     <Compile Include="Http\HttpRequestResponse.cs" />
     <Compile Include="ServiceModel\Channels\MessageTests.cs" />
+    <Compile Include="Sockets\Framing\LenghtPrefixed.cs" />
     <Compile Include="Sockets\SocketAcceptTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sockets\SocketHelpers.cs" />
@@ -89,6 +91,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

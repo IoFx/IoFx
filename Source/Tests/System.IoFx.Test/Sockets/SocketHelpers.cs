@@ -1,15 +1,17 @@
-﻿using System.Net;
+﻿using System.IoFx.Sockets;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 namespace System.IoFx.Test.Sockets
 {
-    class SocketHelpers
+    class SocketTestUtility
     {
         public static Socket Connect(int port)
         {
-            var sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            sender.Connect(new IPEndPoint(IPAddress.Loopback, port));
+            var sender = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            var endpoint = SocketHelpers.GetFirstIpEndPointFromHostName("localhost", port);
+            sender.Connect(endpoint);
             return sender;
         }
 

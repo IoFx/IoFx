@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
 {
-    class SocketHelpers
+    public class SocketHelpers
     {
-        public static IPEndPoint GetFirstIPEndPointFromHostName(string hostName, int port)
+        public static IPEndPoint GetFirstIpEndPointFromHostName(string hostName, int port)
         {
             var addresses = System.Net.Dns.GetHostAddresses(hostName);
             if (addresses.Length == 0)

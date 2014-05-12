@@ -118,7 +118,7 @@ namespace System.IoFx.ServiceModel
 
                     await openAsyncFunc();
 
-                    while (true)
+                    while (_channel.State == CommunicationState.Opened)
                     {
                         var message = await _receiveAsyncFunc();
 
