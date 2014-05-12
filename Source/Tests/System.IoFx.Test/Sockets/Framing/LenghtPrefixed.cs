@@ -41,6 +41,48 @@ namespace System.IoFx.Test.Sockets.Framing
             Assert.IsTrue(tcs.Task.Result);
         }
 
+        [TestMethod]
+        public void AsciiEncoded5_1MbbyteTest()
+        {
+            var tcs = new TaskCompletionSource<int>();
+            const int expecteSize = 1024 * 1024;
+            const int expectedCount = 5;
+
+            int count = 0;
+            Action<byte[]> t = buffer =>
+            {
+                try
+                {
+                    var result = Encoding.ASCII.GetString(buffer);                  
+                    bool valid = CheckPayload(result.ToCharArray());
+                    count++;
+
+                    if (result.Length != expecteSize)
+                    {
+                        tcs.SetResult(-1);
+                        return;
+                    }
+
+                    if (count >= expectedCount)
+                    {
+                        tcs.SetResult(count);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            };
+
+            using (var server = StartServer(t))
+            {
+                SendData(expecteSize, expectedCount);
+                tcs.Task.Wait(Defaults.ShortTestWaitTime);
+            }
+
+            Assert.IsTrue(tcs.Task.Result == expectedCount);
+        }
+
         public IDisposable StartServer(Action<byte[]> assert)
         {
 
