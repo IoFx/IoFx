@@ -1,11 +1,17 @@
 namespace System.IoFx.Connections
 {
-    public class DisposableConnection<T> : Connection<T>, IDisposable
+    /// <summary>
+    /// This class avoid using Disposable.Create for connections. 
+    /// The other option would be to make connection itself disposable. 
+    /// </summary>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <typeparam name="TResponse"></typeparam>
+    public class DisposableConnection<TRequest, TResponse> : Connection<TRequest, TResponse>, IDisposable
     {
         private readonly IDisposable _disposable;
 
-        public DisposableConnection(IObservable<T> producer,
-                                    IObserver<T> consumer,
+        public DisposableConnection(IObservable<TRequest> producer,
+                                    IObserver<TResponse> consumer,
                                     IDisposable disposable)
             : base(producer, consumer)
         {
@@ -15,6 +21,18 @@ namespace System.IoFx.Connections
         void IDisposable.Dispose()
         {
             _disposable.Dispose();
+        }
+    }
+
+
+    public class DisposableConnection<T> : DisposableConnection<T, T> , IConnection<T>
+    {
+
+        public DisposableConnection(IObservable<T> producer,
+                                    IObserver<T> consumer,
+                                    IDisposable disposable)
+            : base(producer, consumer, disposable)
+        {
         }
     }
 }
