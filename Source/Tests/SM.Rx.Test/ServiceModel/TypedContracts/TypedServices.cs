@@ -60,7 +60,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
                                 Console.WriteLine(c.Name);
                                 var output = new Order { Name = c.Name + ":Order" };
                                 var response = output.EncodeGetOrderResponse(r.Data);
-                                r.Channel.Publish(response);
+                                r.Publish(response);
                             }                            
                         );
 

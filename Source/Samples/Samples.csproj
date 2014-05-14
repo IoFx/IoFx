@@ -64,6 +64,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="http\SimpleHttpServer.cs" />
+    <Compile Include="sockets\SocketSeverWithAck.cs" />
     <Compile Include="sockets\SimpleSocketServer.cs" />
     <Compile Include="StringDispatcher.cs" />
     <Compile Include="wcf\NetTcp.cs" />

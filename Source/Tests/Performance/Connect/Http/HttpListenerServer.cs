@@ -25,7 +25,7 @@ namespace Connect.Http
             _contexts.Subscribe(ctx => Task.Run(async () =>
             {
                 monitor.OnMessageStart();
-                await RespondWithHelloWorld(ctx, _buffer);
+                await SendResponse(ctx, _buffer);
                 monitor.OnMessageEnd();
                 monitor.OnMessage();
             }));
@@ -34,7 +34,7 @@ namespace Connect.Http
             return Disposable.Create(_contexts.Dispose);
         }
 
-        private static async Task RespondWithHelloWorld(HttpListenerContext context, byte[] buffer)
+        private static async Task SendResponse(HttpListenerContext context, byte[] buffer)
         {
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;

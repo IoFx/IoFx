@@ -14,7 +14,7 @@ namespace System.IoFx.Test.Sockets.Framing
     public class LenghtPrefixed
     {
         [TestMethod]
-        public void AsciiEncoded4byteTest()
+        public void AsciiEncoded4ByteTest()
         {
             var tcs = new TaskCompletionSource<bool>();
             Action<byte[]> t = buffer =>

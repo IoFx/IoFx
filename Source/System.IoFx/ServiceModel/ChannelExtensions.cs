@@ -1,6 +1,7 @@
 ﻿using System.IoFx.Connections;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
@@ -183,13 +184,18 @@ namespace System.IoFx.ServiceModel
 
         public static IObservable<Context<Message>> OnMessage(this IObservable<Connection<Message>> channels)
         {
-            return from c in channels
-                   from m in c
-                   select new Context<Message>
-                   {
-                       Data = m,
-                       Channel = c,
-                   };
+            Func<Connection<Message>, IObservable<Context<Message>>> translator = connection =>
+            {
+                IObservable<Context<Message>> messages = connection.Select(message => new Context<Message>()
+                {
+                    Data = message,
+                    Channel = connection,
+                });
+
+                return messages;
+            };
+
+            return channels.SelectMany(translator);
         }
 
         public static IObservable<Context<Message>> OnMessage(

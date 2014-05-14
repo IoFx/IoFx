@@ -4,8 +4,7 @@
     {
     }
 
-
     public interface IConnection<TResult> : IConnection<TResult, TResult>
     {
-    }
+    }    
 }
