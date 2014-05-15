@@ -8,11 +8,11 @@
     /// </summary>
     /// <typeparam name="TInput">Type of the Observable stream.</typeparam>
     /// <typeparam name="TResult">Type of subscription stream.</typeparam>
-    public class Encoder<TInput, TResult> : IEncoder<TInput, TResult>
+    public class Translator<TInput, TResult> : ITranslator<TInput, TResult>
     {
         private readonly IObservable<TInput> _inputs;
 
-        public Encoder(IObservable<TInput> inputs)
+        public Translator(IObservable<TInput> inputs)
         {
             _inputs = inputs;
         }

@@ -12,7 +12,7 @@ namespace System.IoFx.Test.Sockets
         public void SocketSend()
         {
             const int port = 5050;
-            using (var sockets = SocketObservable.AcceptTcpStream(port))
+            using (var sockets = SocketObservable.GetTcpStreamSockets(port))
             {
 
                 var tcs = new TaskCompletionSource<object>();
@@ -29,8 +29,8 @@ namespace System.IoFx.Test.Sockets
                 var socket = SocketTestUtility.Connect(port);
                 var sender = socket.CreateSender();
                 var bytes = Encoding.ASCII.GetBytes("This is a test<EOF>");
-                sender.OnNext(new ArraySegment<byte>(bytes, 0, bytes.Length));
-                sender.OnCompleted();
+                sender.Publish(new ArraySegment<byte>(bytes, 0, bytes.Length));
+                sender.Dispose();
                 tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
                 Assert.IsTrue(count == bytes.Length);

@@ -14,7 +14,7 @@ namespace System.IoFx.Test.Sockets.Framing
     public class LenghtPrefixed
     {
         [TestMethod]
-        public void AsciiEncoded4byteTest()
+        public void AsciiEncoded4ByteTest()
         {
             var tcs = new TaskCompletionSource<bool>();
             Action<byte[]> t = buffer =>
@@ -95,9 +95,9 @@ namespace System.IoFx.Test.Sockets.Framing
                         .ToLengthPrefixed()
                         .Subscribe(m =>
                     {
-                        Console.WriteLine("Received {0} bytes", m.Data.Length);
+                        Console.WriteLine("Received {0} bytes", m.Message.Length);
                         if (assert != null)
-                            assert(m.Data);
+                            assert(m.Message);
                     },
                     ex => Console.WriteLine(ex.Message),
                     () => Console.WriteLine("Disconnected"));
@@ -119,10 +119,10 @@ namespace System.IoFx.Test.Sockets.Framing
             var sender = await SocketObservable.CreateTcpStreamSender("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
-                sender.OnNext(payload);
+                sender.Publish(payload);
             }
 
-            sender.OnCompleted();
+            sender.Dispose();
         }
 
 

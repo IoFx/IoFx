@@ -12,7 +12,7 @@ namespace System.IoFx.Test.Sockets
         public void SocketReceive()
         {
             const int port = 5050;
-            var sockets = SocketObservable.AcceptTcpStream(port);
+            var sockets = SocketObservable.GetTcpStreamSockets(port);
             try
             {
                 var tcs = new TaskCompletionSource<object>();
@@ -53,7 +53,7 @@ namespace System.IoFx.Test.Sockets
             var random = new Random();
             random.NextBytes(payload);
 
-            using (var sockets = SocketObservable.AcceptTcpStream(port))
+            using (var sockets = SocketObservable.GetTcpStreamSockets(port))
             {
 
                 var tcs = new TaskCompletionSource<object>();

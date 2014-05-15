@@ -13,17 +13,17 @@ namespace Connect.WCF.Channels
         private DuplexChannelManager _clients;
         public override void Run()
         {
-            if (Arguments.IsServer())
+            if (ConnectArguments.IsServer())
             {
-                _server = new TcpChannelServer(Arguments.CreateNetTcpAddress());
+                _server = new TcpChannelServer(ConnectArguments.CreateNetTcpAddress());
                 _server.StartServer();
             }
             else
             {
-                _clients  = new DuplexChannelManager(Arguments.ConnectionLimit,
-                                                        Arguments.MessageRate,
+                _clients  = new DuplexChannelManager(ConnectArguments.ConnectionLimit,
+                                                        ConnectArguments.MessageRate,
                                                         new NetTcpBinding() { Security = { Mode = SecurityMode.None } },
-                                                        Arguments.CreateNetTcpAddress());
+                                                        ConnectArguments.CreateNetTcpAddress());
                 _clients.Start();
             }
         }

@@ -18,11 +18,11 @@ namespace System.IoFx.Framing
             return new LengthPrefixedFramingReader(connection);
         }
 
-        private class LengthPrefixedFramingReader : Encoder<ArraySegment<byte>, Context<byte[]>>
+        private class LengthPrefixedFramingReader : Translator<ArraySegment<byte>, Context<byte[]>>
         {
             const int LengthPrefixSize = 4;
-            private PayloadReader<byte[]> _payloadReader;
-            private PayloadReader<int> _lengthPrefixReader;
+            private readonly PayloadReader<byte[]> _payloadReader;
+            private readonly PayloadReader<int> _lengthPrefixReader;
             private State _state = State.ReadingPreamble;
 
             private enum State
@@ -62,7 +62,7 @@ namespace System.IoFx.Framing
                         {
                             observer.OnNext(new Context<byte[]>()
                             {
-                                Data = payload,
+                                Message = payload,
                             });
 
                             // Start next message;

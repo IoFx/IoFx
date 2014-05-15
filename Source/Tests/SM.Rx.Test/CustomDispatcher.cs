@@ -30,12 +30,12 @@ namespace System.IoFx.Tests
                 stringDispatcher.Inputs.Publish(m + "!");
             });
 
-            var transport = new InMemoryTransport(testMessages);            
+            var transport = new InMemoryTransport(testMessages);
             var byteRequests = transport.Publish(); // ensure all subscriptions are done before starting. 
 
 
             // Get strings from bytes
-            var stringRequest = byteRequests.Select(decode); 
+            var stringRequest = byteRequests.Select(decode);
 
 
             // Consume strings
@@ -45,8 +45,8 @@ namespace System.IoFx.Tests
             var results = stringDispatcher.Inputs.Select(s => s + "$");
 
             // Get bytes from strings 
-            var byteResponses = results .Select(encode).Do(r => outputs.Add(r));
-           
+            var byteResponses = results.Select(encode).Do(r => outputs.Add(r));
+
             // transport consumes the byte outputs. 
             transport.Consume(byteResponses);
 
@@ -63,7 +63,7 @@ namespace System.IoFx.Tests
             }
         }
 
-        
+
 
         class StringDispatcher : Composer<string, string>
         {
@@ -81,18 +81,19 @@ namespace System.IoFx.Tests
             }
         }
 
-        class IoSink<T> : Connection<T>
+        class IoSink<T> : IConnection<T>
         {
-            public IoSink()
-                : this(new Subject<T>())
+            private readonly Subject<T> _sink = new Subject<T>();
+
+            public IDisposable Subscribe(IObserver<T> observer)
             {
+                return _sink.Subscribe(observer);
             }
 
-            public IoSink(Subject<T> io)
-                : base(io, io)
+            public void Publish(T item)
             {
+                _sink.OnNext(item);
             }
         }
     }
-
 }

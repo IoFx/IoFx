@@ -76,9 +76,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConnectionRateMonitor.cs" />
+    <Compile Include="Sockets\LenghPrefixed\SocketServer.LenghtPrefixed.cs" />
     <Compile Include="Sockets\SocketClient.cs" />
     <Compile Include="Sockets\socket.cs" />
+    <Compile Include="Sockets\SocketCommandArgs.cs" />
+    <Compile Include="Sockets\SocketServer.SimpleReceiver.cs" />
     <Compile Include="Sockets\SocketServer.cs" />
+    <Compile Include="Sockets\Utility.cs" />
     <Compile Include="TestScenario.cs" />
     <Compile Include="WCF\Channels\DuplexChannelManager.cs" />
     <Compile Include="WCF\Channels\NetTcpDC.cs" />
@@ -93,9 +97,7 @@
     <None Include="Http\Tests\settings.ubr" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sockets\Net\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\System.IoFx\System.IoFx.csproj">
       <Project>{2bdd55c5-dc1c-4a7f-a468-2dd7de067542}</Project>

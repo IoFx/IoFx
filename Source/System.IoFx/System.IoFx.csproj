@@ -66,8 +66,8 @@
     <Compile Include="Connections\IConnection.cs" />
     <Compile Include="Connections\IListener.cs" />
     <Compile Include="Framing\LengthPrefixedFramingExtensions.cs" />
-    <Compile Include="Framing\Encoder.cs" />
-    <Compile Include="Framing\IEncoder.cs" />
+    <Compile Include="Framing\Translator.cs" />
+    <Compile Include="Framing\ITranslator.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
     <Compile Include="Http\HttpObservable.cs" />
     <Compile Include="IDisposableObservable.cs" />
@@ -78,8 +78,15 @@
     <Compile Include="Runtime\SList.cs" />
     <Compile Include="ServiceModel\BindingExtensions.cs" />
     <Compile Include="ServiceModel\ChannelExtensions.cs" />
+    <Compile Include="ServiceModel\MessageConsumer.cs" />
     <Compile Include="ServiceModel\ServiceModelExtensions.cs" />
     <Compile Include="Connections\ConnectionAcceptor.cs" />
+    <Compile Include="IVisitorAcceptor.cs" />
+    <Compile Include="IConsumer.cs" />
+    <Compile Include="IQueueable.cs" />
+    <Compile Include="IQueueableConsumer.cs" />
+    <Compile Include="IResourcePool.cs" />
+    <Compile Include="IVisitor.cs" />
     <Compile Include="Sockets\SocketAwaitable.cs" />
     <Compile Include="Sockets\SocketConnection.cs" />
     <Compile Include="Sockets\SocketFactory.cs" />

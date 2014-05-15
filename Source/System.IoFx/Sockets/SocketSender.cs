@@ -1,21 +1,27 @@
 ﻿using System.CodeDom;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
+using System.IoFx.Runtime;
 using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
 
 namespace System.IoFx.Sockets
 {
-    class SocketSender : IObserver<ArraySegment<byte>>, IDisposable, IVisitableConsumer<ArraySegment<byte>>
+    class SocketSender : IDisposableConsumer<ArraySegment<byte>>, IDisposable
     {
         private int _disposed;
         private readonly Socket _socket;
         private bool _pending;
-        private INotifyQueue<ArraySegment<byte>> _queueNotifier;
+        private IQueueable<ArraySegment<byte>> _queueVisitor;
+        private SocketAsyncEventArgs _writeEventArgs;
+        private IResourcePool<ArraySegment<byte>> _bufferManager = BufferManager.DefaultPool;
+        private ArraySegment<byte> _writeBuffer;
 
         public SocketSender(Socket socket)
         {
+            //TODO: Visit with buffer manager
+            _writeEventArgs = new SocketAsyncEventArgs();                      
             _socket = socket;
         }
 
@@ -31,7 +37,7 @@ namespace System.IoFx.Sockets
 
         public void OnNext(ArraySegment<byte> value)
         {
-            TryConsume(value);
+            Publish(value);
         }
 
         private int SendCore(ref ArraySegment<byte> value)
@@ -51,12 +57,22 @@ namespace System.IoFx.Sockets
         {
             if (Interlocked.CompareExchange(ref _disposed, 1, 0) == 0)
             {
-                if (shutdown && _socket.Connected)
-                {
-                    _socket.Shutdown(SocketShutdown.Send);
-                }
+                try
+                {                    
+                    _writeEventArgs.Dispose();
 
-                _socket.Close();
+                    if (shutdown && _socket.Connected)
+                    {
+                        _socket.Shutdown(SocketShutdown.Send);
+                    }
+
+                    _socket.Close();
+
+                }
+                finally
+                {
+                    _bufferManager.Return(ref _writeBuffer);                    
+                }
             }
         }
 
@@ -65,9 +81,8 @@ namespace System.IoFx.Sockets
             Dispose(true);
         }
 
-        public bool TryConsume(ArraySegment<byte> item)
-        {
-            bool complete = false;
+        public void Publish(ArraySegment<byte> item)
+        {            
             lock (_socket)
             {
                 if (!_pending)
@@ -79,45 +94,27 @@ namespace System.IoFx.Sockets
                 else
                 if (_pending)
                 {
-                    _queueNotifier.Enqueue(item);
-                }
-
-                return _pending;
+                    _queueVisitor.Enqueue(item);
+                }              
             }
         }
 
-        public void Accept(INotifyQueue<ArraySegment<byte>> visitor)
+        public void Accept(IQueueable<ArraySegment<byte>> visitor)
         {
-            Contract.Assert(_queueNotifier == null);
-            _queueNotifier.Visit(this);
-            _queueNotifier = visitor;         
+            Contract.Assert(_queueVisitor == null);
+            _queueVisitor.Visit(this);
+            _queueVisitor = visitor;         
         }
-    }
 
-    internal interface IVisitorAcceptor<in T>
-    {
-        void Accept(T visitor);
-    }
+        public void Accept(IResourcePool<ArraySegment<byte>> visitor)
+        {
+            _bufferManager = visitor;
+            _writeEventArgs = new SocketAsyncEventArgs();
 
-
-    interface IVisitor<in T>
-    {
-        void Visit(T visitor);
-    }
-
-    internal interface INotifyQueue<T> : IVisitor<IConsumer<T>>
-    {
-        void Enqueue(T item);
-    }
-
-
-    public interface IConsumer<in T> 
-    {
-        bool TryConsume(T item);        
-    }
-
-    internal interface IVisitableConsumer<T> : IConsumer<T>, IVisitorAcceptor<INotifyQueue<T>>
-    {
-
+            var taken = visitor.Take(out _writeBuffer);
+            Contract.Assert(taken);
+            _writeEventArgs.SetBuffer(_writeBuffer.Array, _writeBuffer.Offset, _writeBuffer.Count);            
+            
+        }
     }
 }

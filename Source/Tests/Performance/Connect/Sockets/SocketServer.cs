@@ -3,32 +3,25 @@ using System.IoFx.Sockets;
 
 namespace Connect.Sockets
 {
-    public class SocketServer : IServer
+    partial class SocketServer : IServer
     {
         private readonly int _port;
-        public SocketServer(int port)
+        private SocketCommandArgs _socketArgs;
+        
+        public SocketServer(int port, SocketCommandArgs args)
         {
             _port = port;
+            _socketArgs = args;
         }
 
         public IDisposable StartServer()
         {
-            var sockets = SocketObservable.AcceptTcpStream(_port);
-            var monitor = new ConnectionRateMonitor();
-
-            sockets.Subscribe(s =>
+            if (_socketArgs.Ack)
             {
-                monitor.OnConnect();
-                var receiver = s.GetData();
-                receiver.Subscribe(
-                    d => monitor.OnMessage(),
-                    ex => monitor.OnDisconnect(),
-                    monitor.OnDisconnect);
-            });
+                return FixedLenghtWithAck();
+            }
 
-            monitor.Start();
-
-            return sockets;
+            return SimpleReceiver();
         }      
     }
 }

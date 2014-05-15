@@ -19,12 +19,12 @@ namespace System.IoFx.Runtime
         private class BufferPool
         {
             private readonly int _size;
-            private readonly FixedSizeCache<byte[]> _cache ;            
+            private readonly FixedSizeCache<byte[]> _cache;
 
             public BufferPool(int size, int maxCount)
             {
                 _size = size;
-                _cache = new FixedSizeCache<byte[]>(maxCount, ()=> new byte[_size]);
+                _cache = new FixedSizeCache<byte[]>(maxCount, () => new byte[_size]);
             }
 
             internal FixedSizeCache<byte[]> GetAwaiter()
@@ -37,7 +37,39 @@ namespace System.IoFx.Runtime
                 Contract.Assert(buffer.Length == _size);
                 _cache.Return(buffer);
             }
-        }     
+        }
 
+
+        public static IResourcePool<ArraySegment<byte>> DefaultPool = new DefaultAllocatorPool<ArraySegment<byte>>(() => new ArraySegment<byte>(new byte[8 * 1024]));
+    }
+
+    public class DefaultAllocatorPool<T> : IResourcePool<T>
+    {
+        private readonly Func<T> _createFunc;
+        public DefaultAllocatorPool(Func<T> createFunc)
+        {
+            if (createFunc == null)
+            {
+                throw new ArgumentNullException("createFunc");
+            }
+
+            _createFunc = createFunc;
+        }
+
+        public bool Take(out T resource)
+        {
+            resource = _createFunc();
+            return true;
+        }
+
+        public void Return(ref T resource)
+        {
+            // NOP
+        }
+
+        public void Visit(ArraySegment<byte> visitor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

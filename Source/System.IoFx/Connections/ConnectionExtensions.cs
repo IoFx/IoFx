@@ -4,14 +4,17 @@ namespace System.IoFx.Connections
 {
     public static class ConnectionExtensions
     {
-        public static IDisposable Consume<T>(this Connection<T> connection, IObservable<T> outputs)
+        public static IDisposable Consume<T>(this IConnection<T> connection, IObservable<T> outputs)
         {
-            return outputs.Subscribe(connection);
+            return outputs.Subscribe(output =>
+            {
+                connection.Publish(output);
+            });
         }
 
         public static IDisposable Consume<TOutputs, TInputs>(this Composer<TOutputs, TInputs> composer, IObservable<TOutputs> outputs)
         {
-            return outputs.Subscribe(composer.Outputs);
+            return outputs.Subscribe(composer.Outputs.Publish);
         }
 
         public static IObservable<Context<TOut>> ToConnection<TIn, TOut>(this IObservable<Context<TIn>> producer,
@@ -19,7 +22,7 @@ namespace System.IoFx.Connections
         {
             var transformation = producer.Select(i => new Context<TOut>()
             {
-                Data = convertor(i.Data)
+                Message = convertor(i.Message)
             });
 
             return transformation;
@@ -29,7 +32,7 @@ namespace System.IoFx.Connections
         {
             return elements.Select(e => new Context<TInput>()
             {
-                Data = e
+                Message = e
             });
         }
     }

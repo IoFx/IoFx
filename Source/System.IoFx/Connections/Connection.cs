@@ -8,9 +8,9 @@
     public class Connection<TResult, TResponse> : IConnection<TResult,TResponse>
     {
         readonly IObservable<TResult> _producers;
-        readonly IObserver<TResponse> _consumer;        
+        readonly IConsumer<TResponse> _consumer;        
 
-        public Connection(IObservable<TResult> producer, IObserver<TResponse> consumer)
+        public Connection(IObservable<TResult> producer, IConsumer<TResponse> consumer)
         {
             this._producers = producer;
             this._consumer = consumer;
@@ -23,31 +23,13 @@
 
         public void Publish(TResponse value)
         {
-            this._consumer.OnNext(value);
+            this._consumer.Publish(value);
         }
-
-        #region IObserver implementation
-        void IObserver<TResponse>.OnCompleted()
-        {
-            this._consumer.OnCompleted();
-        }
-
-        void IObserver<TResponse>.OnError(Exception error)
-        {
-            this._consumer.OnError(error);
-        }
-
-
-        void IObserver<TResponse>.OnNext(TResponse value)
-        {
-            this._consumer.OnNext(value);
-        } 
-        #endregion
     }
 
     public class Connection<T> : Connection<T, T>, IConnection<T>
     {
-        public Connection(IObservable<T> producer, IObserver<T> consumer)
+        public Connection(IObservable<T> producer, IConsumer<T> consumer)
             : base(producer, consumer)
         {
         }

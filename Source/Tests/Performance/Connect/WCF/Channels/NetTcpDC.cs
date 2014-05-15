@@ -30,7 +30,7 @@ namespace Connect.WCF.Channels
 
         public override void Run()
         {
-            if (Arguments.IsServer())
+            if (ConnectArguments.IsServer())
             {
                 StartServer();
             }
@@ -45,10 +45,10 @@ namespace Connect.WCF.Channels
             var binding = new NetTcpBinding() { Security = { Mode = SecurityMode.None } };
 
             var clientmanager = new DuplexChannelManager(
-                Arguments.ConnectionLimit,
-                Arguments.MessageRate,
+                ConnectArguments.ConnectionLimit,
+                ConnectArguments.MessageRate,
                 binding,
-                Arguments.CreateNetTcpAddress(),
+                ConnectArguments.CreateNetTcpAddress(),
                 CreateMessage(binding));
 
             return clientmanager.Start();
@@ -58,7 +58,7 @@ namespace Connect.WCF.Channels
         {
             var monitor = new ConnectionRateMonitor();
             var binding = new NetTcpBinding { Security = { Mode = SecurityMode.None } };
-            var listener = binding.Start(this.Arguments.CreateNetTcpAddress());
+            var listener = binding.Start(this.ConnectArguments.CreateNetTcpAddress());
             Console.WriteLine("Listening on {0} for {1}", listener.Uri, typeof(SimpleObject).Name);
 
             listener.GetChannels()

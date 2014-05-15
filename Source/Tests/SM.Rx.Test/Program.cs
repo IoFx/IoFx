@@ -35,11 +35,11 @@ namespace System.IoFx.Test
                 .OnConnect()
                 .Do(c => Console.WriteLine("Channel accepted"))
                 .OnMessage()
-                .Do(m => Console.WriteLine("Received " + m.Data.Headers.Action))
+                .Do(m => Console.WriteLine("Received " + m.Message.Headers.Action))
                 .Subscribe(
                  r =>
                  {
-                     var input = r.Data.GetBody<string>();
+                     var input = r.Message.GetBody<string>();
                      r.Publish(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
                      r.Publish(Message.CreateMessage(b.MessageVersion, "", "Echo:" + input));
                  });
@@ -69,12 +69,12 @@ namespace System.IoFx.Test
                            select new
                            {
                                Messages = channel.GetMessages(),
-                               Response = channel.ReplyOn()
+                               Response = channel.GetConsumer()
                            };
 
             channels.Subscribe(channel =>
             {
-                channel.Response.OnNext(Message.CreateMessage(binding.MessageVersion, "Test", "Echo:" + "Connected"));
+                channel.Response.Publish(Message.CreateMessage(binding.MessageVersion, "Test", "Echo:" + "Connected"));
 
                 /*      
                       (from message in channel.Messages
@@ -88,7 +88,7 @@ namespace System.IoFx.Test
                 {
                     var input = message.GetBody<string>();
                     var output = Message.CreateMessage(binding.MessageVersion, "", "Echo:" + input);
-                    channel.Response.OnNext(output);
+                    channel.Response.Publish(output);
                 });
             });
         }

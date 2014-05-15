@@ -52,15 +52,15 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
             binding.Security.Mode = SecurityMode.None;
             var listener = binding.Start(Address);
             var res = listener.OnMessage()
-                        .Do(m => Console.WriteLine(m.Data.Headers.Action))
+                        .Do(m => Console.WriteLine(m.Message.Headers.Action))
                         .Subscribe(
                             r =>
                             {
-                                Customer c = r.Data.DecodeGetOrder();
+                                Customer c = r.Message.DecodeGetOrder();
                                 Console.WriteLine(c.Name);
                                 var output = new Order { Name = c.Name + ":Order" };
-                                var response = output.EncodeGetOrderResponse(r.Data);
-                                r.Channel.Publish(response);
+                                var response = output.EncodeGetOrderResponse(r.Message);
+                                r.Publish(response);
                             }                            
                         );
 

@@ -10,10 +10,12 @@ namespace Connect.Sockets
         ConnectArgs arguments;
         int messageSize = SocketClient.MessageSize;
         private Queue<SocketClient> _clients;
+        private SocketCommandArgs _socketCommandArgs;
 
-        public SocketClientManager(ConnectArgs arguments)
+        public SocketClientManager(ConnectArgs arguments, SocketCommandArgs args)
         {
-            this.arguments = arguments;        
+            this.arguments = arguments;
+            _socketCommandArgs = args;
         }
 
         public IDisposable Start()

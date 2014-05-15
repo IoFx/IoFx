@@ -21,8 +21,8 @@ namespace Samples.sockets
                     var messages = connection.ToLengthPrefixed();
                     messages.Subscribe(m =>
                     {  
-                            Console.WriteLine("Received {0} bytes", m.Data.Length);
-                            m.Publish(m.Data);
+                            Console.WriteLine("Received {0} bytes", m.Message.Length);
+                            m.Publish(m.Message);
                     },
 
                     ex => Console.WriteLine(ex.Message),
@@ -43,10 +43,10 @@ namespace Samples.sockets
             var sender = await SocketObservable.CreateTcpStreamSender("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
-                sender.OnNext(payload);
+                sender.Publish(payload);
             }
 
-            sender.OnCompleted();
+            sender.Dispose();
         }
 
 

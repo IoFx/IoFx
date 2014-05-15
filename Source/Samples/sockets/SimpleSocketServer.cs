@@ -28,13 +28,13 @@ namespace Samples.sockets
                     var messages = connection.ToLengthPrefixed();
                     messages.Subscribe(m =>
                     {
-                        if (m.Data.Length < 1024)
+                        if (m.Message.Length < 1024)
                         {
-                            Console.WriteLine("Received {0} bytes: {1}", m.Data.Length, Encoding.ASCII.GetString(m.Data));
+                            Console.WriteLine("Received {0} bytes: {1}", m.Message.Length, Encoding.ASCII.GetString(m.Message));
                         }
                         else
                         {
-                            Console.WriteLine("Received {0} bytes", m.Data.Length);
+                            Console.WriteLine("Received {0} bytes", m.Message.Length);
                         }
                     },
                     ex => Console.WriteLine(ex.Message),
@@ -55,12 +55,11 @@ namespace Samples.sockets
             var sender = await SocketObservable.CreateTcpStreamSender("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
-                sender.OnNext(payload);
+                sender.Publish(payload);
             }
 
-            sender.OnCompleted();
+            sender.Dispose();
         }
-
 
         static char[] GetChars(int size)
         {

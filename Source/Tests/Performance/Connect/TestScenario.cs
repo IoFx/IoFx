@@ -10,7 +10,7 @@ namespace Connect
 {
     abstract class TestScenario : IDisposable
     {
-        public ConnectArgs Arguments { get; set; }
+        public ConnectArgs ConnectArguments { get; set; }
 
         public static TestScenario Create(ConnectArgs commandline)
         {
@@ -19,7 +19,7 @@ namespace Connect
             if (string.IsNullOrEmpty(scenario))
             {
                 throw new ArgumentNullException("scenario");
-            }
+            }            
 
             var scenarios = Assembly.GetExecutingAssembly()
                                     .GetTypes()
@@ -41,7 +41,7 @@ namespace Connect
 
             Console.WriteLine("Executing scenario:" + type.Name);
             var instance = (TestScenario)Activator.CreateInstance(type);
-            instance.Arguments = commandline;
+            instance.ConnectArguments = commandline;
             return instance;
         }
 

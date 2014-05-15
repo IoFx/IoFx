@@ -37,6 +37,10 @@ namespace Connect
         [CommandLineParameter(Command = "type", Required = false, Default = "socket", Description = "connection type.")]
         public string Scenario { get; set; }
 
+
+        [CommandLineParameter(Command = "args", Required = false, Default = "", Description = "arguments that need to passed into the scenario.")]
+        public string ScenarioArguments { get; set; }
+
         public ConnectionType Type {
             get
             {

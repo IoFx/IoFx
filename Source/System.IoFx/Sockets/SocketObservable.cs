@@ -9,7 +9,7 @@ namespace System.IoFx.Sockets
 {
     public static class SocketObservable
     {
-        public static async Task<IObserver<ArraySegment<byte>>> CreateTcpStreamSender(string hostname, int port)
+        public static async Task<IDisposableConsumer<ArraySegment<byte>>> CreateTcpStreamSender(string hostname, int port)
         {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
             bool disposeSocket = false;
@@ -35,24 +35,29 @@ namespace System.IoFx.Sockets
             return socket.CreateSender();
         }
 
-        public static IObserver<ArraySegment<byte>> CreateSender(this Socket socket)
+        public static IDisposableConsumer<ArraySegment<byte>> CreateSender(this Socket socket)
         {
             return new SocketSender(socket);
         }
 
-        public static IListener<Socket> AcceptTcpStream(int port)
+        public static IListener<Socket> GetTcpStreamSockets(int port)
         {
             Func<Socket> createFunc = () => StartTcpListenSocket(port);
             return new SocketListener(createFunc, SocketFactory.Factory);
         }
 
-        public static IListener<IConnection<ArraySegment<byte>>> CreateTcpStreamListener(int port)
+        public static IObservable<IConnection<ArraySegment<byte>>> GetConnections(this IListener<Socket> listener)
         {
-            Func<Socket> createFunc = () => StartTcpListenSocket(port);
-            var listener = new SocketListener(createFunc, SocketFactory.Factory);
             var connections = listener.Select(SocketConnection.Create);
             return new ConnectionAcceptor<Socket, ArraySegment<byte>>(listener, connections);
         }
+
+        public static IObservable<IConnection<ArraySegment<byte>>> CreateTcpStreamListener(int port)
+        {
+            return GetTcpStreamSockets(port).GetConnections();
+        }
+
+
 
         private static Socket StartTcpListenSocket(
             int port,

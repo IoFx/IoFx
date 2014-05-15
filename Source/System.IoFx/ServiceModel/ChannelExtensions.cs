@@ -1,6 +1,7 @@
 ﻿using System.IoFx.Connections;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
@@ -152,10 +153,11 @@ namespace System.IoFx.ServiceModel
             }
         }
 
-        public static IObserver<Message> ReplyOn<TChannel>(
+        public static IConsumer<Message> GetConsumer<TChannel>(
             this TChannel channel) where TChannel : IOutputChannel
         {
-            return Observer.Create<Message>(channel.Send);
+
+           return new OutputChannelMessageConsumer(channel);           
         }
 
         public static IObservable<Connection<Message>> OnConnect<TChannel>(
@@ -168,7 +170,7 @@ namespace System.IoFx.ServiceModel
                 .Select(channel =>
                 {
                     var inputs = channel.GetMessages();
-                    var outputs = channel.ReplyOn();
+                    var outputs = channel.GetConsumer();
                     return channel.CreateIoChannel(inputs, outputs);
                 });
         }
@@ -183,13 +185,18 @@ namespace System.IoFx.ServiceModel
 
         public static IObservable<Context<Message>> OnMessage(this IObservable<Connection<Message>> channels)
         {
-            return from c in channels
-                   from m in c
-                   select new Context<Message>
-                   {
-                       Data = m,
-                       Channel = c,
-                   };
+            Func<Connection<Message>, IObservable<Context<Message>>> translator = connection =>
+            {
+                IObservable<Context<Message>> messages = connection.Select(message => new Context<Message>()
+                {
+                    Message = message,
+                    Channel = connection,
+                });
+
+                return messages;
+            };
+
+            return channels.SelectMany(translator);
         }
 
         public static IObservable<Context<Message>> OnMessage(
@@ -201,7 +208,7 @@ namespace System.IoFx.ServiceModel
         private static IoChannel<T, TChannel> CreateIoChannel<T, TChannel>(
             this TChannel channel,
             IObservable<T> inputs,
-            IObserver<T> outputs)
+            IConsumer<T> outputs)
             where TChannel : class, IChannel
         {
             return new IoChannel<T, TChannel>(inputs, outputs, channel);
@@ -209,7 +216,7 @@ namespace System.IoFx.ServiceModel
 
         class IoChannel<T, TChannel> : Connection<T> where TChannel : class, IChannel
         {
-            public IoChannel(IObservable<T> inputs, IObserver<T> outputs, TChannel channel)
+            public IoChannel(IObservable<T> inputs, IConsumer<T> outputs, TChannel channel)
                 : base(inputs, outputs)
             {
                 this.Channel = channel;

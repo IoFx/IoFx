@@ -43,14 +43,14 @@ namespace SM.Rx.Test
                             return Message.CreateMessage(version, "", "Echo:" + input);   
                         });
 
-                        responses.Subscribe(channel);
+                        responses.Subscribe(channel.Publish);
 
                         //channel.Consume(responses);
 
                         (from message in channel
                          let input = message.GetBody<string>()
                          select Message.CreateMessage(version, "", "Echo:" + input))
-                         .Subscribe(channel);
+                         .Subscribe(channel.Publish);
                     });
 
                 SendMessages();                
