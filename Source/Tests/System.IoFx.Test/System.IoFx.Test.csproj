@@ -81,6 +81,7 @@
     <Compile Include="Sockets\SocketHelpers.cs" />
     <Compile Include="Sockets\SocketReceiverTests.cs" />
     <Compile Include="Sockets\SocketSenderTests.cs" />
+    <Compile Include="Utility\ArrayEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\System.IoFx\System.IoFx.csproj">

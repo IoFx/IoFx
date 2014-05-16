@@ -6,7 +6,7 @@ namespace System.IoFx.Connections
     /// </summary>
     /// <typeparam name="TRequest"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
-    public class DisposableConnection<TRequest, TResponse> : Connection<TRequest, TResponse>, IDisposable
+    class DisposableConnection<TRequest, TResponse> : Connection<TRequest, TResponse>, IDisposable
     {
         private readonly IDisposable _disposable;
 
@@ -25,7 +25,7 @@ namespace System.IoFx.Connections
     }
 
 
-    public class DisposableConnection<T> : DisposableConnection<T, T> , IConnection<T>
+    class DisposableConnection<T> : DisposableConnection<T, T> , IConnection<T>
     {
 
         public DisposableConnection(IObservable<T> producer,

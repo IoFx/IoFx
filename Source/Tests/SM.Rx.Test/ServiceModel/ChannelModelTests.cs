@@ -45,12 +45,10 @@ namespace SM.Rx.Test
 
                         responses.Subscribe(channel.Publish);
 
-                        //channel.Consume(responses);
-
-                        (from message in channel
-                         let input = message.GetBody<string>()
-                         select Message.CreateMessage(version, "", "Echo:" + input))
-                         .Subscribe(channel.Publish);
+                        //(from message in channel
+                        // let input = message.GetBody<string>()
+                        // select Message.CreateMessage(version, "", "Echo:" + input))
+                        // .Subscribe(channel.Publish);
                     });
 
                 SendMessages();                
@@ -69,10 +67,6 @@ namespace SM.Rx.Test
             factory.Open();
             var proxy = factory.CreateChannel(new EndpointAddress(address));
             proxy.Open();
-            //proxy.ReceiveOn().Subscribe((message) =>
-            //{
-            //    Console.WriteLine("Received :" + message.GetBody<string>());                
-            //});
             var msg = "Hello";
             proxy.Send(Message.CreateMessage(version, "Test", msg));
             var message = proxy.Receive();

@@ -108,8 +108,7 @@ namespace System.IoFx.Test.Sockets.Framing
 
         public async static Task SendData(int size = 5, int repeat = 1)
         {
-            var buffer = GetCharPayload(size);
-            var payload = new ArraySegment<byte>(buffer);
+            var payload = GetCharPayload(size);            
             var sender = await SocketEvents.CreateTcpStreamSender("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
@@ -119,16 +118,15 @@ namespace System.IoFx.Test.Sockets.Framing
             sender.Dispose();
         }
 
-        private static byte[] GetCharPayload(int size)
+        private static ArraySegment<byte> GetCharPayload(int size)
         {
             byte[] preamble = BitConverter.GetBytes(size);
             var data = Encoding.ASCII.GetBytes(GetChars(size));
             Contract.Assert(preamble.Length == 4);
-
             var buffer = new byte[size + preamble.Length];
             Buffer.BlockCopy(preamble, 0, buffer, 0, preamble.Length);
             Buffer.BlockCopy(data, 0, buffer, preamble.Length, data.Length);
-            return buffer;
+            return new ArraySegment<byte>(buffer);
         }
 
 

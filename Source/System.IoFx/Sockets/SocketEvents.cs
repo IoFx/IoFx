@@ -51,6 +51,11 @@ namespace System.IoFx.Sockets
             return new ConnectionAcceptor<Socket, ArraySegment<byte>>(listener, connections);
         }
 
+        public static IConnection<ArraySegment<byte>> ToConnection(this Socket socket)
+        {
+            return SocketConnection.Create(socket);
+        }
+
         public static IObservable<IConnection<ArraySegment<byte>>> CreateTcpStreamListener(int port)
         {
             return GetTcpStreamSockets(port).GetConnections();

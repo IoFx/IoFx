@@ -32,6 +32,7 @@ namespace System.IoFx.Framing
 
             public void OnNext(byte[] value, IConsumer<ArraySegment<byte>> observer)
             {
+                _consumer.Publish(new ArraySegment<byte>(BitConverter.GetBytes(value.Length)));
                 _consumer.Publish(new ArraySegment<byte>(value));
             }
 

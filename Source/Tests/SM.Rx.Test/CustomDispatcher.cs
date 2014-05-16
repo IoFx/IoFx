@@ -72,12 +72,24 @@ namespace System.IoFx.Tests
             { }
         }
 
-        class InMemoryTransport : Connection<byte[]>
+        class InMemoryTransport : IConnection<byte[]>
         {
+            private readonly IObservable<byte[]> _outputs;
+            private readonly IoSink<byte[]> _sink;
             public InMemoryTransport(IObservable<byte[]> outputs)
-                : base(outputs, new IoSink<byte[]>())
             {
+                _outputs = outputs;
+                _sink = new IoSink<byte[]>();
+            }
 
+            public IDisposable Subscribe(IObserver<byte[]> observer)
+            {
+                return _outputs.Subscribe(observer);
+            }
+
+            public void Publish(byte[] value)
+            {
+                _sink.Publish(value);
             }
         }
 

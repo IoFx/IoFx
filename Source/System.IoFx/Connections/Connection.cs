@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
-    public class Connection<TResult, TResponse> : IConnection<TResult,TResponse>
+    class Connection<TResult, TResponse> : IConnection<TResult,TResponse>
     {
         readonly IObservable<TResult> _producers;
         readonly IConsumer<TResponse> _consumer;        
@@ -27,7 +27,7 @@
         }
     }
 
-    public class Connection<T> : Connection<T, T>, IConnection<T>
+    class Connection<T> : Connection<T, T>, IConnection<T>
     {
         public Connection(IObservable<T> producer, IConsumer<T> consumer)
             : base(producer, consumer)
