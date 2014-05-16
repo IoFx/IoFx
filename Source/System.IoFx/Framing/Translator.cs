@@ -8,20 +8,24 @@
     /// </summary>
     /// <typeparam name="TInput">Type of the Observable stream.</typeparam>
     /// <typeparam name="TResult">Type of subscription stream.</typeparam>
-    public class Translator<TInput, TResult> : ITranslator<TInput, TResult>
+    struct TranslatorObservable<TInput, TResult> : IObservable<TResult>
     {
         private readonly IObservable<TInput> _inputs;
+        private ITranslator<TInput, TResult> _translator;
 
-        public Translator(IObservable<TInput> inputs)
+        public TranslatorObservable(IObservable<TInput> inputs, ITranslator<TInput, TResult> translator)
         {
             _inputs = inputs;
+            _translator = translator;
         }
 
         public IDisposable Subscribe(IObserver<TResult> observer)
         {
+            var consumer = new ConsumerFromObserver<TResult>(observer);
+            var translator = _translator;
             return _inputs.Subscribe(item =>
             {
-                this.OnNext(item, observer);
+                translator.OnNext(item, consumer);
             },
             observer.OnError,
             observer.OnCompleted);
@@ -32,9 +36,19 @@
         /// </summary>
         /// <param name="item"></param>
         /// <param name="observer"></param>
-        public virtual void OnNext(TInput item, IObserver<TResult> observer)
+
+        public class ConsumerFromObserver<T> : IConsumer<T>
         {
-            observer.OnNext(default(TResult));
+            private IObserver<T> _observer;
+            public ConsumerFromObserver(IObserver<T> observer)
+            {
+                _observer = observer;
+            }
+
+            public void Publish(T value)
+            {
+                _observer.OnNext(value);
+            }
         }
     }
 }

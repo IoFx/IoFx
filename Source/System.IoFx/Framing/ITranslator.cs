@@ -1,7 +1,7 @@
 ﻿namespace System.IoFx.Framing
 {    
-    internal interface ITranslator<in TInput, out TResult> : IObservable<TResult>
+    internal interface ITranslator<in TInput, TResult> : IProducer<TResult>
     {
-        void OnNext(TInput item, IObserver<TResult> observer);
+        void OnNext(TInput item, IConsumer<TResult> observer);
     }
 }

@@ -15,15 +15,46 @@ namespace System.IoFx.Framing
     {
         public static IObservable<Context<byte[]>> ToLengthPrefixed(this IConnection<ArraySegment<byte>> connection)
         {
-            return new LengthPrefixedFramingReader(connection);
+            var outputTranslator = new LengthPrefixOutputTranslator(connection);
+            var inputTranslator = new LengthPrefixedInputTranslator();
+            var inputmessages = new TranslatorObservable<ArraySegment<byte>, byte[]>(connection, inputTranslator);
+            return inputmessages.Select(message =>
+                    {
+                        return new Context<byte[]>
+                        {
+                            Message = message,
+                            Channel = outputTranslator
+                        };
+                    });
         }
 
-        private class LengthPrefixedFramingReader : Translator<ArraySegment<byte>, Context<byte[]>>
+        struct LengthPrefixOutputTranslator : ITranslator<byte[], ArraySegment<byte>>, IConsumer<byte[]>
+        {
+            private IConsumer<ArraySegment<byte>> _consumer;
+
+            public LengthPrefixOutputTranslator(IConsumer<ArraySegment<byte>> consumer)
+            {
+                _consumer = consumer;
+            }
+
+            public void OnNext(byte[] value, IConsumer<ArraySegment<byte>> observer)
+            {
+                _consumer.Publish(new ArraySegment<byte>(value));
+            }
+
+            public void Publish(byte[] value)
+            {
+                this.OnNext(value, null);
+            }
+        }
+
+        private class LengthPrefixedInputTranslator : ITranslator<ArraySegment<byte>, byte[]>
         {
             const int LengthPrefixSize = 4;
             private readonly PayloadReader<byte[]> _payloadReader;
             private readonly PayloadReader<int> _lengthPrefixReader;
             private State _state = State.ReadingPreamble;
+            private IConnection<ArraySegment<byte>> _connection;
 
             private enum State
             {
@@ -31,15 +62,14 @@ namespace System.IoFx.Framing
                 ReadingPayload,
             }
 
-            public LengthPrefixedFramingReader(IObservable<ArraySegment<byte>> inputs)
-                : base(inputs)
+            public LengthPrefixedInputTranslator()
             {
                 _payloadReader = new PayloadReader<byte[]>(_ => _);
                 _lengthPrefixReader = new PayloadReader<int>(buffer => BitConverter.ToInt32(buffer, 0));
                 _lengthPrefixReader.SetDataBuffer(new byte[LengthPrefixSize]);
             }
 
-            public override void OnNext(ArraySegment<byte> item, IObserver<Context<byte[]>> observer)
+            public void OnNext(ArraySegment<byte> item, IConsumer<byte[]> observer)
             {
                 var current = item;
                 while (current.Count > 0)
@@ -60,10 +90,7 @@ namespace System.IoFx.Framing
                         byte[] payload;
                         if (_payloadReader.TryRead(ref current, out payload))
                         {
-                            observer.OnNext(new Context<byte[]>()
-                            {
-                                Message = payload,
-                            });
+                            observer.Publish(payload);
 
                             // Start next message;
                             _state = State.ReadingPreamble;
@@ -76,7 +103,7 @@ namespace System.IoFx.Framing
             {
                 static Func<byte[], byte[]> _identity = input => input;
 
-                private int _read = 0;
+                private int _dstOffset = 0;
                 private byte[] _dst;
                 private int _size;
 
@@ -99,40 +126,39 @@ namespace System.IoFx.Framing
                 public bool TryRead(ref ArraySegment<byte> source, out T result)
                 {
                     var reader = new ReaderSegment(source);
-                    var pending = _size - _read;
+                    var pending = _size - _dstOffset;
                     bool success;
                     if (reader.CanRead(pending))
                     {
-                        Buffer.BlockCopy(reader.Buffer, reader.First, _dst, _read, pending);
-                        source = new ArraySegment<byte>(source.Array, reader.Move(pending), reader.Count);
+                        reader.ReadInto(_dst, _dstOffset, pending);
                         result = _materialize(_dst);
-                        _read = 0;
+                        _dstOffset = 0;  // Reset the destination offset
                         success = true;
                     }
                     else
                     {
-                        Contract.Assert(_dst.Length >= _read + reader.Count);
-                        Buffer.BlockCopy(reader.Buffer, reader.First, _dst, _read, reader.Count);
-                        _read += reader.Count;
-                        source = new ArraySegment<byte>(source.Array, reader.Move(reader.Count), 0);
+                        Contract.Assert(_dst.Length >= _dstOffset + reader.Count);
+                        _dstOffset += reader.ReadInto(_dst, _dstOffset);
+                        Contract.Assert(reader.Count == 0);
                         result = default(T);
                         success = false;
                     }
 
+                    reader.SetSegment(ref source);
                     return success;
                 }
             }
 
             private struct ReaderSegment
             {
-                public readonly byte[] Buffer;
-                public int First;
+                public readonly byte[] Array;
+                public int Offset;
                 private readonly int _last;
 
                 public ReaderSegment(ArraySegment<byte> data)
                 {
-                    Buffer = data.Array;
-                    First = data.Offset;
+                    Array = data.Array;
+                    Offset = data.Offset;
                     _last = data.Offset + data.Count - 1;
                 }
 
@@ -143,18 +169,38 @@ namespace System.IoFx.Framing
 
                 public int Count
                 {
-                    get { return _last - First + 1; }
-                }
-
-                public int Offset
-                {
-                    get { return _last + 1; }
+                    get { return _last - Offset + 1; }
                 }
 
                 public int Move(int size)
                 {
-                    First += size;
-                    return First;
+                    Contract.Assert(Count >= size);
+                    Offset += size;
+                    return Offset;
+                }
+
+                public void SetSegment(ref ArraySegment<byte> segment)
+                {
+                    segment = new ArraySegment<byte>(Array, Offset, Count);
+                }
+
+                /// <summary>
+                /// Moves the data into the destination and returns the bytes read;
+                /// </summary>
+                /// <param name="dst"></param>
+                /// <param name="offset"></param>
+                /// <param name="count"></param>
+                /// <returns></returns>
+                public int ReadInto(byte[] dst, int offset, int count)
+                {
+                    Buffer.BlockCopy(Array, Offset, dst, offset, count);
+                    Move(count);
+                    return count;
+                }
+
+                public int ReadInto(byte[] dst, int offset)
+                {
+                    return ReadInto(dst, offset, this.Count);
                 }
             }
         }
