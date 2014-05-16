@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace System.IoFx
+{    
+    interface IHandler<in TValue>
+    {
+        void OnEvent(TValue entry);
+    }
+}

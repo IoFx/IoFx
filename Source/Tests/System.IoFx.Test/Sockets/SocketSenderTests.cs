@@ -19,7 +19,7 @@ namespace System.IoFx.Test.Sockets
                 int count = 0;
                 sockets.Subscribe(s =>
                 {
-                    var data = s.GetData();
+                    var data = s.CreateReceiver();
                     data.Subscribe(
                         d => count += d.Count,
                         tcs.SetException,

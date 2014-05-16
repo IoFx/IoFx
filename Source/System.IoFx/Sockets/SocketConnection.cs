@@ -12,7 +12,7 @@ namespace System.IoFx.Sockets
 
         public static IConnection<ArraySegment<byte>> Create(Socket socket)
         {
-            var receiver = socket.GetData();
+            var receiver = socket.CreateReceiver();
             var sender = socket.CreateSender();
             var disposable = new SocketConnection(socket);
             return new DisposableConnection<ArraySegment<byte>>(receiver, sender, disposable);            
