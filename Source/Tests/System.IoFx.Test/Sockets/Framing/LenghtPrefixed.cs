@@ -86,7 +86,7 @@ namespace System.IoFx.Test.Sockets.Framing
         public IDisposable StartServer(Action<byte[]> assert)
         {
 
-            var listener = SocketObservable.CreateTcpStreamListener(5050);
+            var listener = SocketEvents.CreateTcpStreamListener(5050);
 
             return listener
                 .Subscribe(connection =>
@@ -110,7 +110,7 @@ namespace System.IoFx.Test.Sockets.Framing
         {
             var buffer = GetCharPayload(size);
             var payload = new ArraySegment<byte>(buffer);
-            var sender = await SocketObservable.CreateTcpStreamSender("localhost", 5050);
+            var sender = await SocketEvents.CreateTcpStreamSender("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
                 sender.Publish(payload);

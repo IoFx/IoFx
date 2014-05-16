@@ -12,7 +12,7 @@ namespace System.IoFx.Test.Sockets
         public void SocketSend()
         {
             const int port = 5050;
-            using (var sockets = SocketObservable.GetTcpStreamSockets(port))
+            using (var sockets = SocketEvents.GetTcpStreamSockets(port))
             {
 
                 var tcs = new TaskCompletionSource<object>();

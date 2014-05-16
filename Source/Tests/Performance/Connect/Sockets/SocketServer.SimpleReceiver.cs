@@ -7,7 +7,7 @@ namespace Connect.Sockets
     {
         private IDisposable SimpleReceiver()
         {
-            var sockets = SocketObservable.GetTcpStreamSockets(_port);
+            var sockets = SocketEvents.GetTcpStreamSockets(_port);
             var monitor = new ConnectionRateMonitor();
 
             sockets.Subscribe(s =>

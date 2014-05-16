@@ -8,7 +8,7 @@ namespace Connect.Sockets
     {
         private IDisposable FixedLenghtWithAck()
         {
-            var sockets = SocketObservable.GetTcpStreamSockets(_port);
+            var sockets = SocketEvents.GetTcpStreamSockets(_port);
             var monitor = new ConnectionRateMonitor();
 
             sockets.GetConnections().Subscribe(connection =>

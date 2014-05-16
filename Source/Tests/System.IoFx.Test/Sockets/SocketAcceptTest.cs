@@ -12,7 +12,7 @@ namespace System.IoFx.Test.Sockets
         {
             const int port = 5050;
             const int clientCount = 10;
-            var sockets = SocketObservable.GetTcpStreamSockets(port);
+            var sockets = SocketEvents.GetTcpStreamSockets(port);
             try
             {
                 var tcs = new TaskCompletionSource<object>();

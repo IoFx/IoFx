@@ -31,7 +31,7 @@ namespace System.IoFx.Test.Sockets.Framing
         private int _sequence;
         public IDisposable StartServerWithAck(Action<byte[]> assert)
         {
-            var listener = SocketObservable.CreateTcpStreamListener(5050);
+            var listener = SocketEvents.CreateTcpStreamListener(5050);
             
             return listener
                 .Subscribe(connection =>
@@ -54,7 +54,7 @@ namespace System.IoFx.Test.Sockets.Framing
 
         public void SendAndReceiveAck()
         {
-            var ip = SocketHelpers.GetFirstIpEndPointFromHostName("localhost", 5050);
+            var ip = SocketUtility.GetFirstIpEndPoint("localhost", 5050);
             Socket s = new Socket(SocketType.Stream, ProtocolType.Tcp);
             s.Connect(ip);
             var sender = s.CreateSender();

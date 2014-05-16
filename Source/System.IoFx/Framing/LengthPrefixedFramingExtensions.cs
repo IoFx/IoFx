@@ -1,13 +1,6 @@
-﻿using System.CodeDom;
-using System.Diagnostics.Contracts;
-using System.IO;
+﻿using System.Diagnostics.Contracts;
 using System.IoFx.Connections;
-using System.IoFx.Runtime;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace System.IoFx.Framing
 {
@@ -30,7 +23,7 @@ namespace System.IoFx.Framing
 
         struct LengthPrefixOutputTranslator : ITranslator<byte[], ArraySegment<byte>>, IConsumer<byte[]>
         {
-            private IConsumer<ArraySegment<byte>> _consumer;
+            private readonly IConsumer<ArraySegment<byte>> _consumer;
 
             public LengthPrefixOutputTranslator(IConsumer<ArraySegment<byte>> consumer)
             {
@@ -54,7 +47,6 @@ namespace System.IoFx.Framing
             private readonly PayloadReader<byte[]> _payloadReader;
             private readonly PayloadReader<int> _lengthPrefixReader;
             private State _state = State.ReadingPreamble;
-            private IConnection<ArraySegment<byte>> _connection;
 
             private enum State
             {
@@ -64,9 +56,10 @@ namespace System.IoFx.Framing
 
             public LengthPrefixedInputTranslator()
             {
-                _payloadReader = new PayloadReader<byte[]>(_ => _);
                 _lengthPrefixReader = new PayloadReader<int>(buffer => BitConverter.ToInt32(buffer, 0));
-                _lengthPrefixReader.SetDataBuffer(new byte[LengthPrefixSize]);
+                _lengthPrefixReader.SetDataBuffer(new byte[LengthPrefixSize]); 
+                _payloadReader = new PayloadReader<byte[]>(_ => _);
+
             }
 
             public void OnNext(ArraySegment<byte> item, IConsumer<byte[]> observer)
@@ -74,11 +67,12 @@ namespace System.IoFx.Framing
                 var current = item;
                 while (current.Count > 0)
                 {
-                    int size = 0;
                     if (_state == State.ReadingPreamble)
                     {
+                        int size = 0;
                         if (_lengthPrefixReader.TryRead(ref current, out size))
                         {
+                            // TODO: Change to array segment and use a pool of fixed size segments.
                             // start next payload extraction.
                             _payloadReader.SetDataBuffer(new byte[size]);
                             _state = State.ReadingPayload;
@@ -101,14 +95,10 @@ namespace System.IoFx.Framing
 
             private class PayloadReader<T>
             {
-                static Func<byte[], byte[]> _identity = input => input;
-
-                private int _dstOffset = 0;
+                readonly Func<byte[], T> _materialize;
+                private int _dstNextFree;
                 private byte[] _dst;
                 private int _size;
-
-                readonly Func<byte[], T> _materialize;
-                private Func<byte[], int> func;
 
                 public PayloadReader(Func<byte[], T> materialize)
                 {
@@ -122,87 +112,92 @@ namespace System.IoFx.Framing
                     _dst = destination;
                 }
 
-
                 public bool TryRead(ref ArraySegment<byte> source, out T result)
                 {
-                    var reader = new ReaderSegment(source);
-                    var pending = _size - _dstOffset;
+                    var srcSegment = new ReaderSegment(source);
+                    var pending = _size - _dstNextFree;
                     bool success;
-                    if (reader.CanRead(pending))
+                    if (srcSegment.CanRead(pending))
                     {
-                        reader.ReadInto(_dst, _dstOffset, pending);
+                        srcSegment.ReadInto(_dst, _dstNextFree, pending);
                         result = _materialize(_dst);
-                        _dstOffset = 0;  // Reset the destination offset
+                        _dstNextFree = 0;  // Reset the destination offset
                         success = true;
                     }
                     else
                     {
-                        Contract.Assert(_dst.Length >= _dstOffset + reader.Count);
-                        _dstOffset += reader.ReadInto(_dst, _dstOffset);
-                        Contract.Assert(reader.Count == 0);
+                        Contract.Assert(pending > srcSegment.Count);
+                        _dstNextFree += srcSegment.ReadInto(_dst, _dstNextFree);
+                        Contract.Assert(srcSegment.Count == 0);
                         result = default(T);
                         success = false;
                     }
 
-                    reader.SetSegment(ref source);
+                    srcSegment.SetSegment(out source);
                     return success;
                 }
-            }
 
-            private struct ReaderSegment
-            {
-                public readonly byte[] Array;
-                public int Offset;
-                private readonly int _last;
-
-                public ReaderSegment(ArraySegment<byte> data)
+                private struct ReaderSegment
                 {
-                    Array = data.Array;
-                    Offset = data.Offset;
-                    _last = data.Offset + data.Count - 1;
-                }
+                    private readonly byte[] _array;
+                    private int _offset;
+                    private readonly int _last;
 
-                public bool CanRead(int size)
-                {
-                    return Count >= size;
-                }
+                    public ReaderSegment(ArraySegment<byte> data)
+                    {
+                        _array = data.Array;
+                        _offset = data.Offset;
+                        _last = data.Offset + data.Count - 1;
+                    }
 
-                public int Count
-                {
-                    get { return _last - Offset + 1; }
-                }
+                    public bool CanRead(int size)
+                    {
+                        return Count >= size;
+                    }
 
-                public int Move(int size)
-                {
-                    Contract.Assert(Count >= size);
-                    Offset += size;
-                    return Offset;
-                }
+                    internal int Count
+                    {
+                        get { return _last - _offset + 1; }
+                    }
 
-                public void SetSegment(ref ArraySegment<byte> segment)
-                {
-                    segment = new ArraySegment<byte>(Array, Offset, Count);
-                }
+                    int Move(int size)
+                    {
+                        Contract.Assert(Count >= size);
+                        _offset += size;
+                        return _offset;
+                    }
 
-                /// <summary>
-                /// Moves the data into the destination and returns the bytes read;
-                /// </summary>
-                /// <param name="dst"></param>
-                /// <param name="offset"></param>
-                /// <param name="count"></param>
-                /// <returns></returns>
-                public int ReadInto(byte[] dst, int offset, int count)
-                {
-                    Buffer.BlockCopy(Array, Offset, dst, offset, count);
-                    Move(count);
-                    return count;
-                }
+                    public void SetSegment(out ArraySegment<byte> segment)
+                    {
+                        segment = new ArraySegment<byte>(_array, _offset, Count);
+                    }
 
-                public int ReadInto(byte[] dst, int offset)
-                {
-                    return ReadInto(dst, offset, this.Count);
+                    /// <summary>
+                    /// Moves the data into the destination and returns the bytes read;
+                    /// </summary>
+                    /// <param name="dst"></param>
+                    /// <param name="offset"></param>
+                    /// <param name="count"></param>
+                    /// <returns></returns>
+                    public int ReadInto(byte[] dst, int offset, int count)
+                    {
+                        Buffer.BlockCopy(_array, _offset, dst, offset, count);
+                        Move(count);
+                        return count;
+                    }
+
+                    /// <summary>
+                    /// Read all pending data into the destination
+                    /// </summary>
+                    /// <param name="dst"></param>
+                    /// <param name="offset"></param>
+                    /// <returns></returns>
+                    public int ReadInto(byte[] dst, int offset)
+                    {
+                        return ReadInto(dst, offset, this.Count);
+                    }
                 }
-            }
+            }            
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.IoFx.Runtime;
-using System.Net.Sockets;
 
 namespace System.IoFx.Sockets
 {

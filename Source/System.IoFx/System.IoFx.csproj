@@ -95,12 +95,11 @@
     <Compile Include="Sockets\SocketAwaitable.cs" />
     <Compile Include="Sockets\SocketConnection.cs" />
     <Compile Include="Sockets\SocketFactory.cs" />
-    <Compile Include="Sockets\SocketHelpers.cs" />
+    <Compile Include="Sockets\SocketUtility.cs" />
     <Compile Include="Sockets\SocketListener.cs" />
-    <Compile Include="Sockets\SocketOperationsExtensions.cs" />
-    <Compile Include="Sockets\SocketObservable.cs" />
+    <Compile Include="Sockets\SocketOperationsEx.cs" />
+    <Compile Include="Sockets\SocketEvents.cs" />
     <Compile Include="Sockets\SocketReceiver.cs" />
-    <Compile Include="Sockets\SocketReceiverExtensions.cs" />
     <Compile Include="Sockets\SocketSender.cs" />
     <Compile Include="Connections\Composer.cs" />
     <Compile Include="Connections\Connection.cs" />

@@ -10,7 +10,7 @@ namespace System.IoFx.Test.Sockets
         public static Socket Connect(int port)
         {
             var sender = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            var endpoint = SocketHelpers.GetFirstIpEndPointFromHostName("localhost", port);
+            var endpoint = SocketUtility.GetFirstIpEndPoint("localhost", port);
             sender.Connect(endpoint);
             return sender;
         }
