@@ -1,18 +1,44 @@
-﻿using System;
+﻿using Connect.Sockets.LenghPrefixed;
+using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace Connect.Sockets
 {
-    class SocketClientManager: IClientManager
+
+    class SocketClientManager : IClientManager
+    {
+        private ConnectArgs _arguments;
+        private SocketCommandArgs _socketCommandArgs;
+        public SocketClientManager(ConnectArgs arguments, SocketCommandArgs args)
+        {
+            _arguments = arguments;
+            _socketCommandArgs = args;
+
+
+        }
+        public IDisposable Start()
+        {
+            if (_socketCommandArgs.Ack)
+            {
+                var ackClient = new SocketClientWithAck(_arguments, _socketCommandArgs);
+                return ackClient.Start();
+            }
+
+            var client = new RawSocketClientManager(_arguments, _socketCommandArgs);
+            return client.Start();
+        }
+    }
+
+    class RawSocketClientManager
     {
         ConnectArgs arguments;
         int messageSize = SocketClient.MessageSize;
         private Queue<SocketClient> _clients;
         private SocketCommandArgs _socketCommandArgs;
 
-        public SocketClientManager(ConnectArgs arguments, SocketCommandArgs args)
+        public RawSocketClientManager(ConnectArgs arguments, SocketCommandArgs args)
         {
             this.arguments = arguments;
             _socketCommandArgs = args;

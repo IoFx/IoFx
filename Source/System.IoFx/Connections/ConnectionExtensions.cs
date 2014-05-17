@@ -3,8 +3,10 @@ using System.Reactive.Linq;
 
 namespace System.IoFx.Connections
 {
+    [Obsolete]
     public static class ConnectionExtensions
     {
+        [Obsolete]
         public static IDisposable Consume<T>(this IConnection<T> connection, IObservable<T> outputs)
         {
             return outputs.Subscribe(output =>

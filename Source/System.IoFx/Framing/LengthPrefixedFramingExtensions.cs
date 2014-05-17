@@ -7,20 +7,15 @@ namespace System.IoFx.Framing
     public static class LengthPrefixedFramingExtensions
     {
 
-        public static IObservable<Context<byte[]>> ToLengthPrefixed(this IConnection<ArraySegment<byte>> connection)
+        public static IConnection<Context<byte[]>, byte[]> ToLengthPrefixed(this IConnection<ArraySegment<byte>> connection)
         {
             var outputTranslator = new LengthPrefixOutputTranslator();
-            var inputTranslator = new LengthPrefixedInputTranslator();            
-            var txConn = new ConnectionTranslator<ArraySegment<byte>,byte[]>(connection, inputTranslator, outputTranslator);
-            return txConn.Select(message =>
-                    {
-                        return new Context<byte[]>
-                        {
-                            Message = message,
-                            Channel = txConn
-                        };
-                    });
+            var inputTranslator = new LengthPrefixedInputTranslator();
+            var txConn = new ConnectionTranslator<ArraySegment<byte>, byte[]>(connection, inputTranslator, outputTranslator);
+            return txConn.AsContexts();
         }
+
+        
 
         struct LengthPrefixOutputTranslator : ITranslator<byte[], ArraySegment<byte>>
         {

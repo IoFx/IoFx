@@ -10,7 +10,7 @@ namespace Connect.Sockets
 {
     class socket : TestScenario
     {
-        private SocketClientManager clients;
+        private IClientManager clients;
         private SocketServer server;
 
         private SocketCommandArgs _socketArgs;
