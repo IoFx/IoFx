@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
 
 namespace System.IoFx.Test.Sockets.Framing
 {
@@ -60,9 +61,7 @@ namespace System.IoFx.Test.Sockets.Framing
 
         public void SendAndReceiveAck()
         {
-            var ip = SocketUtility.GetFirstIpEndPoint("localhost", 5050);
-            Socket s = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            s.Connect(ip);
+            Socket s = GetConnectedSocket();
             var sender = s.CreateSender();
             var chars = GetCharPayload(1024);
             sender.Publish(chars);
@@ -75,11 +74,17 @@ namespace System.IoFx.Test.Sockets.Framing
             Console.WriteLine("Data Received " + BitConverter.ToInt32(result.Array, 0));
         }
 
+        private static Socket GetConnectedSocket()
+        {
+            Socket s = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            s.Connect(Dns.GetHostAddresses(Dns.GetHostName()), 5050);
+            Console.Write("Connected to {0} : {1}", s.RemoteEndPoint.AddressFamily, s.RemoteEndPoint);
+            return s;
+        }
+
         void SendAndReceiveMultiplePayloadAck(int count)
         {
-            var ip = SocketUtility.GetFirstIpEndPoint("localhost", 5050);
-            Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(ip);
+            Socket socket = GetConnectedSocket();
             var connection = socket.ToConnection();
             var chars = GetCharPayload(1024);
             var buffer = chars.Array;

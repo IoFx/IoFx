@@ -21,7 +21,7 @@ namespace Connect
         [CommandLineParameter(Command = "mode", ParameterIndex = 1, Required = false, Description = "Specified either client mode or server mode.")]
         public string Mode { get; set; }
 
-        [CommandLineParameter(Command = "server", Default = "localhost", Required = false, Description = "Server to connect to.")]
+        [CommandLineParameter(Command = "server", Default = "127.0.0.1", Required = false, Description = "Server to connect to.")]
         public string Server { get; set; }
 
 
@@ -34,11 +34,11 @@ namespace Connect
         [CommandLineParameter(Command = "rate", Required = false, Default = 1, Description = "Rate of outbound messages.")]
         public int MessageRate { get; set; }
 
-        [CommandLineParameter(Command = "type", Required = false, Default = "socket", Description = "connection type.")]
+        [CommandLineParameter(Command = "type", Required = false, Default = "socket", Description = "Connection type.")]
         public string Scenario { get; set; }
 
 
-        [CommandLineParameter(Command = "args", Required = false, Default = "", Description = "arguments that need to passed into the scenario.")]
+        [CommandLineParameter(Command = "args", Required = false, Default = "", Description = "Arguments that need to passed into the scenario.")]
         public string ScenarioArguments { get; set; }
 
         public ConnectionType Type {

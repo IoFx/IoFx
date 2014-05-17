@@ -109,7 +109,7 @@ namespace System.IoFx.Test.Sockets.Framing
         public async static Task SendData(int size = 5, int repeat = 1)
         {
             var payload = GetCharPayload(size);            
-            var sender = await SocketEvents.CreateConnection("localhost", 5050);
+            var sender = await SocketEvents.CreateConnection("127.0.0.1", 5050);
             for (int i = 0; i < repeat; i++)
             {
                 sender.Publish(payload);

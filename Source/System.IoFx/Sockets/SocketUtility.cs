@@ -11,17 +11,17 @@ namespace System.IoFx.Sockets
 {
     public class SocketUtility
     {
-        public static IPEndPoint GetFirstIpEndPoint(string hostName, int port)
+        public static IPEndPoint GetFirstIpEndPoint(string hostnameOrAddress, int port)
         {
-            var addresses = System.Net.Dns.GetHostAddresses(hostName);
+            var addresses = Dns.GetHostAddresses(hostnameOrAddress);
             if (addresses.Length == 0)
             {
                 throw new ArgumentException(
                     "Unable to retrieve address from specified host name.",
                     "hostName"
                 );
-            }
-
+            }  
+            
             return new IPEndPoint(addresses[0], port); // Port gets validated here.
         }
 
@@ -33,7 +33,7 @@ namespace System.IoFx.Sockets
             var socket = new Socket(socketType, protocolType);
             bool disposeSocket = false;
             try
-            {
+            {                
                 using (SocketAwaitableEventArgs args = new SocketAwaitableEventArgs())
                 {
                     args.RemoteEndPoint = endpoint;

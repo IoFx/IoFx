@@ -18,9 +18,9 @@ namespace Connect.Sockets
                 connection
                     .ToLengthPrefixed()
                     .Subscribe(context =>
-                    {
-                        monitor.OnMessage();
+                    {                       
                         var response = HandleMessage(context.Message);
+                        monitor.OnMessage();
                         context.Publish(response);
                     },
                     ex => monitor.OnDisconnect(),

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IoFx.Connections;
+using System.IoFx.Framing;
 using System.IoFx.Sockets;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IoFx.Framing;
-using System.Collections.Concurrent;
-using System.IoFx.Connections;
-using System.Diagnostics;
 
 namespace Connect.Sockets.LenghPrefixed
 {
@@ -30,7 +29,7 @@ namespace Connect.Sockets.LenghPrefixed
             _endpoint = SocketUtility.GetFirstIpEndPoint(_args.Server, _args.Port);
             _clients = new List<IConnection<Context<byte[]>, byte[]>>();
             _connections = GetNext().GetEnumerator();
-            _payload = GetChars(100);
+            _payload = GetChars(_socketArgs.Size);
             _monitor = new ConnectionRateMonitor();
         }
 
@@ -39,8 +38,22 @@ namespace Connect.Sockets.LenghPrefixed
             int i = 0;
             while (true)
             {
+                if (i < 0 || i >= _clients.Count)
+                {
+                    string message = string.Format("Incorrect index {0} computation", i);
+                    Console.WriteLine(message);
+                    throw new InvalidOperationException(message);
+                }
+
                 yield return _clients[i];
-                i = (i + 1) % _args.ConnectionLimit;
+
+                int next;
+                int slot;
+                do
+                {
+                    slot = i;
+                    next = (i + 1) % _args.ConnectionLimit;
+                } while (Interlocked.CompareExchange(ref i, next, slot) != slot);
             }
         }
 
@@ -80,7 +93,10 @@ namespace Connect.Sockets.LenghPrefixed
             var connection = await SocketEvents.CreateConnection(_args.Server, _args.Port);
             _monitor.OnConnect();
             var encodedConnection = connection.ToLengthPrefixed();
-            _clients.Add(encodedConnection);
+            lock (_clients)
+            {
+                _clients.Add(encodedConnection);
+            }
             pending.Signal();
             encodedConnection.Subscribe(this.HandleResponse);
         }
@@ -93,14 +109,17 @@ namespace Connect.Sockets.LenghPrefixed
                 var client = _connections.Current;
 
                 client.Publish(_payload);
-
             }
         }
 
         private void HandleResponse(Context<byte[]> obj)
         {
             Trace.Assert(obj.Message.Length == 4);
-            BitConverter.ToInt32(obj.Message, 0);
+            var length = BitConverter.ToInt32(obj.Message, 0);
+            if (length != _payload.Length)
+            {
+                throw new InvalidOperationException();
+            }
             _monitor.OnMessage();
         }
 
