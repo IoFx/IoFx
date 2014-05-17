@@ -12,7 +12,6 @@ namespace System.IoFx.Sockets
         {
             var endpoint = SocketUtility.GetFirstIpEndPoint(hostname, port);
             return  await SocketUtility.CreateConnection(endpoint, SocketType.Stream, ProtocolType.Tcp);
-
         }
 
         public static IDisposableConsumer<ArraySegment<byte>> CreateSender(this Socket socket)
@@ -22,7 +21,7 @@ namespace System.IoFx.Sockets
 
         public static IListener<Socket> GetTcpStreamSockets(int port)
         {
-            Func<Socket> createFunc = () => StartTcpListenSocket(port);
+            Func<Socket> createFunc = () => StartTcpListenSocket(port, IPAddress.Any);
             return new SocketListener(createFunc, SocketFactory.Factory);
         }
 
@@ -53,12 +52,15 @@ namespace System.IoFx.Sockets
             SocketType socketType = SocketType.Stream,
             ProtocolType protocolType = ProtocolType.Tcp,
             int backlog = 1024)
-        {
-            address = address ?? SocketUtility.GetFirstIpEndPoint("localhost", port).Address;
+        {            
+            address = address ?? SocketUtility.GetFirstIpEndPoint(Dns.GetHostName(), port).Address;
             var socket = new Socket(socketType, protocolType);
             var endpoint = new IPEndPoint(address, port);
             socket.Bind(endpoint);
             socket.Listen(backlog);
+#if DEBUG
+            Console.WriteLine(socket.LocalEndPoint);
+#endif
             return socket;
         }
     }
