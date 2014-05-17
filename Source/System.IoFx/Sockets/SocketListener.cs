@@ -26,6 +26,11 @@ namespace System.IoFx.Sockets
             _observable = Observable.Create<Socket>(loop);
         }
 
+        private bool IsDisposed
+        {
+            get { return _disposed != 0; }
+        }
+
         public Task Start()
         {
             ThrowIfDisposed();
@@ -58,7 +63,7 @@ namespace System.IoFx.Sockets
             {
                 await Start();
 
-                while (_disposed == 0)
+                while (!IsDisposed)
                 {
                     var socket = await _listenerSocket.AcceptSocketAsync(_awaitable);
 
@@ -67,6 +72,11 @@ namespace System.IoFx.Sockets
             }
             catch (Exception ex)
             {
+                if (_awaitable.SocketError == SocketError.OperationAborted)
+                {
+
+                }
+
                 completionException = ex;
             }
             finally

@@ -1,4 +1,6 @@
 ﻿using System.IoFx.Sockets;
+using System.IoFx.Test.Utility;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,18 +14,16 @@ namespace System.IoFx.Test.Sockets
         {
             const int port = 5050;
             const int clientCount = 10;
-            var sockets = SocketEvents.GetTcpStreamSockets(port);
+            var listener = SocketEvents.GetTcpStreamSockets(port);
+            var countdown = new CountdownEvent(clientCount);
             try
             {
                 var tcs = new TaskCompletionSource<object>();
                 int count = 0;
-                sockets.Subscribe(s =>
+                listener.Subscribe(s =>
                 {
                     count++;
-                    if (count == clientCount)
-                    {
-                        tcs.TrySetResult(null);
-                    }
+                    countdown.Signal();
                     s.Close();
                 },
                 tcs.SetException,
@@ -34,12 +34,12 @@ namespace System.IoFx.Test.Sockets
                     SocketTestUtility.Connect(port);
                 }
 
-                tcs.Task.Wait(Defaults.MediumTestWaitTime);
+                countdown.WaitEx();
                 Assert.IsTrue(count == clientCount);
             }
             finally
             {
-                sockets.Dispose();
+                listener.Dispose();
             }
         }
 
