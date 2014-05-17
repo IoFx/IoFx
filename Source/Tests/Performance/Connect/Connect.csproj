@@ -76,6 +76,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConnectionRateMonitor.cs" />
+    <Compile Include="Sockets\LenghPrefixed\SocketClientWithAck.cs" />
     <Compile Include="Sockets\LenghPrefixed\SocketServer.LenghtPrefixed.cs" />
     <Compile Include="Sockets\SocketClient.cs" />
     <Compile Include="Sockets\socket.cs" />

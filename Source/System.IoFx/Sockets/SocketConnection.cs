@@ -9,7 +9,7 @@ namespace System.IoFx.Sockets
         private readonly Socket _socket;
         private int _disposed;
 
-        public static IConnection<ArraySegment<byte>> Create(Socket socket)
+        public static IDisposableConnection<ArraySegment<byte>> Create(Socket socket)
         {
             var receiver = socket.CreateReceiver();
             var sender = socket.CreateSender();

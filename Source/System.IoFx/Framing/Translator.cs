@@ -21,7 +21,7 @@
 
         public IDisposable Subscribe(IObserver<TResult> observer)
         {
-            var consumer = new ConsumerFromObserver<TResult>(observer);
+            var consumer = new ConsumerObserver<TResult>(observer);
             var translator = _translator;
             return _inputs.Subscribe(item =>
             {
@@ -37,10 +37,10 @@
         /// <param name="item"></param>
         /// <param name="observer"></param>
 
-        public class ConsumerFromObserver<T> : IConsumer<T>
+        public class ConsumerObserver<T> : IConsumer<T>
         {
             private IObserver<T> _observer;
-            public ConsumerFromObserver(IObserver<T> observer)
+            public ConsumerObserver(IObserver<T> observer)
             {
                 _observer = observer;
             }

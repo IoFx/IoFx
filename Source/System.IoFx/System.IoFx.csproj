@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\IConnection.cs" />
+    <Compile Include="Connections\IConnectionTranslator.cs" />
     <Compile Include="Connections\IListener.cs" />
     <Compile Include="Framing\LengthPrefixedFramingExtensions.cs" />
     <Compile Include="Framing\Translator.cs" />

@@ -25,7 +25,7 @@ namespace System.IoFx.Connections
     }
 
 
-    class DisposableConnection<T> : DisposableConnection<T, T> , IConnection<T>
+    class DisposableConnection<T> : DisposableConnection<T, T> , IDisposableConnection<T>
     {
 
         public DisposableConnection(IObservable<T> producer,

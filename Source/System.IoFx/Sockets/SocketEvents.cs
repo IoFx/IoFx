@@ -8,30 +8,11 @@ namespace System.IoFx.Sockets
 {
     public static class SocketEvents
     {
-        public static async Task<IDisposableConsumer<ArraySegment<byte>>> CreateTcpStreamSender(string hostname, int port)
+        public static async Task<IDisposableConnection<ArraySegment<byte>>> CreateConnection(string hostname, int port)
         {
-            var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            bool disposeSocket = false;
-            try
-            {
-                using (SocketAwaitableEventArgs args = new SocketAwaitableEventArgs())
-                {
-                    args.RemoteEndPoint = SocketUtility.GetFirstIpEndPoint(hostname, port);
-                    await socket.ConnectSocketAsync(args);
-                }
-            }
-            catch (Exception)
-            {
-                disposeSocket = true;
-                throw;
-            }
-            finally
-            {
-                if (disposeSocket)
-                    socket.Dispose();
-            }
+            var endpoint = SocketUtility.GetFirstIpEndPoint(hostname, port);
+            return  await SocketUtility.CreateConnection(endpoint, SocketType.Stream, ProtocolType.Tcp);
 
-            return socket.CreateSender();
         }
 
         public static IDisposableConsumer<ArraySegment<byte>> CreateSender(this Socket socket)
@@ -51,7 +32,7 @@ namespace System.IoFx.Sockets
             return new ConnectionAcceptor<Socket, ArraySegment<byte>>(listener, connections);
         }
 
-        public static IConnection<ArraySegment<byte>> ToConnection(this Socket socket)
+        public static IDisposableConnection<ArraySegment<byte>> ToConnection(this Socket socket)
         {
             return SocketConnection.Create(socket);
         }
@@ -73,7 +54,7 @@ namespace System.IoFx.Sockets
             ProtocolType protocolType = ProtocolType.Tcp,
             int backlog = 1024)
         {
-            address = address ?? SocketUtility.GetFirstIpEndPoint("localhost",port).Address;
+            address = address ?? SocketUtility.GetFirstIpEndPoint("localhost", port).Address;
             var socket = new Socket(socketType, protocolType);
             var endpoint = new IPEndPoint(address, port);
             socket.Bind(endpoint);

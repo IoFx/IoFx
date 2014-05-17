@@ -11,7 +11,8 @@ namespace Connect.Sockets
             var sockets = SocketEvents.GetTcpStreamSockets(_port);
             var monitor = new ConnectionRateMonitor();
 
-            sockets.GetConnections().Subscribe(connection =>
+            sockets.GetConnections()
+                   .Subscribe(connection =>
             {
                 monitor.OnConnect();
                 connection

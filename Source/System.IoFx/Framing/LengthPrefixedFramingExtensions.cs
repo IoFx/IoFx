@@ -6,39 +6,28 @@ namespace System.IoFx.Framing
 {
     public static class LengthPrefixedFramingExtensions
     {
+
         public static IObservable<Context<byte[]>> ToLengthPrefixed(this IConnection<ArraySegment<byte>> connection)
         {
-            var outputTranslator = new LengthPrefixOutputTranslator(connection);
-            var inputTranslator = new LengthPrefixedInputTranslator();
-            var inputmessages = new TranslatorObservable<ArraySegment<byte>, byte[]>(connection, inputTranslator);
-            return inputmessages.Select(message =>
+            var outputTranslator = new LengthPrefixOutputTranslator();
+            var inputTranslator = new LengthPrefixedInputTranslator();            
+            var txConn = new ConnectionTranslator<ArraySegment<byte>,byte[]>(connection, inputTranslator, outputTranslator);
+            return txConn.Select(message =>
                     {
                         return new Context<byte[]>
                         {
                             Message = message,
-                            Channel = outputTranslator
+                            Channel = txConn
                         };
                     });
         }
 
-        struct LengthPrefixOutputTranslator : ITranslator<byte[], ArraySegment<byte>>, IConsumer<byte[]>
+        struct LengthPrefixOutputTranslator : ITranslator<byte[], ArraySegment<byte>>
         {
-            private readonly IConsumer<ArraySegment<byte>> _consumer;
-
-            public LengthPrefixOutputTranslator(IConsumer<ArraySegment<byte>> consumer)
-            {
-                _consumer = consumer;
-            }
-
             public void OnNext(byte[] value, IConsumer<ArraySegment<byte>> observer)
             {
-                _consumer.Publish(new ArraySegment<byte>(BitConverter.GetBytes(value.Length)));
-                _consumer.Publish(new ArraySegment<byte>(value));
-            }
-
-            public void Publish(byte[] value)
-            {
-                this.OnNext(value, null);
+                observer.Publish(new ArraySegment<byte>(BitConverter.GetBytes(value.Length)));
+                observer.Publish(new ArraySegment<byte>(value));
             }
         }
 
@@ -58,7 +47,7 @@ namespace System.IoFx.Framing
             public LengthPrefixedInputTranslator()
             {
                 _lengthPrefixReader = new PayloadReader<int>(buffer => BitConverter.ToInt32(buffer, 0));
-                _lengthPrefixReader.SetDataBuffer(new byte[LengthPrefixSize]); 
+                _lengthPrefixReader.SetDataBuffer(new byte[LengthPrefixSize]);
                 _payloadReader = new PayloadReader<byte[]>(_ => _);
 
             }
@@ -198,7 +187,7 @@ namespace System.IoFx.Framing
                         return ReadInto(dst, offset, this.Count);
                     }
                 }
-            }            
+            }
         }
     }
 }

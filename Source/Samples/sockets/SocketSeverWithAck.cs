@@ -40,7 +40,7 @@ namespace Samples.sockets
             Buffer.BlockCopy(preamble, 0, buffer, 0, preamble.Length);
             Buffer.BlockCopy(data, 0, buffer, preamble.Length, data.Length);
             var payload = new ArraySegment<byte>(buffer);
-            var sender = await SocketEvents.CreateTcpStreamSender("localhost", 5050);
+            var sender = await SocketEvents.CreateConnection("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
                 sender.Publish(payload);
