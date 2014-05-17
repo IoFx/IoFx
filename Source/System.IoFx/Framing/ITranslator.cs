@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="TInput"></typeparam>
     /// <typeparam name="TResult"></typeparam>
-    internal interface ITranslator<in TInput, TResult> : IProducer<TResult>
+    internal interface ITranslator<in TInput, TResult>
     {
         void OnNext(TInput item, IConsumer<TResult> observer);
     }

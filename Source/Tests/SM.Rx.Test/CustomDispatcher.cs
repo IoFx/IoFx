@@ -38,7 +38,7 @@ namespace System.IoFx.Tests
             var stringRequest = byteRequests.Select(decode);
 
 
-            // Consume strings
+            // Consume strings            
             stringDispatcher.Consume(stringRequest);
 
             // Do operations
@@ -47,8 +47,8 @@ namespace System.IoFx.Tests
             // Get bytes from strings 
             var byteResponses = results.Select(encode).Do(r => outputs.Add(r));
 
-            // transport consumes the byte outputs. 
-            transport.Consume(byteResponses);
+            // transport consumes the byte outputs.
+            byteResponses.Subscribe(transport.Publish);            
 
 
             //Start the transport

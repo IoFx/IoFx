@@ -42,7 +42,7 @@ namespace System.IoFx.Sockets
             return GetTcpStreamSockets(port).GetConnections();
         }
 
-        public static IObservable<ArraySegment<byte>> CreateReceiver(this Socket socket)
+        public static IProducer<ArraySegment<byte>> CreateReceiver(this Socket socket)
         {
             return new SocketReceiver(socket, SocketFactory.Factory);
         }

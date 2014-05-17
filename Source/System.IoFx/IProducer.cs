@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace System.IoFx
 {
-    interface IProducer<T>
+    public interface IProducer<out T> : IObservable<T>
     {
     }
 }

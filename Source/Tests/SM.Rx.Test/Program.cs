@@ -48,16 +48,21 @@ namespace System.IoFx.Test
         private static void ChannelConnectTest()
         {
             var netTcpBibnding = new NetTcpBinding();
-            var listener = netTcpBibnding.Start(address);          
+            var listener = netTcpBibnding.Start(address);
+            listener.GetChannels().Subscribe(channel => {
+                channel.GetMessages().Subscribe(message =>
+                    {
+ 
+                    });
+            });
             listener.OnConnect(channel =>
                 {
-                    var outputs = channel.Select(message =>
+                    channel.Subscribe(message =>
                     {
                         var input = message.GetBody<string>();
-                        return Message.CreateMessage(netTcpBibnding.MessageVersion, "", "Echo:" + input);
+                        var response = Message.CreateMessage(netTcpBibnding.MessageVersion, "", "Echo:" + input);
+                        channel.Publish(message);
                     });
-
-                    channel.Consume(outputs);
                 });
         }
 
@@ -65,16 +70,16 @@ namespace System.IoFx.Test
         {
             var binding = new NetTcpBinding();
             var listener = binding.Start(address);
-            var channels = from channel in listener.GetChannels()
+            var connections = from channel in listener.GetChannels()
                            select new
                            {
                                Messages = channel.GetMessages(),
                                Response = channel.GetConsumer()
                            };
 
-            channels.Subscribe(channel =>
+            connections.Subscribe(item =>
             {
-                channel.Response.Publish(Message.CreateMessage(binding.MessageVersion, "Test", "Echo:" + "Connected"));
+                item.Response.Publish(Message.CreateMessage(binding.MessageVersion, "Test", "Echo:" + "Connected"));
 
                 /*      
                       (from message in channel.Messages
@@ -84,11 +89,11 @@ namespace System.IoFx.Test
                       .Subscribe(channel.Response);
                 
                  */
-                channel.Messages.Subscribe((message) =>
+                item.Messages.Subscribe((message) =>
                 {
                     var input = message.GetBody<string>();
                     var output = Message.CreateMessage(binding.MessageVersion, "", "Echo:" + input);
-                    channel.Response.Publish(output);
+                    item.Response.Publish(output);
                 });
             });
         }

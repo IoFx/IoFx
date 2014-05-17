@@ -10,7 +10,7 @@ namespace System.IoFx.Connections
     {
         private readonly IDisposable _disposable;
 
-        public DisposableConnection(IObservable<TRequest> producer,
+        public DisposableConnection(IProducer<TRequest> producer,
                                     IConsumer<TResponse> consumer,
                                     IDisposable disposable)
             : base(producer, consumer)
@@ -28,7 +28,7 @@ namespace System.IoFx.Connections
     class DisposableConnection<T> : DisposableConnection<T, T> , IDisposableConnection<T>
     {
 
-        public DisposableConnection(IObservable<T> producer,
+        public DisposableConnection(IProducer<T> producer,
                                     IConsumer<T> consumer,
                                     IDisposable disposable)
             : base(producer, consumer, disposable)

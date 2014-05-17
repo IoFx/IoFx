@@ -8,15 +8,15 @@
     class Connection<TResult, TResponse> : IConnection<TResult,TResponse>
     {
         readonly IObservable<TResult> _producers;
-        readonly IConsumer<TResponse> _consumer;        
+        readonly IConsumer<TResponse> _consumer;
 
-        public Connection(IObservable<TResult> producer, IConsumer<TResponse> consumer)
+        public Connection(IProducer<TResult> producer, IConsumer<TResponse> consumer)
         {
             this._producers = producer;
             this._consumer = consumer;
         }
 
-        IDisposable IObservable<TResult>.Subscribe(IObserver<TResult> observer)
+        public IDisposable Subscribe(IObserver<TResult> observer)
         {
             return this._producers.Subscribe(observer);
         }
@@ -29,7 +29,7 @@
 
     class Connection<T> : Connection<T, T>, IConnection<T>
     {
-        public Connection(IObservable<T> producer, IConsumer<T> consumer)
+        public Connection(IProducer<T> producer, IConsumer<T> consumer)
             : base(producer, consumer)
         {
         }

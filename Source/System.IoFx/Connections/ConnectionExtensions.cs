@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Reactive;
+using System.Reactive.Linq;
 
 namespace System.IoFx.Connections
 {
@@ -17,7 +18,7 @@ namespace System.IoFx.Connections
             return outputs.Subscribe(composer.Outputs.Publish);
         }
 
-        public static IObservable<Context<TOut>> ToConnection<TIn, TOut>(this IObservable<Context<TIn>> producer,
+        public static IObservable<Context<TOut>> ToConnection<TIn, TOut>(this IProducer<Context<TIn>> producer,
             Func<TIn, TOut> convertor)
         {
             var transformation = producer.Select(i => new Context<TOut>()
@@ -28,12 +29,34 @@ namespace System.IoFx.Connections
             return transformation;
         }
 
-        public static IObservable<Context<TInput>> ToContexts<TInput>(this IObservable<TInput> elements)
+        public static IObservable<Context<TInput>> ToContexts<TInput>(this IProducer<TInput> elements)
         {
             return elements.Select(e => new Context<TInput>()
             {
                 Message = e
             });
         }
+
+
+        //class ProducerTranslator<TInput,TOutput> : IProducer<TOutput>
+        //{
+        //    private Func<TInput, TOutput> _convertor;
+        //    private IProducer<TInput> _input;
+        //    public ProducerTranslator(IProducer<TInput> input, Func<TInput,TOutput> convertor)
+        //    {
+        //        _input = input;
+        //        _convertor = convertor;
+        //    }
+
+        //    public IDisposable Subscribe(IObserver<TOutput> observer)
+        //    {
+        //        Observer.Create()
+        //        return _input.Subscribe(o =>
+        //        {
+
+        //        });
+        //    }
+        //}
+
     }
 }

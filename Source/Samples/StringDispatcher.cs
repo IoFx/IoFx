@@ -16,6 +16,9 @@ namespace Samples
             var transportRequests = "ABCDEFG".ToCharArray().ToObservable<char>();
             var transportSink = Observer.Create<Context<char>>(c => Console.WriteLine("Received : " + c.Message));
 
+
+            //TODO: Fix string dispatcher #6
+            /*
             var units = transportRequests
                         .ToContexts()
                         .ToConnection(charToByte);
@@ -25,6 +28,7 @@ namespace Samples
 
             transportRequests.Subscribe(e => Console.WriteLine(e));
             Console.ReadLine();
+             * */
         }
     }
 }

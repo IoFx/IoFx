@@ -68,7 +68,6 @@
     <Compile Include="Connections\IConnectionTranslator.cs" />
     <Compile Include="Connections\IListener.cs" />
     <Compile Include="Framing\LengthPrefixedFramingExtensions.cs" />
-    <Compile Include="Framing\Translator.cs" />
     <Compile Include="Framing\ITranslator.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
     <Compile Include="Http\HttpObservable.cs" />

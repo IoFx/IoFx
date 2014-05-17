@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
 {
-    class SocketReceiver : IObservable<ArraySegment<byte>> , IDisposable
+    class SocketReceiver : IProducer<ArraySegment<byte>>, IDisposable
     {
         private readonly SocketFactory _factory;
         private readonly Socket _socket;

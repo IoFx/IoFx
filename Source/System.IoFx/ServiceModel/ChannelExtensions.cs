@@ -10,13 +10,13 @@ namespace System.IoFx.ServiceModel
 {
     public static class ChannelExtensions
     {
-        public static IObservable<TChannel> GetChannels<TChannel>(this IChannelListener<TChannel> listener) where TChannel : class, IChannel
+        public static IProducer<TChannel> GetChannels<TChannel>(this IChannelListener<TChannel> listener) where TChannel : class, IChannel
         {
             //TODO: Need to throttle like max connections etc. 
             return new Acceptor<TChannel>(listener);
         }
 
-        public static IObservable<Message> GetMessages<TChannel>(this TChannel channel) where TChannel : class, IInputChannel
+        public static IProducer<Message> GetMessages<TChannel>(this TChannel channel) where TChannel : class, IInputChannel
         {
             Func<Task<Message>> receiveAsyncFunc = () => Task.Factory.FromAsync<Message>(
                                                         channel.BeginReceive,
@@ -25,7 +25,7 @@ namespace System.IoFx.ServiceModel
             return new Receiver<TChannel>(channel, receiveAsyncFunc);
         }
 
-        internal class Acceptor<TChannel> : IDisposable, IObservable<TChannel> where TChannel : class, IChannel
+        internal class Acceptor<TChannel> : IDisposable, IProducer<TChannel> where TChannel : class, IChannel
         {
             private readonly IChannelListener<TChannel> _listener;
             private readonly IObservable<TChannel> _observable;
@@ -89,7 +89,7 @@ namespace System.IoFx.ServiceModel
             }
         }
 
-        internal class Receiver<TChannel> : IDisposable, IObservable<Message> where TChannel : class, IChannel
+        internal class Receiver<TChannel> : IDisposable, IProducer<Message> where TChannel : class, IChannel
         {
             private readonly TChannel _channel;
             private readonly IObservable<Message> _observable;
@@ -207,7 +207,7 @@ namespace System.IoFx.ServiceModel
 
         private static IoChannel<T, TChannel> CreateIoChannel<T, TChannel>(
             this TChannel channel,
-            IObservable<T> inputs,
+            IProducer<T> inputs,
             IConsumer<T> outputs)
             where TChannel : class, IChannel
         {
@@ -216,7 +216,7 @@ namespace System.IoFx.ServiceModel
 
         class IoChannel<T, TChannel> : Connection<T> where TChannel : class, IChannel
         {
-            public IoChannel(IObservable<T> inputs, IConsumer<T> outputs, TChannel channel)
+            public IoChannel(IProducer<T> inputs, IConsumer<T> outputs, TChannel channel)
                 : base(inputs, outputs)
             {
                 this.Channel = channel;
