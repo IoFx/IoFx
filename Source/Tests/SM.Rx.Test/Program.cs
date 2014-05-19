@@ -1,5 +1,4 @@
-﻿using System.IoFx.Connections;
-using System.IoFx.ServiceModel;
+﻿using System.IoFx.ServiceModel;
 using System.Reactive.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;

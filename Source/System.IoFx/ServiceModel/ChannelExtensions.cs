@@ -1,7 +1,5 @@
 ﻿using System.IoFx.Connections;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;

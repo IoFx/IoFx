@@ -1,6 +1,4 @@
-﻿using System.IoFx.Sockets;
-
-namespace System.IoFx.Connections
+﻿namespace System.IoFx.Connections
 {
     public interface IConnection<out TResult, in TInputs> :IProducer<TResult>, IConsumer<TInputs>
     {

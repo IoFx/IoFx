@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
-using System.IoFx.Connections;
 using System.IoFx.Framing;
 using System.IoFx.Sockets;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Reactive.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +10,6 @@ namespace Samples.sockets
 {
     class SimpleSocketServer
     {
-
         public static IDisposable StartServer()
         {
             var listener = SocketEvents.CreateTcpStreamListener(5050);
@@ -53,7 +44,7 @@ namespace Samples.sockets
             Buffer.BlockCopy(preamble, 0, buffer, 0, preamble.Length);
             Buffer.BlockCopy(data, 0, buffer, preamble.Length, data.Length);
             var payload = new ArraySegment<byte>(buffer);
-            var sender = await SocketEvents.CreateConnection(Dns.GetHostName(), 5050);
+            var sender = await SocketEvents.CreateConnection("localhost", 5050);
             for (int i = 0; i < repeat; i++)
             {
                 sender.Publish(payload);

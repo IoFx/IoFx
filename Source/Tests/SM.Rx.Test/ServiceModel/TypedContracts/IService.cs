@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.IoFx;
 using System.IoFx.Connections;
 using System.IoFx.ServiceModel;
 using System.Reactive.Linq;

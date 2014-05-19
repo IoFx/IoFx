@@ -3,7 +3,6 @@
 namespace System.IoFx.ServiceModel
 {
     using System.Reactive.Linq;
-    using System.IoFx;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
 

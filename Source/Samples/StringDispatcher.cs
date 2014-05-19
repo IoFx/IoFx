@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IoFx;
 using System.IoFx.Connections;
 using System.Reactive;
 using System.Reactive.Linq;

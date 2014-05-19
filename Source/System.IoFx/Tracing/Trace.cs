@@ -1,5 +1,4 @@
-﻿using System.ServiceModel;
-using Microsoft.Diagnostics.Tracing;
+﻿using Microsoft.Diagnostics.Tracing;
 
 namespace System.IoFx.Tracing
 {

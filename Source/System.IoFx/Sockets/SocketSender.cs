@@ -1,9 +1,6 @@
-﻿using System.CodeDom;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.IoFx.Runtime;
 using System.Net.Sockets;
-using System.Reactive.Linq;
 using System.Threading;
 
 namespace System.IoFx.Sockets

@@ -1,12 +1,8 @@
 ﻿using System.Reactive.Disposables;
-using System.ServiceModel;
 using CmdLine;
 using System;
 using System.Diagnostics;
 using System.Threading;
-using Connect.Http;
-using Connect.Sockets;
-using Connect.WCF.Channels;
 
 namespace Connect
 {

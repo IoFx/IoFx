@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
 using System.IoFx.Connections;
-using System.Reactive.Linq;
 
 namespace System.IoFx.Framing
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IoFx.Framing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IoFx.Framing;
 
 namespace System.IoFx.Connections
 {
