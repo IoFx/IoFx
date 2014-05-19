@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -18,12 +17,10 @@ namespace Connect.Sockets
 
         public SocketClient(string host, int port)
         {
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(host);
-            IPAddress ipAddress = ipHostInfo.AddressList.First(a => a.AddressFamily == AddressFamily.InterNetwork);
-            var remoteEp = new IPEndPoint(ipAddress, port);
+            var remoteEp = new DnsEndPoint(host, port);
 
             // Create a TCP/IP socket.
-            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) {NoDelay = true};
+            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { NoDelay = true };
             this._sendCoreHandler = new WaitCallback(SendCore);
             this.Args = new SocketAsyncEventArgs();
             Args.Completed += ArgsCallback;
@@ -33,8 +30,8 @@ namespace Connect.Sockets
                 Args.Buffer[i] = (byte)i;
             }
 
-            Args.RemoteEndPoint = remoteEp;         
-   
+            Args.RemoteEndPoint = remoteEp;
+
             // setup port scalability
             this.Socket.SetSocketOption(SocketOptionLevel.Socket, (SocketOptionName)0x3006, true);
         }
@@ -61,7 +58,7 @@ namespace Connect.Sockets
                     this.OnConnected(this, EventArgs.Empty);
                 }
             }
-            else if(e.LastOperation == SocketAsyncOperation.Send)
+            else if (e.LastOperation == SocketAsyncOperation.Send)
             {
                 Interlocked.Add(ref this.BytesTransfered, e.BytesTransferred);
                 if (this.OnSend != null)
@@ -115,7 +112,7 @@ namespace Connect.Sockets
                 Console.WriteLine("Socket error = " + this.Args.SocketError);
                 Environment.Exit(1);
             }
-        }        
+        }
 
         public SocketAsyncEventArgs Args { get; set; }
 

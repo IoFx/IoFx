@@ -1,15 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IoFx.Framing;
 using System.IoFx.Sockets;
 using System.IoFx.Test.Utility;
-using System.Linq;
 using System.Net.Sockets;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
@@ -77,7 +73,7 @@ namespace System.IoFx.Test.Sockets.Framing
         private static Socket GetConnectedSocket()
         {
             Socket s = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            s.Connect(Dns.GetHostAddresses(Dns.GetHostName()), 5050);
+            s.Connect(new DnsEndPoint("localhost",5050));
             Console.Write("Connected to {0} : {1}", s.RemoteEndPoint.AddressFamily, s.RemoteEndPoint);
             return s;
         }

@@ -1,31 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IoFx.Connections;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace System.IoFx.Sockets
 {
-    public class SocketUtility
+    class SocketUtility
     {
-        public static IPEndPoint GetFirstIpEndPoint(string hostnameOrAddress, int port)
+        public static EndPoint GetEndpoint(string hostnameOrAddress, int port)
         {
-            var addresses = Dns.GetHostAddresses(hostnameOrAddress);
-            if (addresses.Length == 0)
-            {
-                throw new ArgumentException(
-                    "Unable to retrieve address from specified host name.",
-                    "hostName"
-                );
-            }  
-            
-            return new IPEndPoint(addresses[0], port); // Port gets validated here.
+            return new DnsEndPoint(hostnameOrAddress,port);
         }
 
-        public static async Task<IDisposableConnection<ArraySegment<byte>>> CreateConnection(
+        internal static async Task<Socket> ConnectAsync(
             EndPoint endpoint,
             SocketType socketType = SocketType.Stream,
             ProtocolType protocolType = ProtocolType.Tcp)
@@ -54,7 +40,7 @@ namespace System.IoFx.Sockets
                 }
             }
 
-            return socket.ToConnection();
+            return socket;
         }
     }
 }

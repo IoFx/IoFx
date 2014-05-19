@@ -10,8 +10,11 @@ namespace System.IoFx.Sockets
     {
         public static async Task<IDisposableConnection<ArraySegment<byte>>> CreateConnection(string hostname, int port)
         {
-            var endpoint = SocketUtility.GetFirstIpEndPoint(hostname, port);
-            return  await SocketUtility.CreateConnection(endpoint, SocketType.Stream, ProtocolType.Tcp);
+            var socket =  await SocketUtility.ConnectAsync(new DnsEndPoint(hostname, port), 
+                                                        SocketType.Stream, 
+                                                        ProtocolType.Tcp);
+
+            return socket.ToConnection();
         }
 
         public static IDisposableConsumer<ArraySegment<byte>> CreateSender(this Socket socket)
@@ -21,7 +24,7 @@ namespace System.IoFx.Sockets
 
         public static IListener<Socket> GetTcpStreamSockets(int port)
         {
-            Func<Socket> createFunc = () => StartTcpListenSocket(port, IPAddress.Any);
+            Func<Socket> createFunc = () => StartTcpListenSocket(port);
             return new SocketListener(createFunc, SocketFactory.Factory);
         }
 
@@ -48,14 +51,12 @@ namespace System.IoFx.Sockets
 
         private static Socket StartTcpListenSocket(
             int port,
-            IPAddress address = null,
             SocketType socketType = SocketType.Stream,
             ProtocolType protocolType = ProtocolType.Tcp,
             int backlog = 1024)
-        {            
-            address = address ?? SocketUtility.GetFirstIpEndPoint(Dns.GetHostName(), port).Address;
+        {
             var socket = new Socket(socketType, protocolType);
-            var endpoint = new IPEndPoint(address, port);
+            var endpoint = new IPEndPoint(IPAddress.IPv6Any, port);
             socket.Bind(endpoint);
             socket.Listen(backlog);
 #if DEBUG

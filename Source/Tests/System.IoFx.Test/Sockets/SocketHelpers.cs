@@ -1,5 +1,4 @@
-﻿using System.IoFx.Sockets;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -10,7 +9,7 @@ namespace System.IoFx.Test.Sockets
         public static Socket Connect(int port)
         {
             var sender = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            var endpoint = SocketUtility.GetFirstIpEndPoint("127.0.0.1", port);
+            var endpoint = new DnsEndPoint("127.0.0.1", port);
             sender.Connect(endpoint);
             return sender;
         }
