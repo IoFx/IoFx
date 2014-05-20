@@ -86,7 +86,7 @@
     <Compile Include="ServiceModel\TypedContracts\TypedServices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\System.IoFx\IoFx.csproj">
+    <ProjectReference Include="..\..\IoFx\IoFx.csproj">
       <Project>{2bdd55c5-dc1c-4a7f-a468-2dd7de067542}</Project>
       <Name>IoFx</Name>
     </ProjectReference>
