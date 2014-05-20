@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IoFx.Connections;
-using System.IoFx.Http;
+using IoFx.Connections;
+using IoFx.Http;
 using System.Net;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;

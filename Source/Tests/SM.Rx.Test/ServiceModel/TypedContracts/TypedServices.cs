@@ -1,4 +1,4 @@
-﻿using System.IoFx.ServiceModel;
+﻿using IoFx.ServiceModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -107,7 +107,7 @@ namespace SM.Rx.Test.ServiceModel.TypedContracts
   </s:Header>
   <s:Body>
     <GetOrderResponse xmlns="http://tempuri.org/">
-      <GetOrderResult xmlns:d4p1="http://schemas.datacontract.org/2004/07/System.IoFx" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+      <GetOrderResult xmlns:d4p1="http://schemas.datacontract.org/2004/07/IoFx" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
         <d4p1:Name>John DoeOrder</d4p1:Name>
       </GetOrderResult>
     </GetOrderResponse>

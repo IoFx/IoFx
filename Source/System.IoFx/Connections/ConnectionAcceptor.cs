@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
-namespace System.IoFx.Connections
+namespace IoFx.Connections
 {
     class ConnectionAcceptor<TConnection, TFrame> : IListener<IConnection<TFrame>>
     {

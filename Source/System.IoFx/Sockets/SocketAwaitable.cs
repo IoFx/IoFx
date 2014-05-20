@@ -1,8 +1,9 @@
-﻿using System.IoFx.Runtime;
+﻿using System;
 using System.Net.Sockets;
 using System.Threading;
+using IoFx.Runtime;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketAwaitableEventArgs : SocketAsyncEventArgs, IAwaiter
     {

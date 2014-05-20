@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading;
 
-namespace System.IoFx.Test.Utility
+namespace IoFx.Test.Utility
 {
     static class SynchronizationUtility
     {

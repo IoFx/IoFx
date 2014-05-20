@@ -1,6 +1,7 @@
-﻿using System.Reactive.Linq;
+﻿using System;
+using System.Reactive.Linq;
 
-namespace System.IoFx.Connections
+namespace IoFx.Connections
 {
     public struct Context<T>
     {

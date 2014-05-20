@@ -1,10 +1,11 @@
-﻿using System.IoFx.Connections;
+﻿using System;
 using System.Reactive.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
+using IoFx.Connections;
 
-namespace System.IoFx.ServiceModel
+namespace IoFx.ServiceModel
 {
     public static class ChannelExtensions
     {

@@ -1,6 +1,7 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 
-namespace System.IoFx.Test.Utility
+namespace IoFx.Test.Utility
 {
     static class ArrayEx
     {

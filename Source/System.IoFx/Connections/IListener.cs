@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace System.IoFx.Connections
+namespace IoFx.Connections
 {
     public interface IListener
     {

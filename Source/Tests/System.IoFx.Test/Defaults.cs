@@ -1,4 +1,6 @@
-﻿namespace System.IoFx.Test
+﻿using System;
+
+namespace IoFx.Test
 {
     class Defaults
     {

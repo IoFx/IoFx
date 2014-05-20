@@ -1,12 +1,13 @@
-﻿using System.IO;
-using System.IoFx.Http;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
+using IoFx.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.IoFx.Test.Http
+namespace IoFx.Test.Http
 {
     [TestClass]
     public class HttpRequestResponse

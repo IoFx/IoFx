@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace System.IoFx.Runtime
+namespace IoFx.Runtime
 {
     internal interface IAwaiter : INotifyCompletion
     {

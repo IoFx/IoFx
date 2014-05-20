@@ -1,9 +1,10 @@
-﻿using System.IoFx.Sockets;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using IoFx.Sockets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.IoFx.Test.Sockets
+namespace IoFx.Test.Sockets
 {
     [TestClass]
     public class SocketSenderTests

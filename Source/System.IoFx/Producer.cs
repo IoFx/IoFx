@@ -1,6 +1,7 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
 
-namespace System.IoFx
+namespace IoFx
 {
     static class ProducerConsumerExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace System.IoFx.Connections
+﻿namespace IoFx.Connections
 {
     /// <summary>
     /// A composer is used to bridge a pair of IoChannels

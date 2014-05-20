@@ -1,4 +1,6 @@
-﻿namespace System.IoFx.Connections
+﻿using System;
+
+namespace IoFx.Connections
 {
     public interface IConnection<out TResult, in TInputs> :IProducer<TResult>, IConsumer<TInputs>
     {

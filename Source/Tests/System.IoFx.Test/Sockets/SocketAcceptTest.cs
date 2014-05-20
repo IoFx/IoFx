@@ -1,10 +1,11 @@
-﻿using System.IoFx.Sockets;
-using System.IoFx.Test.Utility;
+﻿using System;
+using IoFx.Sockets;
+using IoFx.Test.Utility;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.IoFx.Test.Sockets
+namespace IoFx.Test.Sockets
 {
     [TestClass]
     public class SocketAcceptTest
@@ -18,6 +19,7 @@ namespace System.IoFx.Test.Sockets
             var countdown = new CountdownEvent(clientCount);
             try
             {
+                
                 var tcs = new TaskCompletionSource<object>();
                 int count = 0;
                 listener.Subscribe(s =>

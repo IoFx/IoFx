@@ -1,11 +1,12 @@
-using System.IoFx.Connections;
-using System.IoFx.Tracing;
+using System;
 using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using IoFx.Connections;
+using IoFx.Tracing;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketListener : IListener<Socket>
     {

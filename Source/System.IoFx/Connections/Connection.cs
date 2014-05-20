@@ -1,4 +1,6 @@
-﻿namespace System.IoFx.Connections
+﻿using System;
+
+namespace IoFx.Connections
 {
     /// <summary>
     /// The IoChannel is a pipe through which type T would be produced and U would be consumed    

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.IoFx.Framing;
-using System.IoFx.Sockets;
+using IoFx.Framing;
+using IoFx.Sockets;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;

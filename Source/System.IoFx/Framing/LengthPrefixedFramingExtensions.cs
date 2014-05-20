@@ -1,7 +1,8 @@
-﻿using System.Diagnostics.Contracts;
-using System.IoFx.Connections;
+﻿using System;
+using System.Diagnostics.Contracts;
+using IoFx.Connections;
 
-namespace System.IoFx.Framing
+namespace IoFx.Framing
 {
     public static class LengthPrefixedFramingExtensions
     {

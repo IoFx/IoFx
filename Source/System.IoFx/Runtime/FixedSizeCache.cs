@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Concurrent;
 
-namespace System.IoFx.Runtime
+namespace IoFx.Runtime
 {
     class FixedSizeCache<T>
     {

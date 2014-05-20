@@ -1,4 +1,6 @@
-﻿namespace System.IoFx
+﻿using System;
+
+namespace IoFx
 {
     public interface IConsumer<in T> 
     {

@@ -1,9 +1,10 @@
+using System;
 using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketReceiver : IProducer<ArraySegment<byte>>, IDisposable
     {

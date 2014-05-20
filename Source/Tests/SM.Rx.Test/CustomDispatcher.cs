@@ -1,4 +1,5 @@
-﻿using System.IoFx.Connections;
+﻿using System;
+using IoFx.Connections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 
-namespace System.IoFx.Tests
+namespace IoFx.Tests
 {
     [TestClass]
     public class CustomDispatcher

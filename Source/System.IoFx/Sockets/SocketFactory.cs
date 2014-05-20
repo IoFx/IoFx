@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
-using System.IoFx.Runtime;
+using IoFx.Runtime;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketFactory
     {

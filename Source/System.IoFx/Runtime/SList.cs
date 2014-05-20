@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace System.IoFx.Runtime
+namespace IoFx.Runtime
 {
     class SList
     {

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IoFx.Framing;
-using System.IoFx.Sockets;
+using IoFx.Framing;
+using IoFx.Sockets;
 
 namespace Connect.Sockets
 {

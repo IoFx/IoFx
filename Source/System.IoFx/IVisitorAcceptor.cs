@@ -1,4 +1,4 @@
-﻿namespace System.IoFx
+﻿namespace IoFx
 {
     internal interface IVisitorAcceptor<in T>
     {

@@ -1,15 +1,16 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.IoFx.Framing;
-using System.IoFx.Sockets;
-using System.IoFx.Test.Utility;
+using IoFx.Framing;
+using IoFx.Test.Utility;
 using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
+using IoFx.Sockets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
-namespace System.IoFx.Test.Sockets.Framing
+namespace IoFx.Test.Sockets.Framing
 {
     public partial class LenghtPrefixed
     {

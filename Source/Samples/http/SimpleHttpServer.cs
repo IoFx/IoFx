@@ -1,7 +1,7 @@
 ﻿namespace Samples
 {
     using System;
-    using System.IoFx.Http;
+    using IoFx.Http;
     using System.Text;
 
     class SimpleHttpServer

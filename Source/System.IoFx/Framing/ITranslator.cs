@@ -1,4 +1,4 @@
-﻿namespace System.IoFx.Framing
+﻿namespace IoFx.Framing
 {    
     /// <summary>
     /// The ITranslator defines the contract for the state machine

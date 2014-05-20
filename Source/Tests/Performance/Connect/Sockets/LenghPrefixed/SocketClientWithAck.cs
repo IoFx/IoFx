@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IoFx.Connections;
-using System.IoFx.Framing;
-using System.IoFx.Sockets;
+using IoFx.Connections;
+using IoFx.Framing;
+using IoFx.Sockets;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;

@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
-using System.IoFx.ServiceModel;
+﻿using System;
+using System.Diagnostics;
+using IoFx.ServiceModel;
 using System.Reactive.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -8,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.IoFx.Test.ServiceModel.Channels
+namespace IoFx.Test.ServiceModel.Channels
 {
     [TestClass]
     public class MessageTests

@@ -1,8 +1,9 @@
-﻿using System.IoFx.Connections;
+﻿using System;
 using System.Linq;
 using System.Net;
+using IoFx.Connections;
 
-namespace System.IoFx.Http
+namespace IoFx.Http
 {
     public class HttpObservable
     {

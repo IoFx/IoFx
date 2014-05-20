@@ -1,4 +1,6 @@
-namespace System.IoFx.Connections
+using System;
+
+namespace IoFx.Connections
 {
     /// <summary>
     /// This class avoid using Disposable.Create for connections. 

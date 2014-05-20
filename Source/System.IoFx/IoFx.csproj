@@ -7,8 +7,8 @@
     <ProjectGuid>{2BDD55C5-DC1C-4A7F-A468-2DD7DE067542}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.IoFx</RootNamespace>
-    <AssemblyName>System.IoFx</AssemblyName>
+    <RootNamespace>IoFx</RootNamespace>
+    <AssemblyName>IoFx</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

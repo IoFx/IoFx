@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel.Channels;
 
-namespace System.IoFx.ServiceModel
+namespace IoFx.ServiceModel
 {
     class OutputChannelMessageConsumer : IConsumer<Message>
     {

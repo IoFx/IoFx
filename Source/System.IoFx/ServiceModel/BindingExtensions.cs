@@ -1,6 +1,7 @@
-﻿using System.ServiceModel.Channels;
+﻿using System;
+using System.ServiceModel.Channels;
 
-namespace System.IoFx.ServiceModel
+namespace IoFx.ServiceModel
 {
     public static class BindingExtensions
     {

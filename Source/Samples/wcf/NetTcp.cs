@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IoFx.ServiceModel;
+using IoFx.ServiceModel;
 using System.ServiceModel;
 
 namespace Samples.wcf

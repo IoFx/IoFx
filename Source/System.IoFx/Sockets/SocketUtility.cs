@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketUtility
     {

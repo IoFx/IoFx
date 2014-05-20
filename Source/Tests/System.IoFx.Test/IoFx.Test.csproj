@@ -6,8 +6,8 @@
     <ProjectGuid>{8E2B422F-D91F-4747-A206-623605251DC0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.IoFx.Test</RootNamespace>
-    <AssemblyName>System.IoFx.Test</AssemblyName>
+    <RootNamespace>IoFx.Test</RootNamespace>
+    <AssemblyName>IoFx.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -85,9 +85,9 @@
     <Compile Include="Utility\SynchronizationUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\System.IoFx\System.IoFx.csproj">
+    <ProjectReference Include="..\..\System.IoFx\IoFx.csproj">
       <Project>{2bdd55c5-dc1c-4a7f-a468-2dd7de067542}</Project>
-      <Name>System.IoFx</Name>
+      <Name>IoFx</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

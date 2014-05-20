@@ -1,4 +1,4 @@
-﻿namespace System.IoFx.Runtime
+﻿namespace IoFx.Runtime
 {
     class Scheduler
     {

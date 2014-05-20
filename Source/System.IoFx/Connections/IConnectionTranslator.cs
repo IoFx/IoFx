@@ -1,6 +1,7 @@
-﻿using System.IoFx.Framing;
+﻿using System;
+using IoFx.Framing;
 
-namespace System.IoFx.Connections
+namespace IoFx.Connections
 {
     interface IConnectionTranslator<T1, T2> : IConnection<T2>
     {

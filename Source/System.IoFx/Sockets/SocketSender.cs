@@ -1,9 +1,10 @@
-﻿using System.Diagnostics.Contracts;
-using System.IoFx.Runtime;
+﻿using System;
+using System.Diagnostics.Contracts;
 using System.Net.Sockets;
 using System.Threading;
+using IoFx.Runtime;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketSender : IDisposableConsumer<ArraySegment<byte>>, IDisposable
     {

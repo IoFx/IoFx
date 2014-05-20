@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 
-namespace System.IoFx.Test.Sockets
+namespace IoFx.Test.Sockets
 {
     class SocketTestUtility
     {

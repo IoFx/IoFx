@@ -1,4 +1,4 @@
-namespace System.IoFx
+namespace IoFx
 {
     /// <summary>
     /// Synchronized Enqueuable dispatcher

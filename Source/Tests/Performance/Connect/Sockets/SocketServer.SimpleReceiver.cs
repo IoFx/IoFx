@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IoFx.Sockets;
+using IoFx.Sockets;
 
 namespace Connect.Sockets
 {

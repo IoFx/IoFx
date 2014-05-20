@@ -1,6 +1,6 @@
 ﻿using Microsoft.Diagnostics.Tracing;
 
-namespace System.IoFx.Tracing
+namespace IoFx.Tracing
 {
     sealed class Events : EventSource
     {

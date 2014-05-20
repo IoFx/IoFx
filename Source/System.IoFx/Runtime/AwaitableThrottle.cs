@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace System.IoFx.Runtime
+namespace IoFx.Runtime
 {
     public class AwaitableThrottle
     {

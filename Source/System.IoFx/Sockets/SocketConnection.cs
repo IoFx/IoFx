@@ -1,8 +1,9 @@
-using System.IoFx.Connections;
+using System;
 using System.Net.Sockets;
 using System.Threading;
+using IoFx.Connections;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     class SocketConnection : IDisposable
     {

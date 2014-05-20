@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.IoFx.Connections;
-using System.IoFx.ServiceModel;
+using IoFx.Connections;
+using IoFx.ServiceModel;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;

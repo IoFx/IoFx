@@ -1,6 +1,7 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 
-namespace System.IoFx.Runtime
+namespace IoFx.Runtime
 {
     class BufferManager
     {

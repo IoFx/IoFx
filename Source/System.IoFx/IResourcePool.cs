@@ -1,4 +1,6 @@
-﻿namespace System.IoFx
+﻿using System;
+
+namespace IoFx
 {
     internal interface IResourcePool<T> : IVisitor<ArraySegment<byte>>
     {

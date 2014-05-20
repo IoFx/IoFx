@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace System.IoFx.Sockets
+namespace IoFx.Sockets
 {
     static class SocketOperationsEx
     {

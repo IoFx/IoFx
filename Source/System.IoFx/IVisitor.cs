@@ -1,4 +1,4 @@
-﻿namespace System.IoFx
+﻿namespace IoFx
 {
     interface IVisitor<in T>
     {
