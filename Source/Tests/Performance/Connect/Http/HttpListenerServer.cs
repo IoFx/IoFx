@@ -9,7 +9,7 @@ namespace Connect.Http
 {
     class HttpListenerServer : IServer
     {
-        ConnectionRateMonitor monitor = new ConnectionRateMonitor();
+        readonly ConnectionRateMonitor monitor = new ConnectionRateMonitor();
         private readonly IListener<System.Net.HttpListenerContext> _contexts;
         private readonly byte[] _buffer;
         public HttpListenerServer(string prefix)

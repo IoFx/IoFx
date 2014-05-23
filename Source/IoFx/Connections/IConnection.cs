@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace IoFx.Connections
+﻿namespace IoFx.Connections
 {
-    public interface IConnection<out TResult, in TInputs> :IProducer<TResult>, IConsumer<TInputs>
+    /// <summary>
+    /// The Connection produces TResult and TInputs can be published.
+    /// </summary>
+    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TResponse"></typeparam>
+    public interface IConnection<out TResult, in TResponse> : IProducer<TResult>, IConsumer<TResponse>
     {
     }
 
     public interface IConnection<TResult> : IConnection<TResult, TResult>
     {
-    }
-
-    public interface IDisposableConnection<T> : IConnection<T>, IDisposable
-    {
- 
     }
 }

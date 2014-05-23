@@ -64,11 +64,17 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connections\ConnectionTranslator.cs" />
+    <Compile Include="Connections\ContextExtentions.cs" />
     <Compile Include="Connections\IConnection.cs" />
     <Compile Include="Connections\IConnectionTranslator.cs" />
+    <Compile Include="Connections\IDisposableConnection.cs" />
     <Compile Include="Connections\IListener.cs" />
-    <Compile Include="Framing\LengthPrefixedFramingExtensions.cs" />
+    <Compile Include="Framing\FramingExtensions.cs" />
+    <Compile Include="Framing\LengthPrefixed\BufferedReader.cs" />
+    <Compile Include="Framing\LengthPrefixed\LengthPrefixedInputTranslator.cs" />
     <Compile Include="Framing\ITranslator.cs" />
+    <Compile Include="Framing\LengthPrefixed\LengthPrefixOutputTranslator.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
     <Compile Include="Http\HttpObservable.cs" />
     <Compile Include="IDisposableObservable.cs" />

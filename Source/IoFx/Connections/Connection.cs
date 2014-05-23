@@ -2,11 +2,6 @@
 
 namespace IoFx.Connections
 {
-    /// <summary>
-    /// The IoChannel is a pipe through which type T would be produced and U would be consumed    
-    /// </summary>
-    /// <typeparam name="TResult"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
     class Connection<TResult, TResponse> : IConnection<TResult,TResponse>
     {
         readonly IObservable<TResult> _producers;

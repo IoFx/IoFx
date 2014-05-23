@@ -51,7 +51,7 @@ namespace Connect
                     _rate = Interlocked.Exchange(ref _messageCount, 0) / Interval;
                     var current = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("server: Active: ");
+                    Console.Write("Active: ");
                     Console.Write(_connectionCount);
                     Console.Write("\tMsg/sec: ");
                     Console.Write(_rate);

@@ -68,6 +68,7 @@ namespace IoFx.Test.Sockets.Framing
             {
                 throw new InvalidOperationException("Incorrect number of bytes recieved.");
             }
+
             Console.WriteLine("Data Received " + BitConverter.ToInt32(result.Array, 0));
         }
 

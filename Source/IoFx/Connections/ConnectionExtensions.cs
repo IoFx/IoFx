@@ -7,20 +7,22 @@ namespace IoFx.Connections
     public static class ConnectionExtensions
     {
         [Obsolete]
-        public static IDisposable Consume<T>(this IConnection<T> connection, IObservable<T> outputs)
+        public static IDisposable Consume<T>(
+            this IConnection<T> connection, 
+            IObservable<T> outputs)
         {
-            return outputs.Subscribe(output =>
-            {
-                connection.Publish(output);
-            });
+            return outputs.Subscribe(connection.Publish);
         }
 
-        public static IDisposable Consume<TOutputs, TInputs>(this Composer<TOutputs, TInputs> composer, IObservable<TOutputs> outputs)
+        public static IDisposable Consume<TOutputs, TInputs>(
+            this Composer<TOutputs, TInputs> composer, 
+            IObservable<TOutputs> outputs)
         {
             return outputs.Subscribe(composer.Outputs.Publish);
         }
 
-        public static IObservable<Context<TOut>> ToConnection<TIn, TOut>(this IProducer<Context<TIn>> producer,
+        public static IObservable<Context<TOut>> ToConnection<TIn, TOut>(
+            this IProducer<Context<TIn>> producer,
             Func<TIn, TOut> convertor)
         {
             var transformation = producer.Select(i => new Context<TOut>()
@@ -38,27 +40,5 @@ namespace IoFx.Connections
                 Message = e
             });
         }
-
-
-        //class ProducerTranslator<TInput,TOutput> : IProducer<TOutput>
-        //{
-        //    private Func<TInput, TOutput> _convertor;
-        //    private IProducer<TInput> _input;
-        //    public ProducerTranslator(IProducer<TInput> input, Func<TInput,TOutput> convertor)
-        //    {
-        //        _input = input;
-        //        _convertor = convertor;
-        //    }
-
-        //    public IDisposable Subscribe(IObserver<TOutput> observer)
-        //    {
-        //        Observer.Create()
-        //        return _input.Subscribe(o =>
-        //        {
-
-        //        });
-        //    }
-        //}
-
     }
 }
