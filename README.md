@@ -1,4 +1,6 @@
 # IoFx
+
+[![Join the chat at https://gitter.im/IoFx/IoFx](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/IoFx/IoFx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 IoFx is a .NET library that enables reactive IO. The main motivation for this library is **preformance**. The target audience are folks who want to build high throughput application. We trade off simplicity for performance in most cases. The API surface enables composition using different protocols and frameworks like Sockets/WCF/HttpListener. 
 
 ##Overview
