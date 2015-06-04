@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>IoFx</id>
+        <version>1.0.1</version>
+        <title>IoFx</title>
+        <authors>Sajay Antony</authors>
+        <owners>Sajay Antony</owners>
+        <licenseUrl>https://github.com/IoFx/IoFx/blob/dev/license.txt</licenseUrl>
+        <projectUrl>https://github.com/IoFx/IoFx</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>IoFx is a .NET library that enables reactive IO. The main motivation for this library is preformance. The target audience are folks who want to build high throughput application. We trade off simplicity for performance in most cases. The API surface enables composition using different protocols and frameworks like Sockets/WCF/HttpListener.</description>
+        <summary>An Rx based assembly for high performance network IO.</summary>
+        <copyright>Sajay Antony</copyright>
+        <language>en-US</language>
+        <tags>rx, iofx, reactive</tags>
+    </metadata>
+</package>
