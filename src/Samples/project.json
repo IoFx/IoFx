@@ -6,14 +6,20 @@
   "projectUrl": "",
   "licenseUrl": "",
 
-  "dependencies": {
+ "dependencies": {
+    "IoFx": "1.0.0",
     "Microsoft.Diagnostics.Tracing.EventSource": "1.1.28",
-    "Rx-Linq": "2.2.5"
+    "Rx-Main": "2.2.5"    
   },
 
   "frameworks": {
     "dnx451": {
-      "frameworkAssemblies": {"System.ServiceModel": "4.0.0.0"}
+      "frameworkAssemblies": {
+        "System.Runtime":"4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.ServiceModel": "4.0.0.0",
+        "System.Xml": "4.0.0.0"
+      }
     }
   }
 }

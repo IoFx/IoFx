@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IoFx.Sockets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace IoFx.Test.Sockets.Framing
 {
-    [TestClass]
+    
     public partial class LenghtPrefixed
     {
-        [TestMethod]
+        [Fact]
         public void AsciiEncoded4ByteTest()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -37,10 +37,10 @@ namespace IoFx.Test.Sockets.Framing
                 tcs.Task.Wait(Defaults.ShortTestWaitTime);
             }
 
-            Assert.IsTrue(tcs.Task.Result);
+            Xunit.Assert.True(tcs.Task.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void AsciiEncoded5_1MbbyteTest()
         {
             var tcs = new TaskCompletionSource<int>();
@@ -79,7 +79,7 @@ namespace IoFx.Test.Sockets.Framing
                 tcs.Task.Wait(Defaults.ShortTestWaitTime);
             }
 
-            Assert.IsTrue(tcs.Task.Result == expectedCount);
+            Assert.True(tcs.Task.Result == expectedCount);
         }
 
         public IDisposable StartServer(Action<byte[]> assert)

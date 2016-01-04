@@ -1,6 +1,6 @@
 ﻿using System;
 using IoFx.Connections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
@@ -9,10 +9,10 @@ using System.Text;
 
 namespace IoFx.Tests
 {
-    [TestClass]
+    
     public class CustomDispatcher
     {
-        [TestMethod]
+        [Fact]
         public void Dispatcher()
         {
             List<byte[]> outputs = new List<byte[]>();
@@ -55,12 +55,12 @@ namespace IoFx.Tests
             //Start the transport
             byteRequests.Connect();
 
-            Assert.AreEqual(inputs.Length, outputs.Count);
+            Xunit.Assert.Equal(inputs.Length, outputs.Count);
 
             for (int i = 0; i < outputs.Count; i++)
             {
                 byte[] o = outputs[i];
-                Assert.AreEqual(inputs[i] + "!$", decode(o));
+                Assert.Equal(inputs[i] + "!$", decode(o));
             }
         }
 

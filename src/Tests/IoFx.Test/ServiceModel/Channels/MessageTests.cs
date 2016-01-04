@@ -7,28 +7,28 @@ using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace IoFx.Test.ServiceModel.Channels
 {
-    [TestClass]
+    
     public class MessageTests
     {
         string _address = "net.tcp://localhost:8080/test";
 
-        [TestMethod]
+        [Fact]
         public void GetMessage()
         {
             var count = GetMessages(1);
-            Assert.IsTrue(count == 1);
+            Xunit.Assert.Equal(count, 1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Get50KMessages()
         {
             const int expectedMessageCount = 50 * 1000;
             var count = GetMessages(expectedMessageCount);
-            Assert.IsTrue(count == expectedMessageCount);
+            Xunit.Assert.Equal(count, expectedMessageCount);
         }
 
         public int GetMessages(int numberOfMessages)

@@ -3,14 +3,14 @@ using IoFx.Sockets;
 using IoFx.Test.Utility;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace IoFx.Test.Sockets
 {
-    [TestClass]
+    
     public class SocketAcceptTest
     {
-        [TestMethod]
+        [Fact]
         public void SocketConnect()
         {
             const int port = 5050;
@@ -37,7 +37,7 @@ namespace IoFx.Test.Sockets
                 }
 
                 countdown.WaitEx();
-                Assert.IsTrue(count == clientCount);
+                Xunit.Assert.True(count == clientCount);
             }
             finally
             {

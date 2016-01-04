@@ -1,0 +1,774 @@
+{
+  "locked": false,
+  "version": 2,
+  "targets": {
+    "DNX,Version=v4.5.1": {
+      "IoFx/1.0.0": {
+        "type": "project",
+        "framework": "DNX,Version=v4.5.1",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource": "1.1.28",
+          "Rx-Linq": "2.2.5"
+        },
+        "frameworkAssemblies": [
+          "System.ServiceModel"
+        ]
+      },
+      "Microsoft.Diagnostics.Tracing.EventRegister/1.1.28": {
+        "type": "package"
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource/1.1.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventRegister": "1.1.28",
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net40/_._": {}
+        },
+        "runtime": {
+          "lib/net40/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Rx-Core/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Core.dll": {}
+        }
+      },
+      "Rx-Interfaces/2.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Reactive.Interfaces.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Interfaces.dll": {}
+        }
+      },
+      "Rx-Linq/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.Linq.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Linq.dll": {}
+        }
+      },
+      "Rx-Main/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5",
+          "Rx-Linq": "2.2.5",
+          "Rx-PlatformServices": "2.2.5"
+        }
+      },
+      "Rx-PlatformServices/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.PlatformServices.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.PlatformServices.dll": {}
+        }
+      },
+      "xunit/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.assert": "[2.2.0-beta1-build3239]",
+          "xunit.core": "[2.2.0-beta1-build3239]"
+        }
+      },
+      "xunit.abstractions/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/xunit.abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/net35/xunit.abstractions.dll": {}
+        }
+      },
+      "xunit.assert/2.2.0-beta1-build3239": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/xunit.assert.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.assert.dll": {}
+        }
+      },
+      "xunit.core/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.2.0-beta1-build3239]",
+          "xunit.extensibility.execution": "[2.2.0-beta1-build3239]"
+        }
+      },
+      "xunit.extensibility.core/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.abstractions": "[2.0.0]"
+        },
+        "compile": {
+          "lib/dotnet/xunit.core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.core.dll": {},
+          "lib/dotnet/xunit.runner.tdnet.dll": {},
+          "lib/dotnet/xunit.runner.utility.desktop.dll": {}
+        }
+      },
+      "xunit.extensibility.execution/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.2.0-beta1-build3239]"
+        },
+        "compile": {
+          "lib/dnx451/xunit.execution.dotnet.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/xunit.execution.dotnet.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.5.1/win7-x86": {
+      "IoFx/1.0.0": {
+        "type": "project",
+        "framework": "DNX,Version=v4.5.1",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource": "1.1.28",
+          "Rx-Linq": "2.2.5"
+        },
+        "frameworkAssemblies": [
+          "System.ServiceModel"
+        ]
+      },
+      "Microsoft.Diagnostics.Tracing.EventRegister/1.1.28": {
+        "type": "package"
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource/1.1.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventRegister": "1.1.28",
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net40/_._": {}
+        },
+        "runtime": {
+          "lib/net40/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Rx-Core/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Core.dll": {}
+        }
+      },
+      "Rx-Interfaces/2.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Reactive.Interfaces.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Interfaces.dll": {}
+        }
+      },
+      "Rx-Linq/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.Linq.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Linq.dll": {}
+        }
+      },
+      "Rx-Main/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5",
+          "Rx-Linq": "2.2.5",
+          "Rx-PlatformServices": "2.2.5"
+        }
+      },
+      "Rx-PlatformServices/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.PlatformServices.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.PlatformServices.dll": {}
+        }
+      },
+      "xunit/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.assert": "[2.2.0-beta1-build3239]",
+          "xunit.core": "[2.2.0-beta1-build3239]"
+        }
+      },
+      "xunit.abstractions/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/xunit.abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/net35/xunit.abstractions.dll": {}
+        }
+      },
+      "xunit.assert/2.2.0-beta1-build3239": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/xunit.assert.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.assert.dll": {}
+        }
+      },
+      "xunit.core/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.2.0-beta1-build3239]",
+          "xunit.extensibility.execution": "[2.2.0-beta1-build3239]"
+        }
+      },
+      "xunit.extensibility.core/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.abstractions": "[2.0.0]"
+        },
+        "compile": {
+          "lib/dotnet/xunit.core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.core.dll": {},
+          "lib/dotnet/xunit.runner.tdnet.dll": {},
+          "lib/dotnet/xunit.runner.utility.desktop.dll": {}
+        }
+      },
+      "xunit.extensibility.execution/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.2.0-beta1-build3239]"
+        },
+        "compile": {
+          "lib/dnx451/xunit.execution.dotnet.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/xunit.execution.dotnet.dll": {}
+        }
+      }
+    },
+    "DNX,Version=v4.5.1/win7-x64": {
+      "IoFx/1.0.0": {
+        "type": "project",
+        "framework": "DNX,Version=v4.5.1",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource": "1.1.28",
+          "Rx-Linq": "2.2.5"
+        },
+        "frameworkAssemblies": [
+          "System.ServiceModel"
+        ]
+      },
+      "Microsoft.Diagnostics.Tracing.EventRegister/1.1.28": {
+        "type": "package"
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource/1.1.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventRegister": "1.1.28",
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net40/_._": {}
+        },
+        "runtime": {
+          "lib/net40/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Rx-Core/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Core.dll": {}
+        }
+      },
+      "Rx-Interfaces/2.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Reactive.Interfaces.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Interfaces.dll": {}
+        }
+      },
+      "Rx-Linq/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.Linq.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.Linq.dll": {}
+        }
+      },
+      "Rx-Main/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5",
+          "Rx-Linq": "2.2.5",
+          "Rx-PlatformServices": "2.2.5"
+        }
+      },
+      "Rx-PlatformServices/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Rx-Core": "2.2.5",
+          "Rx-Interfaces": "2.2.5"
+        },
+        "compile": {
+          "lib/net45/System.Reactive.PlatformServices.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Reactive.PlatformServices.dll": {}
+        }
+      },
+      "xunit/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.assert": "[2.2.0-beta1-build3239]",
+          "xunit.core": "[2.2.0-beta1-build3239]"
+        }
+      },
+      "xunit.abstractions/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/xunit.abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/net35/xunit.abstractions.dll": {}
+        }
+      },
+      "xunit.assert/2.2.0-beta1-build3239": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/xunit.assert.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.assert.dll": {}
+        }
+      },
+      "xunit.core/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.2.0-beta1-build3239]",
+          "xunit.extensibility.execution": "[2.2.0-beta1-build3239]"
+        }
+      },
+      "xunit.extensibility.core/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.abstractions": "[2.0.0]"
+        },
+        "compile": {
+          "lib/dotnet/xunit.core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.core.dll": {},
+          "lib/dotnet/xunit.runner.tdnet.dll": {},
+          "lib/dotnet/xunit.runner.utility.desktop.dll": {}
+        }
+      },
+      "xunit.extensibility.execution/2.2.0-beta1-build3239": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.2.0-beta1-build3239]"
+        },
+        "compile": {
+          "lib/dnx451/xunit.execution.dotnet.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/xunit.execution.dotnet.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IoFx/1.0.0": {
+      "type": "project",
+      "path": "../../IoFx/project.json"
+    },
+    "Microsoft.Diagnostics.Tracing.EventRegister/1.1.28": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "VXTPYySeOmpMFejW2t4uau3t5h92LYKT9zM3kR06qeUNM9vQxG3S5nB6EhuKyf+F7Ze92Y6614MvjkxH14NJkQ==",
+      "files": [
+        "build/eventRegister.exe",
+        "build/Microsoft.Diagnostics.Tracing.EventRegister.targets",
+        "build/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "content/net35/_EventRegisterUsersGuide.docx",
+        "content/net40/_EventRegisterUsersGuide.docx",
+        "content/portable-net45+win8+wpa81/_EventRegisterUsersGuide.docx",
+        "License-Stable.rtf",
+        "Microsoft.Diagnostics.Tracing.EventRegister.1.1.28.nupkg",
+        "Microsoft.Diagnostics.Tracing.EventRegister.1.1.28.nupkg.sha512",
+        "Microsoft.Diagnostics.Tracing.EventRegister.nuspec"
+      ]
+    },
+    "Microsoft.Diagnostics.Tracing.EventSource/1.1.28": {
+      "type": "package",
+      "sha512": "qvaf1chd3Z2GBBfqSIyc/CQtX55DAhhT+ptfM0dhk6v4CHvSozpFkeVVeIZFNGR315/V7eEguKtjMCaCw6iLcQ==",
+      "files": [
+        "content/_EventSourceUsersGuide.docx",
+        "lib/net35/_._",
+        "lib/net40/_._",
+        "lib/portable-net45+win8+wpa81/_._",
+        "License-Stable.rtf",
+        "Microsoft.Diagnostics.Tracing.EventSource.1.1.28.nupkg",
+        "Microsoft.Diagnostics.Tracing.EventSource.1.1.28.nupkg.sha512",
+        "Microsoft.Diagnostics.Tracing.EventSource.nuspec"
+      ]
+    },
+    "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "pn07chRDMdeug9sHbuNlAEZG8ZN3zKgE07IMJG7qPeoQlX6ve01rKTwknKCY/2CVacRP78ONzykV8am84gxc2g==",
+      "files": [
+        "lib/net35/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/net35/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/net46/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/net46/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/portable-win8+wpa81/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/portable-win8+wpa81/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "License-Stable.rtf",
+        "Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28.nupkg",
+        "Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28.nupkg.sha512",
+        "Microsoft.Diagnostics.Tracing.EventSource.Redist.nuspec"
+      ]
+    },
+    "Rx-Core/2.2.5": {
+      "type": "package",
+      "sha512": "DfWVTfW6tvRkkqpnRHKxPIvaRZyDJGADuqrE6J2nwejOQbLRWi0rNUwXkViDWz++25BGDy3iRE5OE6Dv8mJxYQ==",
+      "files": [
+        "lib/net40/System.Reactive.Core.dll",
+        "lib/net40/System.Reactive.Core.XML",
+        "lib/net45/System.Reactive.Core.dll",
+        "lib/net45/System.Reactive.Core.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Core.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Core.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.XML",
+        "lib/portable-win81+wpa81/System.Reactive.Core.dll",
+        "lib/portable-win81+wpa81/System.Reactive.Core.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Core.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Core.XML",
+        "lib/sl5/System.Reactive.Core.dll",
+        "lib/sl5/System.Reactive.Core.XML",
+        "lib/windows8/System.Reactive.Core.dll",
+        "lib/windows8/System.Reactive.Core.XML",
+        "lib/windowsphone71/System.Reactive.Core.dll",
+        "lib/windowsphone71/System.Reactive.Core.XML",
+        "lib/windowsphone8/System.Reactive.Core.dll",
+        "lib/windowsphone8/System.Reactive.Core.XML",
+        "Rx-Core.2.2.5.nupkg",
+        "Rx-Core.2.2.5.nupkg.sha512",
+        "Rx-Core.nuspec"
+      ]
+    },
+    "Rx-Interfaces/2.2.5": {
+      "type": "package",
+      "sha512": "FKtG2QfMIeUcfB7r3a89VoAiszX3DTvYETkpC6U0FzWpxRK/mcHyzYOsniDfag+NsDG0P1k1c8yNSefXKp3t2A==",
+      "files": [
+        "lib/net40/System.Reactive.Interfaces.dll",
+        "lib/net40/System.Reactive.Interfaces.XML",
+        "lib/net45/System.Reactive.Interfaces.dll",
+        "lib/net45/System.Reactive.Interfaces.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Interfaces.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Interfaces.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.XML",
+        "lib/portable-win81+wpa81/System.Reactive.Interfaces.dll",
+        "lib/portable-win81+wpa81/System.Reactive.Interfaces.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Interfaces.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Interfaces.XML",
+        "lib/sl5/System.Reactive.Interfaces.dll",
+        "lib/sl5/System.Reactive.Interfaces.XML",
+        "lib/windows8/System.Reactive.Interfaces.dll",
+        "lib/windows8/System.Reactive.Interfaces.XML",
+        "lib/windowsphone71/System.Reactive.Interfaces.dll",
+        "lib/windowsphone71/System.Reactive.Interfaces.XML",
+        "lib/windowsphone8/System.Reactive.Interfaces.dll",
+        "lib/windowsphone8/System.Reactive.Interfaces.XML",
+        "Rx-Interfaces.2.2.5.nupkg",
+        "Rx-Interfaces.2.2.5.nupkg.sha512",
+        "Rx-Interfaces.nuspec"
+      ]
+    },
+    "Rx-Linq/2.2.5": {
+      "type": "package",
+      "sha512": "UTeCIu3cWPExxmTzdiVq7SalqTBhUaomBTaAC9LpYPoAopjlFwA3hjVWXoLkGlDc/44wqJemJuEwFP00KphiFg==",
+      "files": [
+        "lib/net40/System.Reactive.Linq.dll",
+        "lib/net40/System.Reactive.Linq.XML",
+        "lib/net45/System.Reactive.Linq.dll",
+        "lib/net45/System.Reactive.Linq.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Linq.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Linq.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.XML",
+        "lib/portable-win81+wpa81/System.Reactive.Linq.dll",
+        "lib/portable-win81+wpa81/System.Reactive.Linq.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Linq.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Linq.XML",
+        "lib/sl5/System.Reactive.Linq.dll",
+        "lib/sl5/System.Reactive.Linq.XML",
+        "lib/windows8/System.Reactive.Linq.dll",
+        "lib/windows8/System.Reactive.Linq.XML",
+        "lib/windowsphone71/System.Reactive.Linq.dll",
+        "lib/windowsphone71/System.Reactive.Linq.XML",
+        "lib/windowsphone8/System.Reactive.Linq.dll",
+        "lib/windowsphone8/System.Reactive.Linq.XML",
+        "Rx-Linq.2.2.5.nupkg",
+        "Rx-Linq.2.2.5.nupkg.sha512",
+        "Rx-Linq.nuspec"
+      ]
+    },
+    "Rx-Main/2.2.5": {
+      "type": "package",
+      "sha512": "qdQ6qENEiLsp/LRdzZlLlodihWN8VDjwNfWa8c2ELjEHZgTdKzt1V4i61gkHVtFKZXe8Px6KupbMP3pZ+1tusQ==",
+      "files": [
+        "Rx-Main.2.2.5.nupkg",
+        "Rx-Main.2.2.5.nupkg.sha512",
+        "Rx-Main.nuspec"
+      ]
+    },
+    "Rx-PlatformServices/2.2.5": {
+      "type": "package",
+      "sha512": "pMnNEvJVjT+wuDib+W/bi5hhIYcre7dW5yxvKrJxnR4iKJ1VLA/dY2FTtjDriHGx7OeGn12lQewXlH2oHiWFPA==",
+      "files": [
+        "lib/net40/System.Reactive.PlatformServices.dll",
+        "lib/net40/System.Reactive.PlatformServices.XML",
+        "lib/net45/System.Reactive.PlatformServices.dll",
+        "lib/net45/System.Reactive.PlatformServices.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.PlatformServices.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.PlatformServices.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.XML",
+        "lib/portable-win81+wpa81/System.Reactive.PlatformServices.dll",
+        "lib/portable-win81+wpa81/System.Reactive.PlatformServices.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.PlatformServices.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.PlatformServices.XML",
+        "lib/sl5/System.Reactive.PlatformServices.dll",
+        "lib/sl5/System.Reactive.PlatformServices.XML",
+        "lib/windows8/System.Reactive.PlatformServices.dll",
+        "lib/windows8/System.Reactive.PlatformServices.XML",
+        "lib/windowsphone71/System.Reactive.PlatformServices.dll",
+        "lib/windowsphone71/System.Reactive.PlatformServices.XML",
+        "lib/windowsphone8/System.Reactive.PlatformServices.dll",
+        "lib/windowsphone8/System.Reactive.PlatformServices.XML",
+        "Rx-PlatformServices.2.2.5.nupkg",
+        "Rx-PlatformServices.2.2.5.nupkg.sha512",
+        "Rx-PlatformServices.nuspec"
+      ]
+    },
+    "xunit/2.2.0-beta1-build3239": {
+      "type": "package",
+      "sha512": "j/MqJK2vBsTqdcGQCrMw0pQKbwQF1o9BeFRZ1BNlHe2W1/5ixqJFon/dr55MAnFgQrb4Euabonmn5JNluK4qeQ==",
+      "files": [
+        "xunit.2.2.0-beta1-build3239.nupkg",
+        "xunit.2.2.0-beta1-build3239.nupkg.sha512",
+        "xunit.nuspec"
+      ]
+    },
+    "xunit.abstractions/2.0.0": {
+      "type": "package",
+      "sha512": "NAdxKQRzuLnCZ0g++x6i87/8rMBpQoRiRlRNLAqfODm2zJPbteHRoSER3DXfxnqrHXyBJT8rFaZ8uveBeQyaMA==",
+      "files": [
+        "lib/net35/xunit.abstractions.dll",
+        "lib/net35/xunit.abstractions.xml",
+        "lib/portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS/xunit.abstractions.dll",
+        "lib/portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS/xunit.abstractions.xml",
+        "xunit.abstractions.2.0.0.nupkg",
+        "xunit.abstractions.2.0.0.nupkg.sha512",
+        "xunit.abstractions.nuspec"
+      ]
+    },
+    "xunit.assert/2.2.0-beta1-build3239": {
+      "type": "package",
+      "sha512": "fczO1r6zCqUCAw8DOBIrylzC038gDAxyb98h1S8BQIJTzM1LWlYIAa60z5YMl/himWzAw9NQGoju3QTyH+OsWQ==",
+      "files": [
+        "lib/dotnet/xunit.assert.dll",
+        "lib/dotnet/xunit.assert.pdb",
+        "lib/dotnet/xunit.assert.xml",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.assert.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.assert.pdb",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.assert.xml",
+        "xunit.assert.2.2.0-beta1-build3239.nupkg",
+        "xunit.assert.2.2.0-beta1-build3239.nupkg.sha512",
+        "xunit.assert.nuspec"
+      ]
+    },
+    "xunit.core/2.2.0-beta1-build3239": {
+      "type": "package",
+      "sha512": "Ejolxzd5yln1UxoL8U6C9d2qyIkdLxJdsTy6igRIyp+5RnSq16BfiCLjyyapBO5hzuqTTUK27buXnKcpR1lqfQ==",
+      "files": [
+        "build/_desktop/xunit.execution.desktop.dll",
+        "build/dnx451/_._",
+        "build/monoandroid/_._",
+        "build/monotouch/_._",
+        "build/net45/_._",
+        "build/portable-net45+win8+wp8+wpa81/xunit.core.props",
+        "build/win8/_._",
+        "build/win81/xunit.core.props",
+        "build/wp8/_._",
+        "build/wpa81/xunit.core.props",
+        "build/xamarinios/_._",
+        "xunit.core.2.2.0-beta1-build3239.nupkg",
+        "xunit.core.2.2.0-beta1-build3239.nupkg.sha512",
+        "xunit.core.nuspec"
+      ]
+    },
+    "xunit.extensibility.core/2.2.0-beta1-build3239": {
+      "type": "package",
+      "sha512": "jdTnfYPo5ArIVnb0Q5Br44ygr3rD9ubfWVC5O+/Fky1i5ORGXueEmrxI/vunR05vhmcorr8N2ZhxtfREVwcSVg==",
+      "files": [
+        "lib/dotnet/xunit.core.dll",
+        "lib/dotnet/xunit.core.dll.tdnet",
+        "lib/dotnet/xunit.core.pdb",
+        "lib/dotnet/xunit.core.xml",
+        "lib/dotnet/xunit.runner.tdnet.dll",
+        "lib/dotnet/xunit.runner.utility.desktop.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.dll.tdnet",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.pdb",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.xml",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.runner.tdnet.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.runner.utility.desktop.dll",
+        "xunit.extensibility.core.2.2.0-beta1-build3239.nupkg",
+        "xunit.extensibility.core.2.2.0-beta1-build3239.nupkg.sha512",
+        "xunit.extensibility.core.nuspec"
+      ]
+    },
+    "xunit.extensibility.execution/2.2.0-beta1-build3239": {
+      "type": "package",
+      "sha512": "lBMxtY9e3De3H1gG3mVf1esSuQZ8ugQYSekd3FSDzttM9Uml4wcEEjttiy5SJK7rhsFH9X87AoH9yrCOvt0nfg==",
+      "files": [
+        "lib/dnx451/xunit.execution.dotnet.dll",
+        "lib/dnx451/xunit.execution.dotnet.pdb",
+        "lib/dnx451/xunit.execution.dotnet.xml",
+        "lib/dotnet/xunit.execution.dotnet.dll",
+        "lib/dotnet/xunit.execution.dotnet.pdb",
+        "lib/dotnet/xunit.execution.dotnet.xml",
+        "lib/monoandroid/xunit.execution.dotnet.dll",
+        "lib/monoandroid/xunit.execution.dotnet.pdb",
+        "lib/monoandroid/xunit.execution.dotnet.xml",
+        "lib/monotouch/xunit.execution.dotnet.dll",
+        "lib/monotouch/xunit.execution.dotnet.pdb",
+        "lib/monotouch/xunit.execution.dotnet.xml",
+        "lib/net45/xunit.execution.desktop.dll",
+        "lib/net45/xunit.execution.desktop.pdb",
+        "lib/net45/xunit.execution.desktop.xml",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.execution.dotnet.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.execution.dotnet.pdb",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.execution.dotnet.xml",
+        "lib/win8/xunit.execution.dotnet.dll",
+        "lib/win8/xunit.execution.dotnet.pdb",
+        "lib/win8/xunit.execution.dotnet.xml",
+        "lib/wp8/xunit.execution.dotnet.dll",
+        "lib/wp8/xunit.execution.dotnet.pdb",
+        "lib/wp8/xunit.execution.dotnet.xml",
+        "lib/wpa81/xunit.execution.dotnet.dll",
+        "lib/wpa81/xunit.execution.dotnet.pdb",
+        "lib/wpa81/xunit.execution.dotnet.xml",
+        "lib/xamarinios/xunit.execution.dotnet.dll",
+        "lib/xamarinios/xunit.execution.dotnet.pdb",
+        "lib/xamarinios/xunit.execution.dotnet.xml",
+        "xunit.extensibility.execution.2.2.0-beta1-build3239.nupkg",
+        "xunit.extensibility.execution.2.2.0-beta1-build3239.nupkg.sha512",
+        "xunit.extensibility.execution.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [
+      "IoFx >= 1.0.0",
+      "Microsoft.Diagnostics.Tracing.EventSource >= 1.1.28",
+      "Rx-Main >= 2.2.5",
+      "xunit >= 2.2.0-beta1-build3239"
+    ],
+    "DNX,Version=v4.5.1": [
+      "fx/System.Runtime >= 4.0.0",
+      "fx/System.Runtime.Serialization >= 4.0.0",
+      "fx/System.ServiceModel >= 4.0.0",
+      "fx/System.Xml >= 4.0.0"
+    ]
+  }
+}

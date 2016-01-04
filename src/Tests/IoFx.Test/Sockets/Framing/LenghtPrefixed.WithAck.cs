@@ -7,14 +7,14 @@ using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
 using IoFx.Sockets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System.Net;
 
 namespace IoFx.Test.Sockets.Framing
 {
     public partial class LenghtPrefixed
     {
-        [TestMethod]
+        [Fact]
         public void LengthPrefixedWithAck()
         {
             var listener = StartServerWithAck(b => { });
@@ -112,7 +112,7 @@ namespace IoFx.Test.Sockets.Framing
                 countdown.Wait(TimeSpan.FromSeconds(5));
             }
             socket.Close();
-            Assert.AreEqual(countdown.CurrentCount, 0);
+            Xunit.Assert.Equal(countdown.CurrentCount, 0);
         }
     }
 }

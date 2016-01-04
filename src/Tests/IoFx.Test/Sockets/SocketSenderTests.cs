@@ -2,14 +2,14 @@
 using System.Text;
 using System.Threading.Tasks;
 using IoFx.Sockets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace IoFx.Test.Sockets
 {
-    [TestClass]
+    
     public class SocketSenderTests
     {
-        [TestMethod]
+        [Fact]
         public void SocketSend()
         {
             const int port = 5050;
@@ -34,7 +34,7 @@ namespace IoFx.Test.Sockets
                 sender.Dispose();
                 tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
-                Assert.IsTrue(count == bytes.Length);
+                Xunit.Assert.True(count == bytes.Length);
             }
         }
     }

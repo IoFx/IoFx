@@ -2,14 +2,14 @@
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using IoFx.Sockets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace IoFx.Test.Sockets
 {
-    [TestClass]
+    
     public class SocketReceiverTests
     {
-        [TestMethod]
+        [Fact]
         public void SocketReceive()
         {
             const int port = 5050;
@@ -37,7 +37,7 @@ namespace IoFx.Test.Sockets
                 sender.Close(5);
                 tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
-                Assert.IsTrue(count == bytes);
+                Xunit.Assert.True(count == bytes);
             }
             finally
             {
@@ -45,7 +45,7 @@ namespace IoFx.Test.Sockets
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void SocketReceive1Gb()
         {
             const int port = 5050;
@@ -80,7 +80,7 @@ namespace IoFx.Test.Sockets
                 sender.Close(5);
                 tcs.Task.Wait(Defaults.MediumTestWaitTime);
                 Console.WriteLine("Sent Bytes: {0} Received Bytes {1}", bytes, count);
-                Assert.IsTrue(count == totalSize);
+                Xunit.Assert.True(count == totalSize);
             }
         }
 

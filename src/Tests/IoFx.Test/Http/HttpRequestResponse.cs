@@ -5,14 +5,14 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using IoFx.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace IoFx.Test.Http
 {
-    [TestClass]
+    
     public class HttpRequestResponse
     {
-        [TestMethod]
+        [Fact]
         public void HelloWorld()
         {
             const string address = "http://localhost:8080/";
@@ -41,7 +41,7 @@ namespace IoFx.Test.Http
                 contextsHot.Dispose();
             }
 
-            Assert.AreEqual(expected, count);
+            Xunit.Assert.Equal(expected, count);
         }
 
         private static void RespondWithHelloWorld(HttpListenerContext context)
