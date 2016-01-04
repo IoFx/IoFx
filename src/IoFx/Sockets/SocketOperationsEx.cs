@@ -53,5 +53,4 @@ namespace IoFx.Sockets
             return awaitable;
         }
     }
-
 }

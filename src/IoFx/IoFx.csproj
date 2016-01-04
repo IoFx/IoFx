@@ -73,7 +73,7 @@
     <Compile Include="Framing\FramingExtensions.cs" />
     <Compile Include="Framing\LengthPrefixed\BufferedReader.cs" />
     <Compile Include="Framing\LengthPrefixed\LengthPrefixedInputTranslator.cs" />
-    <Compile Include="Framing\ITranslator.cs" />
+    <Compile Include="ITranslator.cs" />
     <Compile Include="Framing\LengthPrefixed\LengthPrefixOutputTranslator.cs" />
     <Compile Include="Http\HttpContextAcceptor.cs" />
     <Compile Include="Http\HttpObservable.cs" />
